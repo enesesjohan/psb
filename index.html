@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,19 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <style>
-        /* Menetapkan ukuran iframe */
-        iframe {
+        /* Container untuk iframe */
+        .iframe-container {
+            position: relative;
             width: 100%;   /* Lebar penuh */
-            height: 500px; /* Tinggi dapat disesuaikan */
+            padding-top: 56.25%; /* Rasio aspek 16:9 (56.25% = 9/16 * 100) */
+            overflow: hidden; /* Sembunyikan bagian luar kontainer */
+            border: 1px solid #ccc; /* Opsional: tambahkan border */
+        }
+
+        /* Style iframe */
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;   /* Lebar penuh */
+            height: 100%;  /* Tinggi penuh */
             border: none;  /* Tanpa border */
         }
     </style>
 </head>
 <body>
     <h1>My Main Page</h1>
-    <p>This is an embedded page:</p>
+    <p>This is an embedded page based on device type:</p>
     
-    <!-- Embed canva.html -->
-    <iframe src="mobile.html" title="Embedded Canva Page"></iframe>
+    <!-- Kontainer untuk iframe -->
+    <div class="iframe-container">
+        <iframe id="deviceIframe" title="Device Specific Page"></iframe>
+    </div>
+
+    <script>
+        function detectDevice() {
+            const iframe = document.getElementById('deviceIframe');
+            const userAgent = navigator.userAgent;
+
+            // Deteksi perangkat berdasarkan userAgent
+            if (/mobile/i.test(userAgent)) {
+                // Jika perangkat mobile
+                iframe.src = 'mobile.html';
+            } else if (/tablet/i.test(userAgent) || /iPad/i.test(userAgent)) {
+                // Jika perangkat tablet
+                iframe.src = 'tablet.html';
+            } else {
+                // Default untuk desktop
+                iframe.src = 'desktop.html';
+            }
+        }
+
+        // Panggil fungsi saat halaman dimuat
+        window.onload = detectDevice;
+    </script>
 </body>
 </html>
