@@ -26,34 +26,13 @@
     </style>
 </head>
 <body>
-    <h1>My Main Page</h1>
-    <p>This is an embedded page based on device type:</p>
-    
-    <!-- Kontainer untuk iframe -->
-    <div class="iframe-container">
-        <iframe id="deviceIframe" title="Device Specific Page"></iframe>
-    </div>
-
-    <script>
-        function detectDevice() {
-            const iframe = document.getElementById('deviceIframe');
-            const userAgent = navigator.userAgent;
-
-            // Deteksi perangkat berdasarkan userAgent
-            if (/mobile/i.test(userAgent)) {
-                // Jika perangkat mobile
-                iframe.src = 'mobile.html';
-            } else if (/tablet/i.test(userAgent) || /iPad/i.test(userAgent)) {
-                // Jika perangkat tablet
-                iframe.src = 'tablet.html';
-            } else {
-                // Default untuk desktop
-                iframe.src = 'desktop.html';
-            }
-        }
-
-        // Panggil fungsi saat halaman dimuat
-        window.onload = detectDevice;
-    </script>
+   <div style="position: relative; width: 100%; height: 0; padding-top: 56.2225%;
+ padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+ border-radius: 8px; will-change: transform;">
+  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+    src="https://www.canva.com/design/DAGTjPBjkss/HxQqCr9Fsq-97gZe3NdHwQ/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+  </iframe>
+</div>
+<a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGTjPBjkss&#x2F;HxQqCr9Fsq-97gZe3NdHwQ&#x2F;view?utm_content=DAGTjPBjkss&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Penerimaan Santri Baru PontrenMu Al-Furqon Kec.Batanghari Nuban Lampung Timur</a> by Lilis Susanti
 </body>
 </html>
