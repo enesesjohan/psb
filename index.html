@@ -84,6 +84,28 @@
             font-size: 18px;
             margin-bottom: 10px;
         }
+
+        /* Responsive */
+        @media screen and (max-width: 600px) {
+            .topnav a {
+                float: none;
+                display: block;
+                text-align: left;
+            }
+        }
+
+        /* Styling iframe */
+        #content {
+            display: none; /* Sembunyikan iframe secara default */
+            height: 0;
+            overflow: hidden;
+        }
+
+        @media screen and (min-width: 601px) {
+            #content {
+                height: 100vh; /* Pastikan iframe terlihat di desktop */
+            }
+        }
     </style>
 </head>
 <body>
@@ -98,6 +120,11 @@
     <a href="#" onclick="showDownloadModal()">Download Brosur</a>
     <a href="#" onclick="showContactModal()">Hubungi Kami</a>
     <a href="#" class="active">Register Now</a>
+</div>
+
+<!-- Konten Iframe -->
+<div id="content">
+    <iframe id="contentIframe" src="" style="width: 100%; height: 100%; border: none;"></iframe>
 </div>
 
 <!-- Modals -->
@@ -151,18 +178,37 @@
 </div>
 
 <script>
+    // Pengecekan perangkat mobile
+    function isMobileDevice() {
+        return /Mobi|Android/i.test(navigator.userAgent);
+    }
+
+    // Memuat konten jika perangkat adalah mobile
+    function loadContentForMobile() {
+        const iframe = document.getElementById('contentIframe');
+        const contentDiv = document.getElementById('content');
+        
+        // Memuat file HTML di iframe
+        iframe.src = 'update.html'; // Ganti dengan nama file HTML yang ingin ditampilkan
+        contentDiv.style.display = 'block'; // Tampilkan iframe
+    }
+
+    // Menyegarkan halaman
     function refreshPage() {
         location.reload();
     }
 
+    // Menampilkan modal untuk lokasi pondok
     function showLokasiModal() {
         document.getElementById('lokasiModal').style.display = 'block';
     }
 
+    // Menampilkan modal untuk syarat pendaftaran
     function showSyaratModal() {
         document.getElementById('syaratModal').style.display = 'block';
     }
 
+    // Menampilkan modal untuk download brosur
     function showDownloadModal() {
         document.getElementById('downloadModal').style.display = 'block';
         setTimeout(function() {
@@ -170,31 +216,42 @@
         }, 1000); // Auto download after 1 second
     }
 
+    // Menampilkan modal untuk hubungi kami
     function showContactModal() {
         document.getElementById('contactModal').style.display = 'block';
     }
 
+    // Menutup modal
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
     }
 
-    // Register Now
-    document.querySelector('.topnav a.active').onclick = function() {
-        alert('Membuka Aplikasi Pendaftaran...');
-        setTimeout(function() {
-            window.open('https://santri.alfurqon.or.id', '_blank');
-        }, 500); // Delay for 0.5 seconds
+    // Fungsi untuk menampilkan konten saat halaman dimuat
+    window.onload = function() {
+        if (isMobileDevice()) {
+            loadContentForMobile(); // Memuat konten untuk perangkat mobile
+        } else {
+            document.getElementById('content').style.display = 'none'; // Sembunyikan konten untuk desktop
+        }
     };
 
-    // Close modal if the user clicks outside of it
-    window.onclick = function(event) {
-        const modals = ['lokasiModal', 'syaratModal', 'downloadModal', 'contactModal'];
-        modals.forEach(modalId => {
-            if (event.target === document.getElementById(modalId)) {
-                closeModal(modalId);
-            }
-        });
+    // Fungsi untuk Register Now
+    const registerNow = () => {
+        const registerModal = document.createElement('div');
+        registerModal.classList.add('modal');
+        registerModal.innerHTML = `
+            <div class="modal-content">
+                <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                <div class="modal-header">Membuka Aplikasi Pendaftaran...</div>
+            </div>`;
+        document.body.appendChild(registerModal);
+        registerModal.style.display = 'block';
+        setTimeout(() => {
+            window.location.href = 'https://santri.alfurqon.or.id';
+        }, 500); // Redirect after 0.5 seconds
     };
+
+    document.querySelector('.topnav a.active').addEventListener('click', registerNow);
 </script>
 
 </body>
