@@ -12,93 +12,51 @@
             padding: 0;
             background-color: #f4f4f4;
         }
-
-        /* Top navigation bar */
-        .navbar {
+        header {
+            background-color: #007ACC;
+            padding: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #333;
-            padding: 10px 20px;
+            color: white;
         }
-
-        .navbar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        header img {
+            width: 50px;
+        }
+        nav {
             display: flex;
+            gap: 20px;
         }
-
-        .navbar ul li {
-            margin-right: 15px;
-        }
-
-        .navbar ul li a {
+        nav a {
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
-            display: block;
+            padding: 10px;
         }
-
-        .navbar ul li a:hover,
-        .navbar ul li a.active {
-            background-color: #007ACC;
+        nav a.active {
+            background-color: #005BB5;
             border-radius: 5px;
         }
-
-        .navbar img {
-            height: 40px;
+        nav a:hover {
+            background-color: #005BB5;
         }
-
-        /* Responsive layout */
-        @media (max-width: 768px) {
-            .navbar ul {
-                display: none;
-            }
-
-            .navbar img {
-                margin: 0 auto;
-            }
-
-            /* Hamburger Menu Icon */
-            .hamburger {
-                display: block;
-                cursor: pointer;
-                font-size: 24px;
-                color: white;
-            }
-
-            .navbar.responsive ul {
-                display: block;
-                position: absolute;
-                top: 50px;
-                left: 0;
-                width: 100%;
-                background-color: #333;
-            }
-
-            .navbar.responsive ul li {
-                margin: 0;
-                text-align: center;
-            }
-
-            .navbar.responsive ul li a {
-                padding: 15px;
-                display: block;
-            }
-
-            /* Align the Register Now button on the right */
-            .navbar .register-now {
-                display: block;
-            }
-        }
-
-        /* Hamburger is hidden by default on larger screens */
-        .hamburger {
+        .iframe-container {
             display: none;
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-top: 177.77%;
+            overflow: hidden;
+            margin-top: 1.6em;
+            border-radius: 8px;
         }
-
-        /* Modal Styles */
+        .iframe-container iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: none;
+        }
         .modal {
             display: none;
             position: fixed;
@@ -107,162 +65,142 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            padding-top: 50px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-
         .modal-content {
             background-color: #fff;
-            margin: auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
             max-width: 500px;
             border-radius: 8px;
-            text-align: center;
         }
-
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
-
         .close:hover,
         .close:focus {
             color: black;
+            text-decoration: none;
             cursor: pointer;
         }
-
-        /* Disable scroll when modal is open */
-        body.modal-open {
-            overflow: hidden;
-        }
-
-        .register-now {
+        .btn-download {
             background-color: #007ACC;
             color: white;
             padding: 10px 15px;
             text-decoration: none;
             border-radius: 5px;
-            margin-left: auto;
+            display: inline-block;
+            margin-top: 10px;
         }
-
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
+    <header>
+        <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" alt="Logo">
+        <nav>
+            <a href="#" id="beranda">Beranda</a>
+            <a href="#" id="lokasi">Lokasi Pondok</a>
+            <a href="#" id="syarat">Syarat Pendaftaran</a>
+            <a href="#" id="brosur">Download Brosur</a>
+            <a href="#" id="kontak">Hubungi Kami</a>
+            <a href="#" id="register" class="active">Register Now</a>
+        </nav>
+    </header>
 
-    <!-- Navigation Bar -->
-    <div class="navbar" id="navbar">
-        <span class="hamburger" onclick="toggleMenu()">&#9776;</span>
-        <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" alt="Website Logo">
-        <a href="#" class="register-now" onclick="registerNow()">Register Now</a>
-        <ul id="navbar-links">
-            <li><a href="#" onclick="window.location.reload();">Beranda</a></li>
-            <li><a href="#" onclick="showModal('lokasiModal')">Lokasi Pondok</a></li>
-            <li><a href="#" onclick="showModal('syaratModal')">Syarat Pendaftaran</a></li>
-            <li><a href="#" onclick="showModal('brosurModal')">Download Brosur</a></li>
-            <li><a href="#" onclick="showModal('hubungiModal')">Hubungi Kami</a></li>
-            <li><a href="#" class="active" onclick="registerNow()">Register Now</a></li>
-        </ul>
+    <div class="iframe-container" id="iframe-container">
+        <iframe src="" id="dynamic-iframe" title="Penerimaan Santri Baru"></iframe>
     </div>
-
-    <!-- Modal Lokasi Pondok -->
-    <div id="lokasiModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('lokasiModal')">&times;</span>
-            <h2>Lokasi Asrama</h2>
-            <p>Berikut ini adalah letak asrama pontrenmu al-furqon purwosari di google maps.</p>
-            <div>
-                <img src="icon-putra.png" alt="Putra"> Kampus Putra
-                <br><br>
-                <img src="icon-putri.png" alt="Putri"> Kampus Putri
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Syarat Pendaftaran -->
-    <div id="syaratModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('syaratModal')">&times;</span>
-            <h2>Syarat Pendaftaran</h2>
-            <p>Mohon siapkan dokumen persyaratan registrasi dibawah ini.</p>
-            <ul style="text-align:left;">
-                <li>Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan membayar biaya infaq daftar senilai Rp150.000</li>
-                <li>Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri baru.</li>
-                <li>Menyertakan foto ijazah + fotocopy SKL sebanyak 3 lembar dan telah dilegalisir.</li>
-                <li>Fotocopy nilai raport terakhir 1 lembar dan pas photo 3x4 sebanyak 4 lembar dengan background biru.</li>
-                <li>Fotocopy KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak 3 lembar.</li>
-                <li>Map Merah untuk Putra dan Map Biru untuk Putri.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Modal Download Brosur -->
-    <div id="brosurModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('brosurModal')">&times;</span>
-            <h2>Unduh Brosur</h2>
-            <p>Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>
-        </div>
-    </div>
-
-    <!-- Modal Hubungi Kami -->
-    <div id="hubungiModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('hubungiModal')">&times;</span>
-            <h2>Contact Person</h2>
-            <div>
-                <p>Untuk mendapatkan informasi lebih lanjut terkait pendidikan, silahkan hubungi nomor WhatsApp di bawah:</p>
-                <div>
-                    <img src="icon-putra.png" alt="Putra"> Ust. Maftukhan: 0882-3269-7837
-                    <br>
-                    <img src="icon-putra.png" alt="Putra"> Ust. Rendi Satya: 0822-8294-5212
-                </div>
-                <div>
-                    <img src="icon-putri.png" alt="Putri"> Ustzh. Elsa: 0816-3216-5812
-                    <br>
-                    <img src="icon-putri.png" alt="Putri"> Ustzh. Mufidah: 0812-7836-4174
-                </div>
-            </div>
+    <div id="modal" class="modal">
+        <div class="modal-content" id="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
         </div>
     </div>
 
     <script>
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = "block";
-            document.body.classList.add('modal-open');
+        function showModal(content) {
+            document.getElementById('modal-body').innerHTML = content;
+            document.getElementById('modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Disable scroll
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = "none";
-            document.body.classList.remove('modal-open');
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.style.overflow = ''; // Enable scroll
         }
 
-        function registerNow() {
-            showModal('registerModal');
+        document.querySelector('.close').onclick = closeModal;
+
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('modal')) {
+                closeModal();
+            }
+        };
+
+        document.getElementById('beranda').onclick = function() {
+            location.reload();
+        };
+
+        document.getElementById('lokasi').onclick = function() {
+            showModal(`
+                <h2>Lokasi Asrama</h2>
+                <p>Berikut ini adalah letak asrama pontrenmu al-furqon purwosari di google maps.</p>
+                <p><img src="putra-icon.png" alt="Putra"> Kampus Putra &nbsp;&nbsp;&nbsp;&nbsp; <img src="putri-icon.png" alt="Putri"> Kampus Putri</p>
+            `);
+        };
+
+        document.getElementById('syarat').onclick = function() {
+            showModal(`
+                <h2>Syarat Pendaftaran</h2>
+                <p>Mohon siapkan dokumen persyaratan registrasi di bawah ini:</p>
+                <ol>
+                    <li>Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan membayar biaya infaq daftar Rp150.000.</li>
+                    <li>Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri baru.</li>
+                    <li>Menyertakan foto ijazah + fotocopy SKL sebanyak 3 lembar yang telah dilegalisir.</li>
+                    <li>Fotocopy nilai raport terakhir 1 lembar dan pas foto 3x4 (4 lembar).</li>
+                    <li>Fotocopy KTP Orang Tua dan Kartu Keluarga (3 lembar).</li>
+                    <li>Semua persyaratan dimasukkan ke dalam map SNEL (Merah untuk Putra, Biru untuk Putri).</li>
+                </ol>
+            `);
+        };
+
+        document.getElementById('brosur').onclick = function() {
+            showModal('<h2>Unduh Brosur</h2><p>Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>');
             setTimeout(function() {
-                window.location.href = "https://santri.alfurqon.or.id";
+                window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
+                closeModal();
+            }, 1000);
+        };
+
+        document.getElementById('kontak').onclick = function() {
+            showModal(`
+                <h2>Contact Person</h2>
+                <p>Untuk informasi lebih lanjut, silakan hubungi nomor WhatsApp di bawah ini:</p>
+                <p><img src="putra-icon.png" alt="Putra"> Ust. Maftukhan (0882-3269-7837) &nbsp;&nbsp;&nbsp; <img src="putri-icon.png" alt="Putri"> Ustzh. Elsa (0816-3216-5812)</p>
+                <p><img src="putra-icon.png" alt="Putra"> Ust. Rendi Satya (0822-8294-5212) &nbsp;&nbsp;&nbsp; <img src="putri-icon.png" alt="Putri"> Ustzh. Mufidah (0812-7836-4174)</p>
+            `);
+        };
+
+        document.getElementById('register').onclick = function() {
+            showModal('<p>Membuka Aplikasi Pendaftaran...</p>');
+            setTimeout(function() {
+                window.location.href = 'https://santri.alfurqon.or.id';
             }, 500);
-        }
-
-        // Toggle hamburger menu
-        function toggleMenu() {
-            var navbar = document.getElementById("navbar");
-            navbar.classList.toggle("responsive");
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Auto download for brosur
-            document.getElementById('brosurModal').addEventListener('show', function () {
-                setTimeout(function() {
-                    window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
-                }, 1000);
-            });
-        });
+        };
     </script>
-
 </body>
 </html>
