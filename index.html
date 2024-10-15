@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Pendaftaran Online PontrenMU Al-Furqon T.P 2025</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="icon" href="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" type="image/x-icon">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <head>
+    <title>Pendaftaran Online PontrenMU Al-Furqon T.P 2025</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="icon" href="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .iframe-container {
-            display: none; /* Sembunyikan iframe secara default */
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-top: 177.77%; /* Aspect ratio 9:16 (portrait) */
-            overflow: hidden;
-            margin-top: 1.6em;
-            border-radius: 8px;
-        }
-        .iframe-container iframe {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            border: none;
-        }
-     /* Modal styling */
-     .modal {
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      .iframe-container {
+        display: none;
+        /* Sembunyikan iframe secara default */
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-top: 177.77%;
+        /* Aspect ratio 9:16 (portrait) */
+        overflow: hidden;
+        margin-top: 1.6em;
+        border-radius: 8px;
+      }
+
+      .iframe-container iframe {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border: none;
+      }
+
+      /* Modal styling */
+      .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Background overlay */
+      }
+
+      .modal-download {
         display: none; /* Hidden by default */
         position: fixed;
         z-index: 1000;
@@ -45,32 +62,55 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
     }
-    .modal-content h4 {
+
+
+      .modal-content {
+        background-color: #fff;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+      }
+
+      .modal-content-download {
+        background-color: #fff;
+        margin: 15% auto; /* Center the modal */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .modal-content-download h4 {
         margin-bottom: 20px;
     }
-        .modal-content {
-            background-color: #fff;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 8px;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-            /* Styling for "Tutup" button */
-    .close-btn {
+
+    /* Styling for auto download text */
+    .download-text {
+        font-size: 16px;
+        color: #333;
+    }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      /* Styling for "Tutup" button */
+      .close-btn {
         background-color: #f44336;
         color: white;
         padding: 10px 20px;
@@ -79,232 +119,241 @@
         cursor: pointer;
         display: inline-block;
         margin-top: 10px;
-    }
-        .close-btn:hover {
+      }
+
+      .close-btn:hover {
         background-color: #d32f2f;
-    }
-       /* Styling for auto download text */
-       .download-text {
-        font-size: 16px;
-        color: #333;
-    }
-        .btn-download {
-            background-color: #007ACC;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 10px;
-        }
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            }
+      }
 
-            .navbar-brand img {
-            margin-right: 8px; /* Tambahkan jarak antara logo dan teks */
-            }
+      .btn-download {
+        background-color: #007ACC;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        margin-top: 10px;
+      }
 
-            .navbar-brand-text {
-            display: inline-block;
-            font-size: 10px; /* Atur ukuran huruf lebih kecil */
-            font-weight: bold !important; /* Menebalkan teks */
-            
-            }
-            .daftar-container {
-  text-align: center; /* Posisikan tombol di tengah */
-  margin-top: 10px;   /* Jarak dari bagian atas */
-}
-.daftar-btn {
-  margin: 0 auto; /* Agar tombol benar-benar di tengah */
-}
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar-brand img {
+        margin-right: 8px;
+        /* Tambahkan jarak antara logo dan teks */
+      }
+
+      .navbar-brand-text {
+        display: inline-block;
+        font-size: 10px;
+        /* Atur ukuran huruf lebih kecil */
+        font-weight: bold !important;
+        /* Menebalkan teks */
+      }
+
+      .daftar-container {
+        text-align: center;
+        /* Posisikan tombol di tengah */
+        margin-top: 10px;
+        /* Jarak dari bagian atas */
+      }
+
+      .daftar-btn {
+        margin: 0 auto;
+        /* Agar tombol benar-benar di tengah */
+      }
     </style>
-</head>
-<body>
-
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#">
-        <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" width="30" height="30" class="navbar-brand-text" alt="">
-        PSB Al-Furqon
-    </a>
-        <div class="daftar-container">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" width="30" height="30" class="navbar-brand-text" alt=""> PSB Al-Furqon </a>
+          <div class="daftar-container">
             <button type="button" class="btn btn-primary btn-sm daftar-btn">Daftar Sekarang</button>
+          </div>
         </div>
-</div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Beranda</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Lokasi Asrama <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Pondok/Asrama Putra</a></li>
-            <li><a href="#">Pondok/Asrama Putri</a></li>
-
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="#">Beranda</a>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Lokasi Asrama <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#">Pondok/Asrama Putra</a>
+                </li>
+                <li>
+                  <a href="#">Pondok/Asrama Putri</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#" id="syaratLink">Syarat Pendaftaran</a>
+            </li>
+            <li>
+              <a href="#">Biaya Awal Masuk</a>
+            </li>
           </ul>
-        </li>
-        <li><a href="#" id="syaratLink">Syarat Pendaftaran</a></li>
-        <li><a href="#">Biaya Awal Masuk</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-earphone"></span> Hubungi Kami</a></li>
-        <li><a href="#" id="downloadBrosurLink"><span class="glyphicon glyphicon-download-alt"></span> Download Brosur</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
- <div class="iframe-container" id="iframe-container">
-        <iframe src="" id="dynamic-iframe" title="Penerimaan Santri Baru"></iframe>
-    </div>
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Himbauan</h2>
-            <p>Silakan buka website ini menggunakan perangkat mobile untuk melihat informasi lebih lengkap.</p>
-            <a href="https://psb.alfurqon.or.id/brosur.jpg" class="btn-download" target="_blank" rel="noopener">Download Brosur</a>
-        </div>
-    </div>
-    <div id="syaratModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <h4>Syarat Pendaftaran</h4>
-          <p>Mohon siapkan dokumen persyaratan registrasi di bawah ini. Berkas-berkas yang memang belum ada seperti Ijazah, atau SKL dan Raport nanti bisa dibawa menyusul.</p>
-          <ul>
-            <li>Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan membayar biaya infaq daftar senilai Rp150.000.</li>
-            <li>Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri baru.</li>
-            <li>Menyertakan foto ijazah + fotokopi SKL sebanyak 3 lembar dan telah dilegalisir.</li>
-            <li>Fotokopi nilai raport terakhir 1 lembar dan pas foto 3x4 sebanyak 4 lembar dengan background biru.</li>
-            <li>Fotokopi KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak 3 lembar.</li>
-            <li>Semua persyaratan dari nomor 3 s.d 5 dimasukkan ke dalam map SNEL dengan warna sebagai berikut dan map tersebut diserahkan kepada panitia:</li>
-            <ul>
-              <li>Map Merah untuk Putra.</li>
-              <li>Map Biru untuk Putri.</li>
-            </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="#">
+                <span class="glyphicon glyphicon-earphone"></span> Hubungi Kami </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="glyphicon glyphicon-download-alt"></span> Download Brosur </a>
+            </li>
           </ul>
-          <button class="close-btn" id="tutupButton">Tutup</button>
-
         </div>
       </div>
-
-
-<!-- Modal HTML -->
-<div id="downloadModal" class="modal">
-    <div class="modal-content">
-      <h4>Unduh Brosur</h4>
-      <p class="download-text">Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>
+    </nav>
+    <div class="iframe-container" id="iframe-container">
+      <iframe src="" id="dynamic-iframe" title="Penerimaan Santri Baru"></iframe>
     </div>
-  </div>
-  <script>
-    // Get modal element
-    var modal = document.getElementById('downloadModal');
-  
-    // Get open modal link
-    var modalLink = document.getElementById('downloadBrosurLink');
-  
-    // Listen for click to open modal and trigger download
-    modalLink.onclick = function(event) {
-      event.preventDefault(); // Prevent default link behavior
-  
-      // Display the modal
-      modal.style.display = 'block';
-  
-      // Start download after 1 second
-      setTimeout(function() {
-        window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg'; // URL of the file to be downloaded
-      }, 1000); // 1 second delay
-    };
-  
-    // Close modal automatically after the download starts (optional)
-    setTimeout(function() {
-      modal.style.display = 'none';
-    }, 2000); // Close modal after 2 seconds
-  </script>
-      <script>
-        // Get modal element
-        var modal = document.getElementById('syaratModal');
-      
-        // Get open modal link
-        var modalLink = document.getElementById('syaratLink');
-      
-        // Get close button (the "x")
-        var closeBtn = document.getElementsByClassName('close')[0];
-      
-        // Get "Tutup" button
-        var tutupBtn = document.getElementById('tutupButton');
-      
-        // Listen for click to open modal
-        modalLink.onclick = function(event) {
-          event.preventDefault(); // Prevent default link behavior
-          modal.style.display = 'block';
-        };
-      
-        // Listen for click to close modal (close button)
-        closeBtn.onclick = function() {
-          modal.style.display = 'none';
-        };
-      
-        // Listen for click on "Tutup" button to close modal
-        tutupBtn.onclick = function() {
-          modal.style.display = 'none';
-        };
-      
-        // Close modal if user clicks outside of modal content
-        window.onclick = function(event) {
-          if (event.target === modal) {
-            modal.style.display = 'none';
-          }
-        };
-      </script>
+
+    <div id="modal" class="modal-download">
+      <div class="modal-content-download">
+        <span class="close">&times;</span>
+        <h2>Himbauan</h2>
+        <p>Silakan buka website ini menggunakan perangkat mobile untuk melihat informasi lebih lengkap.</p>
+        <a href="https://psb.alfurqon.or.id/brosur.jpg" class="btn-download" target="_blank" rel="noopener">Download Brosur</a>
+      </div>
+    </div>
+
+    <div id="syaratModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h4>Syarat Pendaftaran</h4>
+        <p>Mohon siapkan dokumen persyaratan registrasi di bawah ini. Berkas-berkas yang memang belum ada seperti Ijazah, atau SKL dan Raport nanti bisa dibawa menyusul.</p>
+        <ul>
+          <li>Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan membayar biaya infaq daftar senilai Rp150.000.</li>
+          <li>Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri baru.</li>
+          <li>Menyertakan foto ijazah + fotokopi SKL sebanyak 3 lembar dan telah dilegalisir.</li>
+          <li>Fotokopi nilai raport terakhir 1 lembar dan pas foto 3x4 sebanyak 4 lembar dengan background biru.</li>
+          <li>Fotokopi KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak 3 lembar.</li>
+          <li>Semua persyaratan dari nomor 3 s.d 5 dimasukkan ke dalam map SNEL dengan warna sebagai berikut dan map tersebut diserahkan kepada panitia:</li>
+          <ul>
+            <li>Map Merah untuk Putra.</li>
+            <li>Map Biru untuk Putri.</li>
+          </ul>
+        </ul>
+        <button class="close-btn" id="tutupButton">Tutup</button>
+      </div>
+    </div>
+
+            <!-- Modal HTML -->
+        <div id="downloadModal" class="modal">
+            <div class="modal-content">
+            <h4>Unduh Brosur</h4>
+            <p class="download-text">Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>
+            </div>
+        </div>
+
+        <script>
+            // Get modal element
+            var modal = document.getElementById('downloadModal');
+          
+            // Get open modal link
+            var modalLink = document.getElementById('downloadBrosurLink');
+          
+            // Listen for click to open modal and trigger download
+            modalLink.onclick = function(event) {
+              event.preventDefault(); // Prevent default link behavior
+          
+              // Display the modal
+              modal.style.display = 'block';
+          
+              // Start download after 1 second
+              setTimeout(function() {
+                window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg'; // URL of the file to be downloaded
+              }, 1000); // 1 second delay
+            };
+          
+            // Close modal automatically after the download starts (optional)
+            setTimeout(function() {
+              modal.style.display = 'none';
+            }, 2000); // Close modal after 2 seconds
+          </script>
+
     <script>
-        // Fungsi untuk mendeteksi apakah perangkat mobile
-        function isMobile() {
-            return /Mobi|Android/i.test(navigator.userAgent);
+      // Get modal element
+      var modal = document.getElementById('syaratModal');
+      // Get open modal link
+      var modalLink = document.getElementById('syaratLink');
+      // Get close button (the "x")
+      var closeBtn = document.getElementsByClassName('close')[0];
+      // Get "Tutup" button
+      var tutupBtn = document.getElementById('tutupButton');
+      // Listen for click to open modal
+      modalLink.onclick = function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        modal.style.display = 'block';
+      };
+      // Listen for click to close modal (close button)
+      closeBtn.onclick = function() {
+        modal.style.display = 'none';
+      };
+      // Listen for click on "Tutup" button to close modal
+      tutupBtn.onclick = function() {
+        modal.style.display = 'none';
+      };
+      // Close modal if user clicks outside of modal content
+      window.onclick = function(event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
         }
-        // Mengambil file HTML dari root folder
-        const htmlFile = "update.html"; // Ganti dengan nama file yang diinginkan
-        // Menampilkan iframe atau modal sesuai perangkat
-        document.addEventListener('DOMContentLoaded', function() {
-            if (isMobile()) {
-                // Tampilkan iframe untuk perangkat mobile
-                document.getElementById('dynamic-iframe').src = htmlFile;
-                document.getElementById('iframe-container').style.display = 'block';
-
-                // Menghapus elemen setelah iframe dimuat
-                const iframe = document.getElementById('dynamic-iframe');
-                iframe.onload = function() {
-                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                    const footerContainer = iframeDocument.querySelector('.footer-overflow-container');
-                    if (footerContainer) {
-                        footerContainer.style.display = 'none'; // Sembunyikan div
-                        // Atau, untuk menghapusnya, gunakan:
-                        // footerContainer.remove();
-                    }
-                };
-            } else {
-                // Tampilkan modal untuk perangkat desktop
-                document.getElementById('modal').style.display = 'block';
-            }
-        });
-        // Menutup modal ketika klik tombol close
-        document.querySelector('.close').onclick = function() {
-            document.getElementById('modal').style.display = 'none';
-        };
-        // Menutup modal jika pengguna mengklik di luar modal
-        window.onclick = function(event) {
-            if (event.target === document.getElementById('modal')) {
-                document.getElementById('modal').style.display = 'none';
-            }
-        };
+      };
     </script>
-
-</body>
+    <script>
+      // Fungsi untuk mendeteksi apakah perangkat mobile
+      function isMobile() {
+        return /Mobi|Android/i.test(navigator.userAgent);
+      }
+      // Mengambil file HTML dari root folder
+      const htmlFile = "update.html"; // Ganti dengan nama file yang diinginkan
+      // Menampilkan iframe atau modal sesuai perangkat
+      document.addEventListener('DOMContentLoaded', function() {
+        if (isMobile()) {
+          // Tampilkan iframe untuk perangkat mobile
+          document.getElementById('dynamic-iframe').src = htmlFile;
+          document.getElementById('iframe-container').style.display = 'block';
+          // Menghapus elemen setelah iframe dimuat
+          const iframe = document.getElementById('dynamic-iframe');
+          iframe.onload = function() {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            const footerContainer = iframeDocument.querySelector('.footer-overflow-container');
+            if (footerContainer) {
+              footerContainer.style.display = 'none'; // Sembunyikan div
+              // Atau, untuk menghapusnya, gunakan:
+              // footerContainer.remove();
+            }
+          };
+        } else {
+          // Tampilkan modal untuk perangkat desktop
+          document.getElementById('modal').style.display = 'block';
+        }
+      });
+      // Menutup modal ketika klik tombol close
+      document.querySelector('.close').onclick = function() {
+        document.getElementById('modal').style.display = 'none';
+      };
+      // Menutup modal jika pengguna mengklik di luar modal
+      window.onclick = function(event) {
+        if (event.target === document.getElementById('modal')) {
+          document.getElementById('modal').style.display = 'none';
+        }
+      };
+    </script>
+  </body>
 </html>
