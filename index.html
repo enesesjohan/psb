@@ -53,16 +53,49 @@
         /* Responsive layout */
         @media (max-width: 768px) {
             .navbar ul {
-                flex-direction: column;
-            }
-
-            .navbar ul li {
-                margin-bottom: 10px;
+                display: none;
             }
 
             .navbar img {
-                margin-bottom: 10px;
+                margin: 0 auto;
             }
+
+            /* Hamburger Menu Icon */
+            .hamburger {
+                display: block;
+                cursor: pointer;
+                font-size: 24px;
+                color: white;
+            }
+
+            .navbar.responsive ul {
+                display: block;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+            }
+
+            .navbar.responsive ul li {
+                margin: 0;
+                text-align: center;
+            }
+
+            .navbar.responsive ul li a {
+                padding: 15px;
+                display: block;
+            }
+
+            /* Align the Register Now button on the right */
+            .navbar .register-now {
+                display: block;
+            }
+        }
+
+        /* Hamburger is hidden by default on larger screens */
+        .hamburger {
+            display: none;
         }
 
         /* Modal Styles */
@@ -107,13 +140,26 @@
         body.modal-open {
             overflow: hidden;
         }
+
+        .register-now {
+            background-color: #007ACC;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-left: auto;
+        }
+
     </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
-    <div class="navbar">
-        <ul>
+    <div class="navbar" id="navbar">
+        <span class="hamburger" onclick="toggleMenu()">&#9776;</span>
+        <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" alt="Website Logo">
+        <a href="#" class="register-now" onclick="registerNow()">Register Now</a>
+        <ul id="navbar-links">
             <li><a href="#" onclick="window.location.reload();">Beranda</a></li>
             <li><a href="#" onclick="showModal('lokasiModal')">Lokasi Pondok</a></li>
             <li><a href="#" onclick="showModal('syaratModal')">Syarat Pendaftaran</a></li>
@@ -121,7 +167,6 @@
             <li><a href="#" onclick="showModal('hubungiModal')">Hubungi Kami</a></li>
             <li><a href="#" class="active" onclick="registerNow()">Register Now</a></li>
         </ul>
-        <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" alt="Website Logo">
     </div>
 
     <!-- Modal Lokasi Pondok -->
@@ -203,23 +248,21 @@
             }, 500);
         }
 
-        // Modal for Register Now (shown briefly)
-        document.write(`
-            <div id="registerModal" class="modal">
-                <div class="modal-content">
-                    <h2>Membuka Aplikasi Pendaftaran...</h2>
-                </div>
-            </div>
-        `);
-
-        // Auto download for Brosur
-        function downloadBrosur() {
-            setTimeout(function() {
-                window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
-            }, 1000);
+        // Toggle hamburger menu
+        function toggleMenu() {
+            var navbar = document.getElementById("navbar");
+            navbar.classList.toggle("responsive");
         }
 
-        document.querySelector('#brosurModal').addEventListener('click', downloadBrosur);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto download for brosur
+            document.getElementById('brosurModal').addEventListener('show', function () {
+                setTimeout(function() {
+                    window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
+                }, 1000);
+            });
+        });
     </script>
+
 </body>
 </html>
