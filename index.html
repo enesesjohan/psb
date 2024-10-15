@@ -19,6 +19,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
+            position: relative;
         }
         .navbar img {
             height: 40px; /* Ukuran logo */
@@ -46,7 +47,7 @@
         /* Style untuk menu saat mobile */
         .menu {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             position: absolute;
             top: 60px; /* Jarak dari navbar */
             right: 0;
@@ -59,6 +60,8 @@
         .menu a {
             padding: 10px 20px;
             border-bottom: 1px solid #005999;
+            flex: 1; /* Untuk menu sama rata */
+            text-align: center; /* Center text */
         }
         /* Style untuk modal */
         .modal {
@@ -111,6 +114,20 @@
             top: 0;
             left: 0;
             border: none;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            .menu {
+                flex-direction: column;
+                max-height: 0; /* Menyembunyikan menu */
+            }
+            .menu.active {
+                max-height: 300px; /* Atur maksimal tinggi menu */
+            }
         }
     </style>
 </head>
@@ -202,12 +219,7 @@
 
         // Fungsi untuk toggle menu mobile
         document.getElementById('menuToggle').onclick = function() {
-            const menu = document.getElementById('navbarMenu');
-            if (menu.style.maxHeight) {
-                menu.style.maxHeight = null;
-            } else {
-                menu.style.maxHeight = menu.scrollHeight + "px";
-            }
+            document.getElementById('navbarMenu').classList.toggle('active');
         };
 
         // Menampilkan modal lokasi pondok
