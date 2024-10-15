@@ -15,18 +15,18 @@
         /* Styling Navigation Bar */
         .navbar {
             background-color: #007ACC;
-            overflow: hidden;
             display: flex;
-            flex-wrap: wrap; /* Memungkinkan elemen untuk melipat */
             justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
+        }
+        .navbar img {
+            height: 40px; /* Ukuran logo */
         }
         .navbar a {
             color: white;
             text-decoration: none;
             padding: 14px 20px;
-            text-align: center;
             transition: background-color 0.3s;
         }
         .navbar a:hover {
@@ -36,9 +36,29 @@
             background-color: #005999;
             font-weight: bold;
         }
-        .navbar img {
-            height: 40px; /* Ukuran logo */
-            margin-right: 20px; /* Jarak logo dari menu */
+        /* Hamburger Menu */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+        }
+        /* Style untuk menu saat mobile */
+        .menu {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 60px; /* Jarak dari navbar */
+            right: 0;
+            background-color: #007ACC;
+            width: 100%;
+            max-height: 0; /* Menyembunyikan menu */
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .menu a {
+            padding: 10px 20px;
+            border-bottom: 1px solid #005999;
         }
         /* Style untuk modal */
         .modal {
@@ -92,16 +112,6 @@
             left: 0;
             border: none;
         }
-        /* Style untuk tombol */
-        .btn-download {
-            background-color: #007ACC;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -109,12 +119,15 @@
     <!-- Navigation Bar -->
     <div class="navbar">
         <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" alt="Logo">
-        <a href="#" onclick="refreshPage()">Beranda</a>
-        <a href="#" id="lokasiPondokBtn">Lokasi Pondok</a>
-        <a href="#" id="syaratPendaftaranBtn">Syarat Pendaftaran</a>
-        <a href="#" id="downloadBrosurBtn">Download Brosur</a>
-        <a href="#" id="hubungiKamiBtn">Hubungi Kami</a>
-        <a href="#" class="active">Register Now</a>
+        <div class="menu-toggle" id="menuToggle">☰</div>
+        <div class="menu" id="navbarMenu">
+            <a href="#" onclick="refreshPage()">Beranda</a>
+            <a href="#" id="lokasiPondokBtn">Lokasi Pondok</a>
+            <a href="#" id="syaratPendaftaranBtn">Syarat Pendaftaran</a>
+            <a href="#" id="downloadBrosurBtn">Download Brosur</a>
+            <a href="#" id="hubungiKamiBtn">Hubungi Kami</a>
+            <a href="#" class="active">Register Now</a>
+        </div>
     </div>
 
     <!-- Iframe Container -->
@@ -187,6 +200,16 @@
             location.reload();
         }
 
+        // Fungsi untuk toggle menu mobile
+        document.getElementById('menuToggle').onclick = function() {
+            const menu = document.getElementById('navbarMenu');
+            if (menu.style.maxHeight) {
+                menu.style.maxHeight = null;
+            } else {
+                menu.style.maxHeight = menu.scrollHeight + "px";
+            }
+        };
+
         // Menampilkan modal lokasi pondok
         document.getElementById('lokasiPondokBtn').onclick = function() {
             document.getElementById('lokasiModal').style.display = 'block';
@@ -202,7 +225,7 @@
             document.getElementById('downloadModal').style.display = 'block';
             setTimeout(function() {
                 window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
-            }, 1000);
+            }, 1000); // Download brosur setelah 1 detik
         };
 
         // Menampilkan modal hubungi kami
@@ -226,6 +249,23 @@
                 window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
             }, 2000);
         }
+
+        // Menghapus elemen dengan class 'footer-overflow-container' dari update.html
+        function removeFooter() {
+            const footer = document.querySelector('.footer-overflow-container');
+            if (footer) {
+                footer.style.display = 'none'; // Sembunyikan footer
+            }
+        }
+
+        // Panggil fungsi removeFooter setelah iframe dimuat
+        const iframe = document.getElementById('dynamic-iframe');
+        iframe.onload = function() {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const removeFooterScript = iframeDoc.createElement('script');
+            removeFooterScript.textContent = '(' + removeFooter.toString() + ')();';
+            iframeDoc.body.appendChild(removeFooterScript);
+        };
     </script>
 </body>
 </html>
