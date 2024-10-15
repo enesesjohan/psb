@@ -45,6 +45,9 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
     }
+    .modal-content h4 {
+        margin-bottom: 20px;
+    }
         .modal-content {
             background-color: #fff;
             margin: auto;
@@ -79,6 +82,11 @@
     }
         .close-btn:hover {
         background-color: #d32f2f;
+    }
+       /* Styling for auto download text */
+       .download-text {
+        font-size: 16px;
+        color: #333;
     }
         .btn-download {
             background-color: #007ACC;
@@ -147,7 +155,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-earphone"></span> Hubungi Kami</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-download-alt"></span> Download Brosur</a></li>
+        <li><a href="#" id="downloadBrosurLink"><span class="glyphicon glyphicon-download-alt"></span> Download Brosur</a></li>
       </ul>
     </div>
   </div>
@@ -186,6 +194,40 @@
 
         </div>
       </div>
+
+
+<!-- Modal HTML -->
+<div id="downloadModal" class="modal">
+    <div class="modal-content">
+      <h4>Unduh Brosur</h4>
+      <p class="download-text">Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>
+    </div>
+  </div>
+  <script>
+    // Get modal element
+    var modal = document.getElementById('downloadModal');
+  
+    // Get open modal link
+    var modalLink = document.getElementById('downloadBrosurLink');
+  
+    // Listen for click to open modal and trigger download
+    modalLink.onclick = function(event) {
+      event.preventDefault(); // Prevent default link behavior
+  
+      // Display the modal
+      modal.style.display = 'block';
+  
+      // Start download after 1 second
+      setTimeout(function() {
+        window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg'; // URL of the file to be downloaded
+      }, 1000); // 1 second delay
+    };
+  
+    // Close modal automatically after the download starts (optional)
+    setTimeout(function() {
+      modal.style.display = 'none';
+    }, 2000); // Close modal after 2 seconds
+  </script>
       <script>
         // Get modal element
         var modal = document.getElementById('syaratModal');
