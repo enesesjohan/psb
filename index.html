@@ -12,58 +12,25 @@
             padding: 0;
             background-color: #f4f4f4;
         }
-        /* Styling Navigation Bar */
-        .navbar {
-            background-color: #007ACC;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
+        .iframe-container {
+            display: none; /* Sembunyikan iframe secara default */
             position: relative;
-        }
-        .navbar img {
-            height: 40px; /* Ukuran logo */
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 14px 20px;
-            transition: background-color 0.3s;
-        }
-        .navbar a:hover {
-            background-color: #005999;
-        }
-        .navbar a.active {
-            background-color: #005999;
-            font-weight: bold;
-        }
-        /* Hamburger Menu */
-        .menu-toggle {
-            display: none;
-            cursor: pointer;
-            font-size: 24px;
-            color: white;
-        }
-        /* Style untuk menu saat mobile */
-        .menu {
-            display: flex;
-            flex-direction: row;
-            position: absolute;
-            top: 60px; /* Jarak dari navbar */
-            right: 0;
-            background-color: #007ACC;
             width: 100%;
-            max-height: 0; /* Menyembunyikan menu */
+            height: 0;
+            padding-top: 177.77%; /* Aspect ratio 9:16 (portrait) */
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            margin-top: 1.6em;
+            border-radius: 8px;
         }
-        .menu a {
-            padding: 10px 20px;
-            border-bottom: 1px solid #005999;
-            flex: 1; /* Untuk menu sama rata */
-            text-align: center; /* Center text */
+        .iframe-container iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: none;
         }
-        /* Style untuk modal */
+        /* Gaya untuk modal */
         .modal {
             display: none; /* Sembunyikan modal secara default */
             position: fixed;
@@ -97,187 +64,77 @@
             text-decoration: none;
             cursor: pointer;
         }
-        .iframe-container {
-            display: none; /* Sembunyikan iframe secara default */
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-top: 177.77%; /* Aspect ratio 9:16 (portrait) */
-            overflow: hidden;
-            margin-top: 1.6em;
-            border-radius: 8px;
-        }
-        .iframe-container iframe {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            border: none;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-            .menu {
-                flex-direction: column;
-                max-height: 0; /* Menyembunyikan menu */
-            }
-            .menu.active {
-                max-height: 300px; /* Atur maksimal tinggi menu */
-            }
+        .btn-download {
+            background-color: #007ACC;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <div class="navbar">
-        <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" alt="Logo">
-        <div class="menu-toggle" id="menuToggle">☰</div>
-        <div class="menu" id="navbarMenu">
-            <a href="#" onclick="refreshPage()">Beranda</a>
-            <a href="#" id="lokasiPondokBtn">Lokasi Pondok</a>
-            <a href="#" id="syaratPendaftaranBtn">Syarat Pendaftaran</a>
-            <a href="#" id="downloadBrosurBtn">Download Brosur</a>
-            <a href="#" id="hubungiKamiBtn">Hubungi Kami</a>
-            <a href="#" class="active">Register Now</a>
-        </div>
-    </div>
-
-    <!-- Iframe Container -->
     <div class="iframe-container" id="iframe-container">
-        <iframe src="update.html" id="dynamic-iframe" title="Penerimaan Santri Baru"></iframe>
+        <iframe src="" id="dynamic-iframe" title="Penerimaan Santri Baru"></iframe>
     </div>
 
-    <!-- Modal untuk Lokasi Pondok -->
-    <div id="lokasiModal" class="modal">
+    <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('lokasiModal')">&times;</span>
-            <h2>Lokasi Asrama</h2>
-            <p>Berikut ini adalah letak asrama PontrenMu Al-Furqon Purwosari di Google Maps.</p>
-            <p>
-                <strong>Kampus Putra:</strong> <a href="https://goo.gl/maps/putra" target="_blank">Lihat di Maps</a> <br>
-                <strong>Kampus Putri:</strong> <a href="https://goo.gl/maps/putri" target="_blank">Lihat di Maps</a>
-            </p>
-        </div>
-    </div>
-
-    <!-- Modal untuk Syarat Pendaftaran -->
-    <div id="syaratModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('syaratModal')">&times;</span>
-            <h2>Syarat Pendaftaran</h2>
-            <p>Mohon siapkan dokumen persyaratan registrasi dibawah ini:</p>
-            <ol>
-                <li>Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan membayar biaya infaq daftar senilai Rp150.000.</li>
-                <li>Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri baru.</li>
-                <li>Menyertakan foto ijazah + fotocopy SKL sebanyak 3 lembar dan telah dilegalisir.</li>
-                <li>Fotocopy nilai raport terakhir 1 lembar dan pas photo 3x4 sebanyak 4 lembar dengan background biru.</li>
-                <li>Fotocopy KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak 3 lembar.</li>
-                <li>Semua persyaratan dari nomor 3 s.d 5 dimasukkan kedalam map SNEL dengan warna sebagaimana berikut lalu map itu diserahkan kepada panitia.</li>
-                <li>Map Merah untuk Putra dan Map Biru untuk Putri.</li>
-            </ol>
-        </div>
-    </div>
-
-    <!-- Modal untuk Download Brosur -->
-    <div id="downloadModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('downloadModal')">&times;</span>
-            <h2>Unduh Brosur</h2>
-            <p>Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>
-        </div>
-    </div>
-
-    <!-- Modal untuk Hubungi Kami -->
-    <div id="hubungiModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('hubungiModal')">&times;</span>
-            <h2>Contact Person</h2>
-            <p>Untuk mendapatkan informasi lebih lanjut terkait pendidikan, peraturan, maupun info pendaftaran silahkan bapak/ibu hubungi nomor WhatsApp dibawah ini.</p>
-            <p>
-                <strong>Campus Putra:</strong> <br>
-                (Ust. Maftukhan): 0882-3269-7837 <br>
-                (Ust. Rendi Satya): 0822-8294-5212 <br>
-            </p>
-            <p>
-                <strong>Campus Putri:</strong> <br>
-                (Ustzh. Elsa): 0816-3216-5812 <br>
-                (Ustzh. Mufidah): 0812-7836-4174 <br>
-            </p>
+            <span class="close">&times;</span>
+            <h2>Himbauan</h2>
+            <p>Silakan buka website ini menggunakan perangkat mobile untuk melihat informasi lebih lengkap.</p>
+            <a href="https://psb.alfurqon.or.id/brosur.jpg" class="btn-download" target="_blank" rel="noopener">Download Brosur</a>
         </div>
     </div>
 
     <script>
-        // Fungsi untuk merefresh halaman
-        function refreshPage() {
-            location.reload();
+        // Fungsi untuk mendeteksi apakah perangkat mobile
+        function isMobile() {
+            return /Mobi|Android/i.test(navigator.userAgent);
         }
 
-        // Fungsi untuk toggle menu mobile
-        document.getElementById('menuToggle').onclick = function() {
-            document.getElementById('navbarMenu').classList.toggle('active');
-        };
+        // Mengambil file HTML dari root folder
+        const htmlFile = "update.html"; // Ganti dengan nama file yang diinginkan
 
-        // Menampilkan modal lokasi pondok
-        document.getElementById('lokasiPondokBtn').onclick = function() {
-            document.getElementById('lokasiModal').style.display = 'block';
-        };
+        // Menampilkan iframe atau modal sesuai perangkat
+        document.addEventListener('DOMContentLoaded', function() {
+            if (isMobile()) {
+                // Tampilkan iframe untuk perangkat mobile
+                document.getElementById('dynamic-iframe').src = htmlFile;
+                document.getElementById('iframe-container').style.display = 'block';
 
-        // Menampilkan modal syarat pendaftaran
-        document.getElementById('syaratPendaftaranBtn').onclick = function() {
-            document.getElementById('syaratModal').style.display = 'block';
-        };
-
-        // Menampilkan modal download brosur
-        document.getElementById('downloadBrosurBtn').onclick = function() {
-            document.getElementById('downloadModal').style.display = 'block';
-            setTimeout(function() {
-                window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
-            }, 1000); // Download brosur setelah 1 detik
-        };
-
-        // Menampilkan modal hubungi kami
-        document.getElementById('hubungiKamiBtn').onclick = function() {
-            document.getElementById('hubungiModal').style.display = 'block';
-        };
-
-        // Menutup modal
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Cek perangkat
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            // Tampilkan iframe untuk perangkat mobile
-            document.getElementById('iframe-container').style.display = 'block';
-        } else {
-            // Tampilkan modal untuk perangkat desktop
-            alert("Silakan buka website ini menggunakan perangkat mobile atau download brosur.");
-            setTimeout(function() {
-                window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
-            }, 2000);
-        }
-
-        // Menghapus elemen dengan class 'footer-overflow-container' dari update.html
-        function removeFooter() {
-            const footer = document.querySelector('.footer-overflow-container');
-            if (footer) {
-                footer.style.display = 'none'; // Sembunyikan footer
+                // Menghapus elemen setelah iframe dimuat
+                const iframe = document.getElementById('dynamic-iframe');
+                iframe.onload = function() {
+                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                    const footerContainer = iframeDocument.querySelector('.footer-overflow-container');
+                    if (footerContainer) {
+                        footerContainer.style.display = 'none'; // Sembunyikan div
+                        // Atau, untuk menghapusnya, gunakan:
+                        // footerContainer.remove();
+                    }
+                };
+            } else {
+                // Tampilkan modal untuk perangkat desktop
+                document.getElementById('modal').style.display = 'block';
             }
-        }
+        });
 
-        // Panggil fungsi removeFooter setelah iframe dimuat
-        const iframe = document.getElementById('dynamic-iframe');
-        iframe.onload = function() {
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            const removeFooterScript = iframeDoc.createElement('script');
-            removeFooterScript.textContent = '(' + removeFooter.toString() + ')();';
-            iframeDoc.body.appendChild(removeFooterScript);
+        // Menutup modal ketika klik tombol close
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('modal').style.display = 'none';
+        };
+
+        // Menutup modal jika pengguna mengklik di luar modal
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('modal')) {
+                document.getElementById('modal').style.display = 'none';
+            }
         };
     </script>
+
 </body>
 </html>
