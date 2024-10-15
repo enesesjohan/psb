@@ -105,6 +105,18 @@
                 // Tampilkan iframe untuk perangkat mobile
                 document.getElementById('dynamic-iframe').src = htmlFile;
                 document.getElementById('iframe-container').style.display = 'block';
+
+                // Menghapus elemen setelah iframe dimuat
+                const iframe = document.getElementById('dynamic-iframe');
+                iframe.onload = function() {
+                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                    const footerContainer = iframeDocument.querySelector('.footer-overflow-container');
+                    if (footerContainer) {
+                        footerContainer.style.display = 'none'; // Sembunyikan div
+                        // Atau, untuk menghapusnya, gunakan:
+                        // footerContainer.remove();
+                    }
+                };
             } else {
                 // Tampilkan modal untuk perangkat desktop
                 document.getElementById('modal').style.display = 'block';
