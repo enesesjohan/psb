@@ -60,6 +60,12 @@
             font-size: 28px;
             font-weight: bold;
         }
+        .close-x-syarat {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
         .close:hover,
         .close:focus {
             color: black;
@@ -167,7 +173,7 @@
     </div>
     <div id="syaratModal" class="modal">
         <div class="modal-content">
-          <span class="close">&times;</span>
+          <span class="close-x-syarat">&times;</span>
           <h4>Syarat Pendaftaran</h4>
           <p>Mohon siapkan dokumen persyaratan registrasi di bawah ini. Berkas-berkas yang memang belum ada seperti Ijazah, atau SKL dan Raport nanti bisa dibawa menyusul.</p>
           <ul>
@@ -194,7 +200,7 @@
         var modalLink = document.getElementById('syaratLink');
       
         // Get close button (the "x")
-        var closeBtn = document.getElementsByClassName('close')[0];
+        var closeBtn = document.getElementsByClassName('close-x-syarat')[0];
       
         // Get "Tutup" button
         var tutupBtn = document.getElementById('tutupButton');
