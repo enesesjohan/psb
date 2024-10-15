@@ -243,11 +243,10 @@
     </div>
 
     <script>
-      var modalDWN = document.getElementById('downloadModal');
-      var modalDWNlink = document.getElementById('downloadLink');
-      modalDWNlink.onclick = function(event) {
-        event.preventDefault();
-        modal.style.display='block';
+  document.getElementById('downloadLink').onclick = function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        document.getElementById('downloadModal').style.display = 'block'; // Show modal
+
       
 
       setTimeout(function() {
