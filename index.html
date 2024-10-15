@@ -39,7 +39,7 @@
       }
 
       /* Modal styling */
-      .modal {
+      .modal-syarat {
         display: none;
         /* Hidden by default */
         position: fixed;
@@ -212,7 +212,7 @@
             </li>
             <li>
               <a href="#">
-                <span class="glyphicon glyphicon-download-alt"></span> Download Brosur </a>
+                <span class="glyphicon glyphicon-download-alt" id="downloadBrosurLink"></span> Download Brosur </a>
             </li>
           </ul>
         </div>
@@ -224,14 +224,14 @@
 
     <div id="modal" class="modal-download">
       <div class="modal-content-download">
-        <span class="close">&times;</span>
+        <span class="close-download">&times;</span>
         <h2>Himbauan</h2>
         <p>Silakan buka website ini menggunakan perangkat mobile untuk melihat informasi lebih lengkap.</p>
         <a href="https://psb.alfurqon.or.id/brosur.jpg" class="btn-download" target="_blank" rel="noopener">Download Brosur</a>
       </div>
     </div>
 
-    <div id="syaratModal" class="modal">
+    <div id="syaratModal" class="modal-syarat">
       <div class="modal-content">
         <span class="close">&times;</span>
         <h4>Syarat Pendaftaran</h4>
@@ -253,8 +253,8 @@
     </div>
 
             <!-- Modal HTML -->
-        <div id="downloadModal" class="modal">
-            <div class="modal-content">
+        <div id="downloadModal" class="modal-download">
+            <div class="modal-content-download">
             <h4>Unduh Brosur</h4>
             <p class="download-text">Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>
             </div>
