@@ -4,44 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Halaman Penerimaan Santri</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-
-        .topnav {
+        /* Styling Navigation Bar */
+        .navbar {
+            background-color: #007ACC;
             overflow: hidden;
-            background-color: #333;
+            display: flex;
+            flex-wrap: wrap; /* Memungkinkan elemen untuk melipat */
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
         }
-
-        .topnav a {
-            float: left;
-            display: block;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
-
-        .topnav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-        .topnav a.active {
-            background-color: #04AA6D;
+        .navbar a {
             color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            text-align: center;
+            transition: background-color 0.3s;
         }
-
-        .topnav .logo {
-            float: left;
-            display: block;
-            padding: 14px 16px;
+        .navbar a:hover {
+            background-color: #005999;
         }
-
+        .navbar a.active {
+            background-color: #005999;
+            font-weight: bold;
+        }
+        .navbar img {
+            height: 40px; /* Ukuran logo */
+            margin-right: 20px; /* Jarak logo dari menu */
+        }
+        /* Style untuk modal */
         .modal {
             display: none; /* Sembunyikan modal secara default */
             position: fixed;
@@ -54,7 +53,6 @@
             background-color: rgba(0, 0, 0, 0.5);
             padding: 20px;
         }
-
         .modal-content {
             background-color: #fff;
             margin: auto;
@@ -64,195 +62,170 @@
             max-width: 500px;
             border-radius: 8px;
         }
-
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
-
         .close:hover,
         .close:focus {
             color: black;
             text-decoration: none;
             cursor: pointer;
         }
-
-        /* Style untuk setiap modal */
-        .modal-header {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        /* Responsive */
-        @media screen and (max-width: 600px) {
-            .topnav a {
-                float: none;
-                display: block;
-                text-align: left;
-            }
-        }
-
-        /* Styling iframe */
-        #content {
+        .iframe-container {
             display: none; /* Sembunyikan iframe secara default */
+            position: relative;
+            width: 100%;
             height: 0;
+            padding-top: 177.77%; /* Aspect ratio 9:16 (portrait) */
             overflow: hidden;
+            margin-top: 1.6em;
+            border-radius: 8px;
         }
-
-        @media screen and (min-width: 601px) {
-            #content {
-                height: 100vh; /* Pastikan iframe terlihat di desktop */
-            }
+        .iframe-container iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: none;
+        }
+        /* Style untuk tombol */
+        .btn-download {
+            background-color: #007ACC;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-<div class="topnav" id="myTopnav">
-    <a href="javascript:void(0);" class="logo">
-        <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" alt="Logo" style="width: 30px; vertical-align: middle;">
-    </a>
-    <a href="#" onclick="refreshPage()">Beranda</a>
-    <a href="#" onclick="showLokasiModal()">Lokasi Pondok</a>
-    <a href="#" onclick="showSyaratModal()">Syarat Pendaftaran</a>
-    <a href="#" onclick="showDownloadModal()">Download Brosur</a>
-    <a href="#" onclick="showContactModal()">Hubungi Kami</a>
-    <a href="#" class="active">Register Now</a>
-</div>
-
-<!-- Konten Iframe -->
-<div id="content">
-    <iframe id="contentIframe" src="" style="width: 100%; height: 100%; border: none;"></iframe>
-</div>
-
-<!-- Modals -->
-<div id="lokasiModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('lokasiModal')">&times;</span>
-        <div class="modal-header">Lokasi Asrama</div>
-        <p>Berikut ini adalah letak asrama pontrenmu al-furqon purwosari di google maps.</p>
-        <p><strong>Kampus Putra:</strong> <a href="https://goo.gl/maps/example1" target="_blank">Lokasi Putra</a> (icon putra)</p>
-        <p><strong>Kampus Putri:</strong> <a href="https://goo.gl/maps/example2" target="_blank">Lokasi Putri</a> (icon putri)</p>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" alt="Logo">
+        <a href="#" onclick="refreshPage()">Beranda</a>
+        <a href="#" id="lokasiPondokBtn">Lokasi Pondok</a>
+        <a href="#" id="syaratPendaftaranBtn">Syarat Pendaftaran</a>
+        <a href="#" id="downloadBrosurBtn">Download Brosur</a>
+        <a href="#" id="hubungiKamiBtn">Hubungi Kami</a>
+        <a href="#" class="active">Register Now</a>
     </div>
-</div>
 
-<div id="syaratModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('syaratModal')">&times;</span>
-        <div class="modal-header">Syarat Pendaftaran</div>
-        <p>Mohon siapkan dokumen persyaratan registrasi dibawah ini. Berkas-berkas yang memang belum ada seperti Ijazah, atau SKL dan Raport nanti bisa dibawa menyusul.</p>
-        <ol>
-            <li>Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan membayar biaya infaq daftar senilai Rp150.000</li>
-            <li>Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri baru.</li>
-            <li>Menyertakan foto ijazah + fotocopy SKL sebanyak 3 lembar dan telah dilegalisir.</li>
-            <li>Fotocopy nilai raport terakhir 1 lembar dan pas photo 3x4 sebanyak 4 lembar dengan background biru.</li>
-            <li>Fotocopy KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak 3 lembar.</li>
-            <li>Semua persyaratan dari nomor 3 s.d 5 dimasukkan kedalam map SNEL dengan warna sebagaimana berikut lalu map itu diserahkan kepada panitia.</li>
-            <li>Map Merah untuk Putra dan Map Biru untuk Putri.</li>
-        </ol>
+    <!-- Iframe Container -->
+    <div class="iframe-container" id="iframe-container">
+        <iframe src="update.html" id="dynamic-iframe" title="Penerimaan Santri Baru"></iframe>
     </div>
-</div>
 
-<div id="downloadModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('downloadModal')">&times;</span>
-        <div class="modal-header">Unduh Brosur</div>
-        <p>Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>
+    <!-- Modal untuk Lokasi Pondok -->
+    <div id="lokasiModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('lokasiModal')">&times;</span>
+            <h2>Lokasi Asrama</h2>
+            <p>Berikut ini adalah letak asrama PontrenMu Al-Furqon Purwosari di Google Maps.</p>
+            <p>
+                <strong>Kampus Putra:</strong> <a href="https://goo.gl/maps/putra" target="_blank">Lihat di Maps</a> <br>
+                <strong>Kampus Putri:</strong> <a href="https://goo.gl/maps/putri" target="_blank">Lihat di Maps</a>
+            </p>
+        </div>
     </div>
-</div>
 
-<div id="contactModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('contactModal')">&times;</span>
-        <div class="modal-header">Contact Person</div>
-        <p>Untuk mendapatkan informasi lebih lanjut terkait pendidikan, peraturan, maupun info pendaftaran silahkan bapak/ibu hubungi nomor WhatsApp dibawah ini.</p>
-        <p><strong>Campus Putra:</strong><br>
-        (Ust. Maftukhan): 0882-3269-7837<br>
-        (Ust. Rendi Satya): 0822-8294-5212</p>
-        <p><strong>Campus Putri:</strong><br>
-        (Ustzh. Elsa): 0816-3216-5812<br>
-        (Ustzh. Mufidah): 0812-7836-4174</p>
+    <!-- Modal untuk Syarat Pendaftaran -->
+    <div id="syaratModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('syaratModal')">&times;</span>
+            <h2>Syarat Pendaftaran</h2>
+            <p>Mohon siapkan dokumen persyaratan registrasi dibawah ini:</p>
+            <ol>
+                <li>Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan membayar biaya infaq daftar senilai Rp150.000.</li>
+                <li>Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri baru.</li>
+                <li>Menyertakan foto ijazah + fotocopy SKL sebanyak 3 lembar dan telah dilegalisir.</li>
+                <li>Fotocopy nilai raport terakhir 1 lembar dan pas photo 3x4 sebanyak 4 lembar dengan background biru.</li>
+                <li>Fotocopy KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak 3 lembar.</li>
+                <li>Semua persyaratan dari nomor 3 s.d 5 dimasukkan kedalam map SNEL dengan warna sebagaimana berikut lalu map itu diserahkan kepada panitia.</li>
+                <li>Map Merah untuk Putra dan Map Biru untuk Putri.</li>
+            </ol>
+        </div>
     </div>
-</div>
 
-<script>
-    // Pengecekan perangkat mobile
-    function isMobileDevice() {
-        return /Mobi|Android/i.test(navigator.userAgent);
-    }
+    <!-- Modal untuk Download Brosur -->
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('downloadModal')">&times;</span>
+            <h2>Unduh Brosur</h2>
+            <p>Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>
+        </div>
+    </div>
 
-    // Memuat konten jika perangkat adalah mobile
-    function loadContentForMobile() {
-        const iframe = document.getElementById('contentIframe');
-        const contentDiv = document.getElementById('content');
-        
-        // Memuat file HTML di iframe
-        iframe.src = 'update.html'; // Ganti dengan nama file HTML yang ingin ditampilkan
-        contentDiv.style.display = 'block'; // Tampilkan iframe
-    }
+    <!-- Modal untuk Hubungi Kami -->
+    <div id="hubungiModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('hubungiModal')">&times;</span>
+            <h2>Contact Person</h2>
+            <p>Untuk mendapatkan informasi lebih lanjut terkait pendidikan, peraturan, maupun info pendaftaran silahkan bapak/ibu hubungi nomor WhatsApp dibawah ini.</p>
+            <p>
+                <strong>Campus Putra:</strong> <br>
+                (Ust. Maftukhan): 0882-3269-7837 <br>
+                (Ust. Rendi Satya): 0822-8294-5212 <br>
+            </p>
+            <p>
+                <strong>Campus Putri:</strong> <br>
+                (Ustzh. Elsa): 0816-3216-5812 <br>
+                (Ustzh. Mufidah): 0812-7836-4174 <br>
+            </p>
+        </div>
+    </div>
 
-    // Menyegarkan halaman
-    function refreshPage() {
-        location.reload();
-    }
-
-    // Menampilkan modal untuk lokasi pondok
-    function showLokasiModal() {
-        document.getElementById('lokasiModal').style.display = 'block';
-    }
-
-    // Menampilkan modal untuk syarat pendaftaran
-    function showSyaratModal() {
-        document.getElementById('syaratModal').style.display = 'block';
-    }
-
-    // Menampilkan modal untuk download brosur
-    function showDownloadModal() {
-        document.getElementById('downloadModal').style.display = 'block';
-        setTimeout(function() {
-            window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg'; // Download file
-        }, 1000); // Auto download after 1 second
-    }
-
-    // Menampilkan modal untuk hubungi kami
-    function showContactModal() {
-        document.getElementById('contactModal').style.display = 'block';
-    }
-
-    // Menutup modal
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-    // Fungsi untuk menampilkan konten saat halaman dimuat
-    window.onload = function() {
-        if (isMobileDevice()) {
-            loadContentForMobile(); // Memuat konten untuk perangkat mobile
-        } else {
-            document.getElementById('content').style.display = 'none'; // Sembunyikan konten untuk desktop
+    <script>
+        // Fungsi untuk merefresh halaman
+        function refreshPage() {
+            location.reload();
         }
-    };
 
-    // Fungsi untuk Register Now
-    const registerNow = () => {
-        const registerModal = document.createElement('div');
-        registerModal.classList.add('modal');
-        registerModal.innerHTML = `
-            <div class="modal-content">
-                <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
-                <div class="modal-header">Membuka Aplikasi Pendaftaran...</div>
-            </div>`;
-        document.body.appendChild(registerModal);
-        registerModal.style.display = 'block';
-        setTimeout(() => {
-            window.location.href = 'https://santri.alfurqon.or.id';
-        }, 500); // Redirect after 0.5 seconds
-    };
+        // Menampilkan modal lokasi pondok
+        document.getElementById('lokasiPondokBtn').onclick = function() {
+            document.getElementById('lokasiModal').style.display = 'block';
+        };
 
-    document.querySelector('.topnav a.active').addEventListener('click', registerNow);
-</script>
+        // Menampilkan modal syarat pendaftaran
+        document.getElementById('syaratPendaftaranBtn').onclick = function() {
+            document.getElementById('syaratModal').style.display = 'block';
+        };
 
+        // Menampilkan modal download brosur
+        document.getElementById('downloadBrosurBtn').onclick = function() {
+            document.getElementById('downloadModal').style.display = 'block';
+            setTimeout(function() {
+                window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
+            }, 1000);
+        };
+
+        // Menampilkan modal hubungi kami
+        document.getElementById('hubungiKamiBtn').onclick = function() {
+            document.getElementById('hubungiModal').style.display = 'block';
+        };
+
+        // Menutup modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Cek perangkat
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            // Tampilkan iframe untuk perangkat mobile
+            document.getElementById('iframe-container').style.display = 'block';
+        } else {
+            // Tampilkan modal untuk perangkat desktop
+            alert("Silakan buka website ini menggunakan perangkat mobile atau download brosur.");
+            setTimeout(function() {
+                window.location.href = 'https://psb.alfurqon.or.id/brosur.jpg';
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
