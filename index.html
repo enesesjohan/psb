@@ -34,19 +34,17 @@
             left: 0;
             border: none;
         }
-        /* Gaya untuk modal */
-        .modal {
-            display: none; /* Sembunyikan modal secara default */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-        }
+     /* Modal styling */
+     .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
+    }
         .modal-content {
             background-color: #fff;
             margin: auto;
@@ -68,6 +66,20 @@
             text-decoration: none;
             cursor: pointer;
         }
+            /* Styling for "Tutup" button */
+    .close-btn {
+        background-color: #f44336;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 10px;
+    }
+        .close-btn:hover {
+        background-color: #d32f2f;
+    }
         .btn-download {
             background-color: #007ACC;
             color: white;
@@ -170,6 +182,8 @@
               <li>Map Biru untuk Putri.</li>
             </ul>
           </ul>
+          <button class="close-btn" id="tutupButton">Tutup</button>
+
         </div>
       </div>
       <script>
@@ -179,8 +193,11 @@
         // Get open modal link
         var modalLink = document.getElementById('syaratLink');
       
-        // Get close button
+        // Get close button (the "x")
         var closeBtn = document.getElementsByClassName('close')[0];
+      
+        // Get "Tutup" button
+        var tutupBtn = document.getElementById('tutupButton');
       
         // Listen for click to open modal
         modalLink.onclick = function(event) {
@@ -188,8 +205,13 @@
           modal.style.display = 'block';
         };
       
-        // Listen for click to close modal
+        // Listen for click to close modal (close button)
         closeBtn.onclick = function() {
+          modal.style.display = 'none';
+        };
+      
+        // Listen for click on "Tutup" button to close modal
+        tutupBtn.onclick = function() {
           modal.style.display = 'none';
         };
       
