@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Embed Canva - Penerimaan Santri Baru PontrenMu Al-Furqon</title>
+    <title>Halaman Penerimaan Santri</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             padding: 0;
             background-color: #f4f4f4;
         }
         .iframe-container {
+            display: none; /* Sembunyikan iframe secara default */
             position: relative;
             width: 100%;
             height: 0;
-            padding-top: 177.77%; /* Aspect ratio 9:16 (Portrait) */
-            padding-bottom: 0;
-            box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16);
-            margin-top: 1.6em;
-            margin-bottom: 0.9em;
+            padding-top: 177.77%; /* Aspect ratio 9:16 (portrait) */
             overflow: hidden;
+            margin-top: 1.6em;
             border-radius: 8px;
-            will-change: transform;
         }
         .iframe-container iframe {
             position: absolute;
@@ -33,33 +29,95 @@
             left: 0;
             border: none;
         }
-        a {
-            text-decoration: none;
-            color: #007ACC;
+        /* Gaya untuk modal */
+        .modal {
+            display: none; /* Sembunyikan modal secara default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
             font-weight: bold;
         }
-        a:hover {
-            color: #005B99;
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-download {
+            background-color: #007ACC;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Penerimaan Santri Baru PontrenMu Al-Furqon</h1>
-    <p>Berikut adalah informasi terkait penerimaan santri baru PontrenMu Al-Furqon Kec. Batanghari Nuban Lampung Timur.</p>
-
-    <div class="iframe-container">
-        <iframe loading="lazy" 
-                src="https://www.canva.com/design/DAGTjPBjkss/HxQqCr9Fsq-97gZe3NdHwQ/view?embed" 
-                title="Penerimaan Santri Baru PontrenMu Al-Furqon" 
-                sandbox="allow-scripts allow-same-origin" 
-                allowfullscreen="allowfullscreen" 
-                referrerpolicy="no-referrer">
-        </iframe>
+    <div class="iframe-container" id="iframe-container">
+        <iframe src="15okt2024.html" title="Penerimaan Santri Baru"></iframe>
     </div>
 
-    <p>Jika iframe di atas tidak muncul, kamu bisa mengakses langsung melalui tautan berikut:</p>
-    <a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAGTjPBjkss&#x2F;HxQqCr9Fsq-97gZe3NdHwQ&#x2F;view?utm_content=DAGTjPBjkss&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener">Penerimaan Santri Baru PontrenMu Al-Furqon Kec.Batanghari Nuban Lampung Timur</a> by Lilis Susanti
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Himbauan</h2>
+            <p>Silakan buka website ini menggunakan perangkat mobile untuk melihat informasi lebih lengkap.</p>
+            <a href="https://psb.alfurqon.or.id/brosur.jpg" class="btn-download" target="_blank" rel="noopener">Download Brosur</a>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk mendeteksi apakah perangkat mobile
+        function isMobile() {
+            return /Mobi|Android/i.test(navigator.userAgent);
+        }
+
+        // Menampilkan iframe atau modal sesuai perangkat
+        document.addEventListener('DOMContentLoaded', function() {
+            if (isMobile()) {
+                // Tampilkan iframe untuk perangkat mobile
+                document.getElementById('iframe-container').style.display = 'block';
+            } else {
+                // Tampilkan modal untuk perangkat desktop
+                document.getElementById('modal').style.display = 'block';
+            }
+        });
+
+        // Menutup modal ketika klik tombol close
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('modal').style.display = 'none';
+        };
+
+        // Menutup modal jika pengguna mengklik di luar modal
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('modal')) {
+                document.getElementById('modal').style.display = 'none';
+            }
+        };
+    </script>
 
 </body>
 </html>
