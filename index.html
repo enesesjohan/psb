@@ -168,6 +168,7 @@
     <!-- Modal for Download Brosur -->
     <div id="brosur-modal" class="modal">
         <div class="modal-content">
+            <span class="close" onclick="closeModal('brosur-modal')">&times;</span>
             <h2>Unduh Brosur</h2>
             <p>Mohon tunggu beberapa saat, brosur akan segera terunduh.</p>
         </div>
@@ -216,16 +217,15 @@
             }, 500);
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        function downloadBrosur() {
             setTimeout(function() {
-                var brosurModal = document.getElementById("brosur-modal");
-                if (brosurModal) {
-                    brosurModal.style.display = "block";
-                    setTimeout(function() {
-                        window.location.href = "https://psb.alfurqon.or.id/brosur.jpg";
-                    }, 1000);
-                }
+                window.location.href = "https://psb.alfurqon.or.id/brosur.jpg";
             }, 1000);
+        }
+
+        // Event listener for brosur modal
+        document.querySelector('a[href="javascript:void(0);"][onclick="showModal(\'brosur-modal\')"]').addEventListener('click', function() {
+            downloadBrosur();
         });
     </script>
 
