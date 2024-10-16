@@ -447,17 +447,18 @@
     var n = a.querySelector("table"); // Ambil tabel dari konten yang dimuat
 
     if (n) {
-        var t = n.querySelector("thead"); // Ambil elemen header tabel
-        var o = n.querySelector("tfoot"); // Ambil elemen footer tabel
+        var rows = n.querySelectorAll("tr"); // Ambil semua baris tabel
 
-        if (t) { // Jika header ditemukan
-            t.style.backgroundColor = "black"; // Ubah background header menjadi hitam
-            t.style.color = "white"; // Ubah teks header menjadi putih
-        }
+        if (rows.length > 0) {
+            // Ubah warna baris pertama (header)
+            var headerRow = rows[0];
+            headerRow.style.backgroundColor = "black";
+            headerRow.style.color = "white";
 
-        if (o) { // Jika footer ditemukan
-            o.style.backgroundColor = "green"; // Ubah background footer menjadi hijau
-            o.style.color = "white"; // Ubah teks footer menjadi putih
+            // Ubah warna baris terakhir (footer)
+            var footerRow = rows[rows.length - 1];
+            footerRow.style.backgroundColor = "green";
+            footerRow.style.color = "white";
         }
 
         biayaContent.innerHTML = n.outerHTML; // Masukkan tabel ke dalam kontainer modal
@@ -466,6 +467,7 @@
     }
     spinner.style.display = "none"; // Sembunyikan spinner setelah data dimuat
 });
+
 
       };
 
