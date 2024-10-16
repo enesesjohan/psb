@@ -335,22 +335,34 @@
         </script>
 
 <script>
-  var modalContact = document.getElementById("idContactModal"),
-      modalLinkContact = document.getElementById("ContactLink"),
-      closeBtnContact = document.getElementsByClassName("close-x-Contact")[0],
-      tutupBtnContact = document.getElementById("tutupButtonContact");
-  (modalLinkContact.onclick = function (t) {
-      t.preventDefault(), (modalContact.style.display = "block");
-  }),
-      (closeBtnContact.onclick = function () {
+ var modalContact = document.getElementById("idContactModal"),
+    modalLinkContact = document.getElementById("ContactLink"),
+    closeBtnContact = document.getElementsByClassName("close-x-Contact")[0],
+    tutupBtnContact = document.getElementById("tutupButtonContact");
+
+modalLinkContact.onclick = function (t) {
+    t.preventDefault();
+    // Tutup semua modal lain
+    document.querySelectorAll('.modal').forEach(function(modal) {
+        modal.style.display = 'none';
+    });
+    modalContact.style.display = "block";
+};
+
+closeBtnContact.onclick = function () {
+    modalContact.style.display = "none";
+};
+
+tutupBtnContact.onclick = function () {
+    modalContact.style.display = "none";
+};
+
+window.onclick = function (t) {
+    if (t.target === modalContact) {
         modalContact.style.display = "none";
-      }),
-      (tutupBtnContact.onclick = function () {
-        modalContact.style.display = "none";
-      }),
-      (window.onclick = function (t) {
-          t.target === modal && (modalContact  .style.display = "none");
-      });
+    }
+};
+
 </script>
 
 
