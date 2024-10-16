@@ -41,7 +41,7 @@
                 max-width: 800px;
                 border-radius: 8px;
             }
-            .table-containerBiaya-css {
+            .table-container {
                 overflow-x: auto;
                 max-height: 400px;
             }
@@ -170,6 +170,12 @@
           border-radius: 8px;
       }
       .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: 700;
+      }
+      .close-x-biaya {
           color: #aaa;
           float: right;
           font-size: 28px;
@@ -403,11 +409,9 @@
         </div>
       </div>
     </div>
-
-        <!-- Modal untuk menampilkan tabel dari update.html -->
         <div id="biayaModal" class="modalBiaya-css">
           <div class="modal-contentBiaya-css">
-              <span class="close">&times;</span>
+              <span class="close-x-biaya">&times;</span>
               <h2>Biaya Awal Masuk</h2>
 
               <div class="loading-spinner">
@@ -417,42 +421,32 @@
                   <p>Sedang Memuat data... mohon tunggu sejenak.</p>
               </div>
 
-              <!-- Kontainer tabel dengan scroll horizontal -->
-              <div class="table-containerBiaya-css" id="biayaContent"></div>
+              <div class="table-container" id="biayaContent"></div>
           </div>
       </div>
 
     <script>
-      // Mengambil elemen-elemen yang diperlukan
       var biayaModal = document.getElementById("biayaModal");
       var biayaMasukLink = document.getElementById("biayaMasukLink");
-      var closeBiayaModal = document.getElementsByClassName("close")[0];
+      var closeBiayaModal = document.getElementsByClassName("close-x-biaya")[0];
       var biayaContent = document.getElementById("biayaContent");
       var spinner = document.querySelector(".loading-spinner");
 
-      // Fungsi untuk membuka modal dan memuat tabel dari update.html
       biayaMasukLink.onclick = function (e) {
-          e.preventDefault(); // Mencegah default action
-          // Menampilkan modal
+          e.preventDefault(); 
           biayaModal.style.display = "block";
 
-          // Menampilkan spinner selama proses loading
           spinner.style.display = "block";
 
-          // Kosongkan konten sebelum memuat tabel baru
           biayaContent.innerHTML = '';
 
-          // Memuat konten dari update.html dan mencari elemen <table>
           $.get("update.html", function (data) {
-              // Membuat div sementara untuk menampung konten yang diambil
               var tempDiv = document.createElement('div');
               tempDiv.innerHTML = data;
 
-              // Mencari elemen <table>
               var tableContent = tempDiv.querySelector('table');
 
               if (tableContent) {
-                  // Menambahkan kelas ke header dan footer tabel
                   var tableHead = tableContent.querySelector('thead');
                   var tableFoot = tableContent.querySelector('tfoot');
                   if (tableHead) {
@@ -464,23 +458,19 @@
                       tableFoot.style.color = 'white';
                   }
 
-                  // Menampilkan tabel ke dalam modal dan membuatnya scrollable
                   biayaContent.innerHTML = tableContent.outerHTML;
               } else {
                   biayaContent.innerHTML = "<p>Tabel tidak ditemukan.</p>";
               }
 
-              // Menyembunyikan spinner setelah tabel dimuat
               spinner.style.display = "none";
           });
       };
 
-      // Menutup modal ketika tombol "close" diklik
       closeBiayaModal.onclick = function () {
           biayaModal.style.display = "none";
       };
 
-      // Menutup modal jika pengguna mengklik di luar modal
       window.onclick = function (event) {
           if (event.target === biayaModal) {
               biayaModal.style.display = "none";
