@@ -279,21 +279,21 @@
             };
         </script>
         <script>
-            var modal = document.getElementById("syaratModal"),
+            var modalSyarat = document.getElementById("syaratModal"),
                 modalLink = document.getElementById("syaratLink"),
                 closeBtn = document.getElementsByClassName("close-x-syarat")[0],
                 tutupBtn = document.getElementById("tutupButton");
             (modalLink.onclick = function (t) {
-                t.preventDefault(), (modal.style.display = "block");
+                t.preventDefault(), (modalSyarat.style.display = "block");
             }),
                 (closeBtn.onclick = function () {
-                    modal.style.display = "none";
+                  modalSyarat.style.display = "none";
                 }),
                 (tutupBtn.onclick = function () {
-                    modal.style.display = "none";
+                  modalSyarat.style.display = "none";
                 }),
                 (window.onclick = function (t) {
-                    t.target === modal && (modal.style.display = "none");
+                    t.target === modal && (modalSyarat  .style.display = "none");
                 });
         </script>
         <script>
