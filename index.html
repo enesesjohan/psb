@@ -4,17 +4,16 @@
     <title>Pendaftaran Online PontrenMU Al-Furqon T.P 2025</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-    />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    
     <link
       rel="icon"
       href="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico"
       type="image/x-icon"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <style>
       body {
           font-family: Arial, sans-serif;
@@ -440,31 +439,32 @@
 
           biayaContent.innerHTML = '';
 
-          $.get("update.html", function (data) {
-              var tempDiv = document.createElement('div');
-              tempDiv.innerHTML = data;
+          $.get("update.html", function(e) {
+    var a = document.createElement("div"); // Buat elemen div untuk menampung HTML yang diambil
+    a.innerHTML = e; // Masukkan konten dari update.html
+    var n = a.querySelector("table"); // Ambil tabel dari konten yang dimuat
 
-              var tableContent = tempDiv.querySelector('table');
+    if (n) {
+        var t = n.querySelector("thead"); // Ambil elemen header tabel
+        var o = n.querySelector("tfoot"); // Ambil elemen footer tabel
 
-              if (tableContent) {
-                  var tableHead = tableContent.querySelector('thead');
-                  var tableFoot = tableContent.querySelector('tfoot');
-                  if (tableHead) {
-                      tableHead.style.backgroundColor = 'black';
-                      tableHead.style.color = 'white';
-                  }
-                  if (tableFoot) {
-                      tableFoot.style.backgroundColor = 'green';
-                      tableFoot.style.color = 'white';
-                  }
+        if (t) { // Jika header ditemukan
+            t.style.backgroundColor = "black"; // Ubah background header menjadi hitam
+            t.style.color = "white"; // Ubah teks header menjadi putih
+        }
 
-                  biayaContent.innerHTML = tableContent.outerHTML;
-              } else {
-                  biayaContent.innerHTML = "<p>Tabel tidak ditemukan.</p>";
-              }
+        if (o) { // Jika footer ditemukan
+            o.style.backgroundColor = "green"; // Ubah background footer menjadi hijau
+            o.style.color = "white"; // Ubah teks footer menjadi putih
+        }
 
-              spinner.style.display = "none";
-          });
+        biayaContent.innerHTML = n.outerHTML; // Masukkan tabel ke dalam kontainer modal
+    } else {
+        biayaContent.innerHTML = "<p>Tabel tidak ditemukan.</p>"; // Jika tabel tidak ditemukan
+    }
+    spinner.style.display = "none"; // Sembunyikan spinner setelah data dimuat
+});
+
       };
 
       closeBiayaModal.onclick = function () {
