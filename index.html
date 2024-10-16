@@ -206,7 +206,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#" id="openModalBtn"><span class="glyphicon glyphicon-earphone">
+                            <a href="#" id="ContactLink"><span class="glyphicon glyphicon-earphone">
                             </span> Hubungi Kami</a>
                         </li>
                         <li>
@@ -253,30 +253,31 @@
             </div>
         </div>
         <div id="idContactModal" class="clContactModal">
-            <div class="cntContactModal">
-                <div class="modal-header">
-                    <h2>Informasi Kontak</h2>
-                    <p>Untuk Pertanyaan terkait info PSB, Sistem Pendidikan, Peraturan Asrama, maupun hal lainnya terkait pesantren, Bapak/Ibu bisa menghubungi nomor WhatsApp dibawah ini.</p>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        <h3>Icon Putra</h3>
-                        <p>Campus Putra</p>
-                        <p>(Ust. Maftukhan) : 0882-3269-7837</p>
-                        <p>Campus Putra</p>
-                        <p>(Ust. Rendi Satya) : 0822-8294-5212</p>
-                    </div>
-                    <div>
-                        <h3>Icon Putri</h3>
-                        <p>Campus Putri</p>
-                        <p>(Ustzh. Elsa) : 0816-3216-5812</p>
-                        <p>Campus Putri</p>
-                        <p>(Ustzh. Mufidah) : 0812-7836-4174</p>
-                    </div>
-                </div>
-                <div class="modal-footer"><button id="closeModalBtn">Close</button></div>
-            </div>
-        </div>
+          <div class="cntContactModal">
+              <span class="close-x-Contact">&times;</span>
+              <div class="modal-header">
+                  <h2>Informasi Kontak</h2>
+                  <p>Untuk Pertanyaan terkait info PSB, Sistem Pendidikan, Peraturan Asrama, maupun hal lainnya terkait pesantren, Bapak/Ibu bisa menghubungi nomor WhatsApp dibawah ini.</p>
+              </div>
+              <div class="modal-body">
+                  <div>
+                      <h3>Icon Putra</h3>
+                      <p>Campus Putra</p>
+                      <p>(Ust. Maftukhan) : 0882-3269-7837</p>
+                      <p>Campus Putra</p>
+                      <p>(Ust. Rendi Satya) : 0822-8294-5212</p>
+                  </div>
+                  <div>
+                      <h3>Icon Putri</h3>
+                      <p>Campus Putri</p>
+                      <p>(Ustzh. Elsa) : 0816-3216-5812</p>
+                      <p>Campus Putri</p>
+                      <p>(Ustzh. Mufidah) : 0812-7836-4174</p>
+                  </div>
+              </div>
+              <div class="modal-footer"><button id="tutupButtonContact">Close</button></div>
+          </div>
+      </div>
 
         <div id="biayaModal" class="modalBiaya">
           <div class="modal-content-Biaya">
@@ -332,6 +333,27 @@
                     t.target === modal && (modalSyarat  .style.display = "none");
                 });
         </script>
+
+<script>
+  var modalContact = document.getElementById("idContactModal"),
+      modalLinkContact = document.getElementById("ContactLink"),
+      closeBtnContact = document.getElementsByClassName("close-x-Contact")[0],
+      tutupBtnContact = document.getElementById("tutupButtonContact");
+  (modalLinkContact.onclick = function (t) {
+      t.preventDefault(), (modalContact.style.display = "block");
+  }),
+      (closeBtnContact.onclick = function () {
+        modalContact.style.display = "none";
+      }),
+      (tutupBtnContact.onclick = function () {
+        modalContact.style.display = "none";
+      }),
+      (window.onclick = function (t) {
+          t.target === modal && (modalContact  .style.display = "none");
+      });
+</script>
+
+
         <script>
             // Fungsi untuk mendeteksi apakah perangkat mobile
             function isMobile() {
