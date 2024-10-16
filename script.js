@@ -142,3 +142,60 @@ window.onclick = function (event) {
         document.getElementById("modal").style.display = "none";
     }
 };
+
+document.addEventListener("DOMContentLoaded", function () {
+    const htmlFile = "update.html"; 
+    const iframe = document.getElementById("dynamic-iframe");
+    const loadingContainer = document.getElementById("loading-container");
+    const loadingText = document.getElementById("loading-text");
+    const progressBar = document.getElementById("progress-bar");
+    const iframeContainer = document.getElementById("iframe-container");
+    const sections = [
+        "Memuat Header...",
+        "Memuat Muqoddimah...",
+        "Memuat Target Lulusan...",
+        "Memuat Daftar Eskul...",
+        "Memuat Tanggal Pendaftaran...",
+        "Memuat Materi Test Pendaftaran...",
+        "Memuat Materi Test Wawancara...",
+        "Memuat Syarat Pendaftaran...",
+        "Memuat Aktivitas Santri dan hari Libur...",
+        "Memuat Hal-hal yang harus dipersiapkan..."
+    ];
+    
+    let progress = 0;
+    let sectionIndex = 0;
+    
+    if (isMobile()) {
+        loadingContainer.style.display = "block"; // Tampilkan spinner
+        iframe.src = htmlFile;
+        iframeContainer.style.display = "block";
+        
+        // Simulasi pembagian progress dalam 10 bagian
+        let interval = setInterval(function () {
+            progress += 10;
+            progressBar.style.width = progress + "%";
+            progressBar.innerText = progress + "%";
+            
+            // Ubah teks loading berdasarkan bagian
+            if (sectionIndex < sections.length) {
+                loadingText.innerText = sections[sectionIndex];
+                sectionIndex++;
+            }
+
+            // Selesai loading
+            if (progress >= 100) {
+                clearInterval(interval);
+                loadingContainer.style.display = "none"; // Sembunyikan spinner
+            }
+        }, 1000); // Setiap 1 detik (sesuaikan durasi dengan waktu unduh iframe)
+        
+        // Ketika iframe selesai dimuat
+        iframe.onload = function () {
+            clearInterval(interval);
+            loadingContainer.style.display = "none"; // Sembunyikan spinner
+        };
+    } else {
+        document.getElementById("modal").style.display = "block";
+    }
+});

@@ -235,3 +235,18 @@ margin-left: 10px;
 .daftar-btn {
     margin: 0 auto;
 }
+.progress {
+    width: 100%;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.progress-bar {
+    width: 0%;
+    height: 20px;
+    background-color: #007bff;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    line-height: 20px;
+}
