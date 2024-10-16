@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Pendaftaran Online PontrenMU Al-Furqon T.P 2025</title>
@@ -189,7 +189,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="#">
+              <a href="#" id="openModalBtn">
                 <span class="glyphicon glyphicon-earphone"></span> Hubungi Kami </a>
             </li>
             <li>
@@ -241,6 +241,62 @@
         <button class="close-btn" id="tutupButton">Tutup</button>
       </div>
     </div>
+
+    <div id="idContactModal" class="clContactModal">
+
+      <!-- Konten Modal -->
+      <div class="cntContactModal">
+        <div class="modal-header">
+          <h2>Informasi Kontak</h2>
+          <p>Untuk Pertanyaan terkait info PSB, Sistem Pendidikan, Peraturan Asrama, maupun hal lainnya terkait pesantren, Bapak/Ibu bisa menghubungi nomor WhatsApp dibawah ini.</p>
+        </div>
+        
+        <div class="modal-body">
+          <div>
+            <h3>Icon Putra</h3>
+            <p>Campus Putra</p>
+            <p>(Ust. Maftukhan) : 0882-3269-7837</p>
+            <p>Campus Putra</p>
+            <p>(Ust. Rendi Satya) : 0822-8294-5212</p>
+          </div>
+          <div>
+            <h3>Icon Putri</h3>
+            <p>Campus Putri</p>
+            <p>(Ustzh. Elsa) : 0816-3216-5812</p>
+            <p>Campus Putri</p>
+            <p>(Ustzh. Mufidah) : 0812-7836-4174</p>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button id="closeModalBtn">Close</button>
+        </div>
+      </div>
+    
+    </div>
+
+    <script>
+      // Buka modal
+      var modal = document.getElementById("idContactModal");
+      var btn = document.getElementById("openModalBtn");
+      var closeBtn = document.getElementById("closeModalBtn");
+    
+      btn.onclick = function() {
+        modal.style.display = "block";
+      }
+    
+      // Tutup modal
+      closeBtn.onclick = function() {
+        modal.style.display = "none";
+      }
+    
+      // Klik di luar modal untuk menutup
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+    </script>
 
     <script>
   document.getElementById('downloadLink').onclick = function(event) {
