@@ -277,56 +277,33 @@
             </div>
         </div>
 
-        <!-- Modal untuk Biaya Awal Masuk -->
         <div id="biayaModal" class="modalBiaya">
           <div class="modal-content-Biaya">
               <span class="close-x-Biaya">&times;</span>
               <h2>Biaya Awal Masuk</h2>
-              <div id="biayaContent"></div> <!-- Tempat untuk menampilkan konten dari update.html -->
+              <div id="biayaContent"></div> 
           </div>
       </div>
 
-      <script>
-        // Mengambil elemen yang diperlukan
-        var biayaModal = document.getElementById("biayaModal");
-        var biayaMasukLink = document.getElementById("biayaMasukLink");
-        var closeBiayaModal = document.getElementsByClassName("close-x-Biaya")[0];
-        var biayaContent = document.getElementById("biayaContent");
+     
+<script>
+  var biayaModal = document.getElementById("biayaModal");
+  var biayaMasukLink = document.getElementById("biayaMasukLink");
+  var closeBiayaModal = document.getElementsByClassName("close-x-Biaya")[0];
+  var biayaContent = document.getElementById("biayaContent");
+  biayaMasukLink.onclick = function (e) {
+      e.preventDefault(); 
+      biayaModal.style.display = "block";
+      $.get("update.html", function (data) {var tempDiv = document.createElement('div');
+          tempDiv.innerHTML = data;
+          var tableContent = tempDiv.querySelector('table');
+          if (tableContent) {biayaContent.innerHTML = tableContent.outerHTML;
+          } else {biayaContent.innerHTML = "<p>Tabel tidak ditemukan.</p>";}});};
+  closeBiayaModal.onclick = function () {biayaModal.style.display = "none";};
+  window.onclick = function (event) {if (event.target === biayaModal) {biayaModal.style.display = "none";}};
+</script>
 
-        // Fungsi untuk membuka modal dan memuat konten dari file update.html
-        biayaMasukLink.onclick = function (e) {
-            e.preventDefault(); // Mencegah default action
-            // Menampilkan modal
-            biayaModal.style.display = "block";
-            
-            // Memuat konten dari update.html dan menampilkan elemen dengan class DF_utQ _0xkaeQ
-            $.get("update.html", function (data) {
-                // Mencari elemen dengan class "DF_utQ _0xkaeQ"
-                var tempDiv = document.createElement('div');
-                tempDiv.innerHTML = data;
-                var selectedContent = tempDiv.querySelector('.csGvXg _DyBwg');
-                
-                if (selectedContent) {
-                    // Menampilkan konten ke dalam modal
-                    biayaContent.innerHTML = selectedContent.innerHTML;
-                } else {
-                    biayaContent.innerHTML = "<p>Konten tidak ditemukan.</p>";
-                }
-            });
-        };
 
-        // Menutup modal ketika tombol "close" diklik
-        closeBiayaModal.onclick = function () {
-            biayaModal.style.display = "none";
-        };
-
-        // Menutup modal jika pengguna mengklik di luar modal
-        window.onclick = function (event) {
-            if (event.target === biayaModal) {
-                biayaModal.style.display = "none";
-            }
-        };
-    </script>
         <script>
             document.getElementById("downloadLink").onclick = function (o) {
                 o.preventDefault(),
