@@ -64,6 +64,25 @@
                 border: 1px solid #ccc;
                 padding: 10px;
             }
+            .modal-Biaya {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+            .modal-content-Biaya {
+                background-color: #fff;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+                max-width: 500px;
+                border-radius: 8px;
+            }
             .modal {
                 display: none;
                 position: fixed;
@@ -182,7 +201,7 @@
                             </ul>
                         </li>
                         <li><a href="#" id="syaratLink">Syarat Pendaftaran</a></li>
-                        <li><a href="#">Biaya Awal Masuk</a></li>
+                        <li><a href="#" id="biayaMasukLink">Biaya Awal Masuk</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
@@ -255,20 +274,57 @@
                 <div class="modal-footer"><button id="closeModalBtn">Close</button></div>
             </div>
         </div>
-        <script>
-            var modal = document.getElementById("idContactModal"),
-                btn = document.getElementById("openModalBtn"),
-                closeBtn = document.getElementById("closeModalBtn");
-            (btn.onclick = function () {
-                modal.style.display = "block";
-            }),
-                (closeBtn.onclick = function () {
-                    modal.style.display = "none";
-                }),
-                (window.onclick = function (n) {
-                    n.target == modal && (modal.style.display = "none");
-                });
-        </script>
+
+        <!-- Modal untuk Biaya Awal Masuk -->
+        <div id="biayaModal" class="modalBiaya">
+          <div class="modal-content-Biaya">
+              <span class="close-x-Biaya">&times;</span>
+              <h2>Biaya Awal Masuk</h2>
+              <div id="biayaContent"></div> <!-- Tempat untuk menampilkan konten dari update.html -->
+          </div>
+      </div>
+
+      <script>
+        // Mengambil elemen yang diperlukan
+        var biayaModal = document.getElementById("biayaModal");
+        var biayaMasukLink = document.getElementById("biayaMasukLink");
+        var closeBiayaModal = document.getElementsByClassName("close-x-Biaya")[0];
+        var biayaContent = document.getElementById("biayaContent");
+
+        // Fungsi untuk membuka modal dan memuat konten dari file update.html
+        biayaMasukLink.onclick = function (e) {
+            e.preventDefault(); // Mencegah default action
+            // Menampilkan modal
+            biayaModal.style.display = "block";
+            
+            // Memuat konten dari update.html dan menampilkan elemen dengan class DF_utQ _0xkaeQ
+            $.get("update.html", function (data) {
+                // Mencari elemen dengan class "DF_utQ _0xkaeQ"
+                var tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                var selectedContent = tempDiv.querySelector('.DF_utQ._0xkaeQ');
+                
+                if (selectedContent) {
+                    // Menampilkan konten ke dalam modal
+                    biayaContent.innerHTML = selectedContent.innerHTML;
+                } else {
+                    biayaContent.innerHTML = "<p>Konten tidak ditemukan.</p>";
+                }
+            });
+        };
+
+        // Menutup modal ketika tombol "close" diklik
+        closeBiayaModal.onclick = function () {
+            biayaModal.style.display = "none";
+        };
+
+        // Menutup modal jika pengguna mengklik di luar modal
+        window.onclick = function (event) {
+            if (event.target === biayaModal) {
+                biayaModal.style.display = "none";
+            }
+        };
+    </script>
         <script>
             document.getElementById("downloadLink").onclick = function (o) {
                 o.preventDefault(),
