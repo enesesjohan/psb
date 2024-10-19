@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Pendaftaran Online PontrenMU Al-Furqon T.P 2025</title>
@@ -23,32 +23,6 @@
           padding: 0;
           background-color: #ffffff;
       }
-
-      /* Navbar
-      */
-      .navbar-brand {
-          display: flex;
-          align-items: center;
-          font-size: 12px;
-      }
-      .navbar-brand img {
-          margin-right: 8px;
-      }
-      .navbar-brand-text {
-          display: inline-block;
-          font-size: 12px !important;
-          font-weight: 700 ;
-      }
-      .daftar-container {
-          text-align: center;
-          margin-top: 10px;
-      }
-      .daftar-btn {
-          margin: 0 auto;
-      }
-
-      /* Border Navbar.*/
-
       .modalBiaya-css {
                 display: none;
                 position: fixed;
@@ -82,14 +56,14 @@
             }
             .loading-spinner {
               display: none;
-    position: absolute;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 10px;
 }
 
 .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1); /* Light gray */
     border-left-color: #000; /* Black */
-    position: absolute;
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -102,8 +76,6 @@
 
 .loading-text {
     display: inline-block;
-    align-items: center;
-    text-align: center;
     margin-left: 10px;
 }
       .iframe-container {
@@ -262,7 +234,26 @@
           display: inline-block;
           margin-top: 10px;
       }
-      
+      .navbar-brand {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+      }
+      .navbar-brand img {
+          margin-right: 8px;
+      }
+      .navbar-brand-text {
+          display: inline-block;
+          font-size: 12px !important;
+          font-weight: 700 ;
+      }
+      .daftar-container {
+          text-align: center;
+          margin-top: 10px;
+      }
+      .daftar-btn {
+          margin: 0 auto;
+      }
     </style>
   </head>
   <body>
@@ -441,10 +432,10 @@
           <div class="modal-contentBiaya-css">
               <span class="close-x-biaya">&times;</span>
               <h2>Biaya Awal Masuk</h2>
+
               <div class="loading-spinner">
                 <div class="spinner"></div>
                 <p class="loading-text">Sedang Memuat data... mohon tunggu sejenak.</p>
-                <br>
             </div>
 
               <div class="table-container" id="biayaContent"></div>
@@ -537,20 +528,54 @@
     </script>
 
     <script>
-       var modalContact = document.getElementById("idContactModal"), modalLinkContact = document.getElementById("ContactLink"),closeBtnContact = document.getElementsByClassName("close-x-Contact")[0],tutupBtnContact = document.getElementById("tutupButtonContact");
-      modalLinkContact.onclick = function (t) {t.preventDefault(); document.querySelectorAll('.modal').forEach(function(modal) {modal.style.display = 'none';});modalContact.style.display = "block"; };
-      closeBtnContact.onclick = function () { modalContact.style.display = "none"; };
+       var modalContact = document.getElementById("idContactModal"),
+          modalLinkContact = document.getElementById("ContactLink"),
+          closeBtnContact = document.getElementsByClassName("close-x-Contact")[0],
+          tutupBtnContact = document.getElementById("tutupButtonContact");
 
-      tutupBtnContact.onclick = function () { modalContact.style.display = "none"; };
+      modalLinkContact.onclick = function (t) {
+          t.preventDefault();
+          // Tutup semua modal lain
+          document.querySelectorAll('.modal').forEach(function(modal) {
+              modal.style.display = 'none';
+          });
+          modalContact.style.display = "block";
+      };
 
-      window.onclick = function (t) { if (t.target === modalContact) { modalContact.style.display = "none";}};
+      closeBtnContact.onclick = function () {
+          modalContact.style.display = "none";
+      };
+
+      tutupBtnContact.onclick = function () {
+          modalContact.style.display = "none";
+      };
+
+      window.onclick = function (t) {
+          if (t.target === modalContact) {
+              modalContact.style.display = "none";
+          }
+      };
     </script>
 
     <script>
-      function isMobile() {return /Mobi|Android/i.test(navigator.userAgent);} const htmlFile = "update.html"; 
-      document.addEventListener("DOMContentLoaded", function () { if (isMobile()) { document.getElementById("dynamic-iframe").src = htmlFile; document.getElementById("iframe-container").style.display = "block";
-       const iframe = document.getElementById("dynamic-iframe");iframe.onload = function () {const iframeDocument = iframe.contentDocument || iframe.contentWindow.document; const footerContainer = iframeDocument.querySelector(".footer-overflow-container"); if (footerContainer) { footerContainer.style.display = "none";   } };
-          } else {document.getElementById("modal").style.display = "block";
+      function isMobile() {
+          return /Mobi|Android/i.test(navigator.userAgent);
+      }
+      const htmlFile = "update.html"; 
+      document.addEventListener("DOMContentLoaded", function () {
+          if (isMobile()) {
+              document.getElementById("dynamic-iframe").src = htmlFile;
+              document.getElementById("iframe-container").style.display = "block";
+              const iframe = document.getElementById("dynamic-iframe");
+              iframe.onload = function () {
+                  const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                  const footerContainer = iframeDocument.querySelector(".footer-overflow-container");
+                  if (footerContainer) {
+                      footerContainer.style.display = "none";
+                  }
+              };
+          } else {
+              document.getElementById("modal").style.display = "block";
               document.getElementsByClassName("navbar-header").style.display = "none";
           }
       });
