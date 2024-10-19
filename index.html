@@ -54,14 +54,14 @@
                 background-color: green;
                 color: white;
             }
-            .loading-spinner {
+            .clsModalBiaya_LoadingSpinner {
               display: none;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.spinner {
+.clsModalBiaya_SpinnerCircle {
     border: 4px solid rgba(0, 0, 0, 0.1); /* Light gray */
     border-left-color: #000; /* Black */
     border-radius: 50%;
@@ -74,7 +74,7 @@
     to { transform: rotate(360deg); }
 }
 
-.loading-text {
+.clsModalBiaya_LoadingText {
     display: inline-block;
     margin-left: 10px;
 }
@@ -200,7 +200,7 @@
           font-size: 28px;
           font-weight: 700;
       }
-      .close-x-syarat {
+      .closeX_syaratModal {
           color: #aaa;
           float: right;
           font-size: 28px;
@@ -301,7 +301,7 @@
                 <li><a href="#">Pondok/Asrama Putri</a></li>
               </ul>
             </li>
-            <li><a href="#" id="syaratLink">Syarat Pendaftaran</a></li>
+            <li><a href="#" id="btn_syaratLink">Syarat Pendaftaran</a></li>
             <li><a href="#" id="biayaMasukLink">Biaya Awal Masuk</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -353,9 +353,9 @@
         </p>
       </div>
     </div>
-    <div id="syaratModal" class="modal">
+    <div id="id_syaratModal" class="modal">
       <div class="modal-content">
-        <span class="close-x-syarat">&times;</span>
+        <span class="closeX_syaratModal">&times;</span>
         <h4>Syarat Pendaftaran</h4>
         <p>
           Mohon siapkan dokumen persyaratan registrasi di bawah ini.
@@ -433,9 +433,9 @@
               <span class="close-x-biaya">&times;</span>
               <h2>Biaya Awal Masuk</h2>
 
-              <div class="loading-spinner">
-                <div class="spinner"></div>
-                <p class="loading-text">Sedang Memuat data... mohon tunggu sejenak.</p>
+              <div class="clsModalBiaya_LoadingSpinner">
+                <div class="clsModalBiaya_SpinnerCircle"></div>
+                <p class="clsModalBiaya_LoadingText">Sedang Memuat data... mohon tunggu sejenak.</p>
             </div>
 
               <div class="table-container" id="biayaContent"></div>
@@ -447,13 +447,13 @@
       var biayaMasukLink = document.getElementById("biayaMasukLink");
       var closeBiayaModal = document.getElementsByClassName("close-x-biaya")[0];
       var biayaContent = document.getElementById("biayaContent");
-      var spinner = document.querySelector(".loading-spinner");
+      var spinner = document.querySelector(".clsModalBiaya_LoadingSpinner");
 
       biayaMasukLink.onclick = function (e) {
           e.preventDefault(); 
           biayaModal.style.display = "block";
 
-          spinner.style.display = "block";
+          clsModalBiaya_SpinnerCircle.style.display = "block";
 
           biayaContent.innerHTML = '';
 
@@ -509,9 +509,9 @@
     </script>
 
     <script>
-      var modalSyarat = document.getElementById("syaratModal"),
-          modalLink = document.getElementById("syaratLink"),
-          closeBtn = document.getElementsByClassName("close-x-syarat")[0],
+      var modalSyarat = document.getElementById("id_syaratModal"),
+          modalLink = document.getElementById("btn_syaratLink"),
+          closeBtn = document.getElementsByClassName("closeX_syaratModal")[0],
           tutupBtn = document.getElementById("tutupButton");
       (modalLink.onclick = function (t) {
           t.preventDefault(), (modalSyarat.style.display = "block");
