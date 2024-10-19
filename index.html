@@ -64,6 +64,8 @@
 .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1); /* Light gray */
     border-left-color: #000; /* Black */
+    align-items: center;
+    text-align: center;
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -528,54 +530,20 @@
     </script>
 
     <script>
-       var modalContact = document.getElementById("idContactModal"),
-          modalLinkContact = document.getElementById("ContactLink"),
-          closeBtnContact = document.getElementsByClassName("close-x-Contact")[0],
-          tutupBtnContact = document.getElementById("tutupButtonContact");
+       var modalContact = document.getElementById("idContactModal"), modalLinkContact = document.getElementById("ContactLink"),closeBtnContact = document.getElementsByClassName("close-x-Contact")[0],tutupBtnContact = document.getElementById("tutupButtonContact");
+      modalLinkContact.onclick = function (t) {t.preventDefault(); document.querySelectorAll('.modal').forEach(function(modal) {modal.style.display = 'none';});modalContact.style.display = "block"; };
+      closeBtnContact.onclick = function () { modalContact.style.display = "none"; };
 
-      modalLinkContact.onclick = function (t) {
-          t.preventDefault();
-          // Tutup semua modal lain
-          document.querySelectorAll('.modal').forEach(function(modal) {
-              modal.style.display = 'none';
-          });
-          modalContact.style.display = "block";
-      };
+      tutupBtnContact.onclick = function () { modalContact.style.display = "none"; };
 
-      closeBtnContact.onclick = function () {
-          modalContact.style.display = "none";
-      };
-
-      tutupBtnContact.onclick = function () {
-          modalContact.style.display = "none";
-      };
-
-      window.onclick = function (t) {
-          if (t.target === modalContact) {
-              modalContact.style.display = "none";
-          }
-      };
+      window.onclick = function (t) { if (t.target === modalContact) { modalContact.style.display = "none";}};
     </script>
 
     <script>
-      function isMobile() {
-          return /Mobi|Android/i.test(navigator.userAgent);
-      }
-      const htmlFile = "update.html"; 
-      document.addEventListener("DOMContentLoaded", function () {
-          if (isMobile()) {
-              document.getElementById("dynamic-iframe").src = htmlFile;
-              document.getElementById("iframe-container").style.display = "block";
-              const iframe = document.getElementById("dynamic-iframe");
-              iframe.onload = function () {
-                  const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                  const footerContainer = iframeDocument.querySelector(".footer-overflow-container");
-                  if (footerContainer) {
-                      footerContainer.style.display = "none";
-                  }
-              };
-          } else {
-              document.getElementById("modal").style.display = "block";
+      function isMobile() {return /Mobi|Android/i.test(navigator.userAgent);} const htmlFile = "update.html"; 
+      document.addEventListener("DOMContentLoaded", function () { if (isMobile()) { document.getElementById("dynamic-iframe").src = htmlFile; document.getElementById("iframe-container").style.display = "block";
+       const iframe = document.getElementById("dynamic-iframe");iframe.onload = function () {const iframeDocument = iframe.contentDocument || iframe.contentWindow.document; const footerContainer = iframeDocument.querySelector(".footer-overflow-container"); if (footerContainer) { footerContainer.style.display = "none";   } };
+          } else {document.getElementById("modal").style.display = "block";
               document.getElementsByClassName("navbar-header").style.display = "none";
           }
       });
