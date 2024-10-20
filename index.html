@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-    
+
 
       <div class=iframe-container id=iframe-container><iframe id=dynamic-iframe src="" title="Penerimaan Santri Baru"></iframe></div>
       <div class=modal id=modal>
@@ -104,13 +104,13 @@
  <script src="fx.js">
  </script>
  <script>
-    const htmlFile = "update.html"; 
+    const htmlSourceFile = "update.html"; 
         const progressBar = document.getElementById("progress-bar");
         const progressText = document.getElementById("progress-text");
         const progressContainer = document.getElementById("progress-container");
 
         document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("dynamic-iframe").src = htmlFile;
+            document.getElementById("dynamic-iframe").src = htmlSourceFile;
             progressContainer.style.display = "block"; // Show the progress bar
 
             let timeout; // Variable to handle timeout
