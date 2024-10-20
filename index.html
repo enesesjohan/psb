@@ -122,42 +122,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
         iframe.onload = function () {
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            const targetLoadedImages = 34; // Number of images to reach 100% progress
-            let loadedImages = 0; // Counter for loaded images
-            
-            // Monitor any newly loaded images after iframe loads
-            const observer = new MutationObserver((mutationsList) => {
-                mutationsList.forEach((mutation) => {
-                    if (mutation.addedNodes.length > 0) {
-                        mutation.addedNodes.forEach((node) => {
-                            if (node.tagName === 'IMG' && (node.src.includes('data:image/png;base64') || node.src.includes('data:image/jpeg;base64'))) {
-                                node.addEventListener('load', () => {
-                                    loadedImages++;
-                                    
-                                    // Update progress
-                                    const progress = Math.min((loadedImages / targetLoadedImages) * 100, 100);
-                                    progressBar.style.width = progress + "%";
-                                    progressBar.innerText = Math.round(progress) + "%";
-                                    progressText.innerText = "Progress " + Math.round(progress) + "%";
+            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]'); // Select existing images
+            const totalImages = 34; // Target number of images for 100% progress
+            let loadedImages = 0;
 
-                                    // If 100%, hide the progress bar
-                                    if (loadedImages >= targetLoadedImages) {
-                                        setTimeout(() => {
-                                            progressContainer.style.display = "none";
-                                        }, 1000); // Optional delay before hiding
-                                    }
-                                });
+            // Function to update progress bar
+            function updateProgress() {
+                const progress = Math.min((loadedImages / totalImages) * 100, 100);
+                progressBar.style.width = progress + "%";
+                progressBar.innerText = Math.round(progress) + "%";
+                progressText.innerText = "Progress " + Math.round(progress) + "%";
+                
+                if (loadedImages >= totalImages) {
+                    setTimeout(() => {
+                        progressContainer.style.display = "none";
+                    }, 1000); // Optional delay before hiding
+                }
+            }
+
+            // Initial count of already present images
+            loadedImages += images.length;
+            updateProgress();
+
+            // Create a MutationObserver to track new image additions
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach(mutation => {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(node => {
+                            if (node.tagName === 'IMG' && (node.src.startsWith('data:image/png;base64') || node.src.startsWith('data:image/jpeg;base64'))) {
+                                loadedImages++;
+                                updateProgress(); // Update the progress bar
                             }
                         });
                     }
                 });
             });
 
-            // Start observing for new image elements being added to the iframe's document
-            observer.observe(iframeDocument.body, {
-                childList: true,
-                subtree: true
-            });
+            // Start observing the body of the iframe document for child nodes
+            observer.observe(iframeDocument.body, { childList: true, subtree: true });
         };
     } else {
         document.getElementById("modal").style.display = "block";
