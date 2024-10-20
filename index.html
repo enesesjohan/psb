@@ -115,17 +115,17 @@
           border: 1px solid #888;
           width: 80%;
       }
-      .modal-footer,
-      .modal-header {
+      .clModalFooter-Biaya,
+      .clModalHeader-Contact {
           padding: 10px;
           text-align: center;
       }
-      .modal-body {
+      .modalBody-Contact {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 20px;
       }
-      .modal-body div {
+      .modalBody-Contact div {
           border: 1px solid #ccc;
           padding: 10px;
       }
@@ -148,7 +148,7 @@
           max-width: 500px;
           border-radius: 8px;
       }
-      .modal {
+      .clsModal-Mobile {
           display: none;
           position: fixed;
           z-index: 1000;
@@ -168,7 +168,7 @@
           height: 100%;
           background-color: rgba(0, 0, 0, 0.5);
       }
-      .modal-content {
+      .clsModalCnt-Mobile {
           background-color: #fff;
           margin: auto;
           max-height: 80vh;
@@ -188,7 +188,7 @@
           max-width: 500px;
           border-radius: 8px;
       }
-      .close {
+      .close-x-mobile {
           color: #aaa;
           float: right;
           font-size: 28px;
@@ -225,7 +225,7 @@
       .close-btn:hover {
           background-color: #d32f2f;
       }
-      .btn-download {
+      .btndownload-Mobile {
           background-color: #007acc;
           color: #fff;
           padding: 10px 15px;
@@ -328,9 +328,9 @@
         title="Penerimaan Santri Baru"
       ></iframe>
     </div>
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
+    <div id="idmodal-Mobile" class="clsModal-Mobile">
+      <div class="clsModalCnt-Mobile">
+        <span class="close-x-Mobile">&times;</span>
         <h2>Himbauan</h2>
         <p>
           Silakan buka website ini menggunakan perangkat mobile untuk melihat
@@ -338,7 +338,7 @@
         </p>
         <a
           href="https://psb.alfurqon.or.id/brosur.jpg"
-          class="btn-download"
+          class="btndownload-Mobile"
           target="_blank"
           rel="noopener"
           >Download Brosur</a
@@ -399,7 +399,7 @@
     <div id="idContactModal" class="clContactModal">
       <div class="cntContactModal">
         <span class="close-x-Contact">&times;</span>
-        <div class="modal-header">
+        <div class="clModalHeader-Contact">
           <h2>Informasi Kontak</h2>
           <p>
             Untuk Pertanyaan terkait info PSB, Sistem Pendidikan, Peraturan
@@ -407,7 +407,7 @@
             menghubungi nomor WhatsApp dibawah ini.
           </p>
         </div>
-        <div class="modal-body">
+        <div class="modalBody-Contact">
           <div>
             <h3>Icon Putra</h3>
             <p>Campus Putra</p>
@@ -423,7 +423,7 @@
             <p>(Ustzh. Mufidah) : 0812-7836-4174</p>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="clModalFooter-Biaya">
           <button id="tutupButtonContact">Close</button>
         </div>
       </div>
@@ -575,16 +575,16 @@
                   }
               };
           } else {
-              document.getElementById("modal").style.display = "block";
+              document.getElementById("idmodal-Mobile").style.display = "block";
               document.getElementsByClassName("navbar-header").style.display = "none";
           }
       });
       document.querySelector(".close").onclick = function () {
-          document.getElementById("modal").style.display = "none";
+          document.getElementById("idmodal-Mobile").style.display = "none";
       };
       window.onclick = function (event) {
-          if (event.target === document.getElementById("modal")) {
-              document.getElementById("modal").style.display = "none";
+          if (event.target === document.getElementById("idmodal-Mobile")) {
+              document.getElementById("idmodal-Mobile").style.display = "none";
           }
       };
     </script>
