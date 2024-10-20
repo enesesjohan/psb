@@ -106,70 +106,64 @@
  <script src="fx.js">
  </script>
  <script>
-const sourceHTML = "update.html";
+const sourceHTML = "update.html"; 
 document.addEventListener("DOMContentLoaded", function () {
     if (isMobile()) {
+        document.getElementById("dynamic-iframe").src = sourceHTML;
+        document.getElementById("iframe-container").style.display = "block";
+        
         const iframe = document.getElementById("dynamic-iframe");
         const progressContainer = document.getElementById("progress-container");
         const progressBar = document.getElementById("progress-bar");
         const progressText = document.getElementById("progress-text");
 
-        // Total gambar yang diharapkan
-        const totalImages = 34; 
-        let loadedImages = 0;
-
-        // Tampilkan progress bar
+        // Show progress bar
         progressContainer.style.display = "block";
 
-        // Fungsi untuk memperbarui progress bar
-        function updateProgress() {
-            const progress = Math.min((loadedImages / totalImages) * 100, 100);
-            progressBar.style.width = progress + "%";
-            progressBar.innerText = Math.round(progress) + "%";
-            progressText.innerText = "Progress " + Math.round(progress) + "%";
+        iframe.onload = function () {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            const targetLoadedImages = 34; // Number of images to reach 100% progress
+            let loadedImages = 0; // Counter for loaded images
+            
+            // Monitor any newly loaded images after iframe loads
+            const observer = new MutationObserver((mutationsList) => {
+                mutationsList.forEach((mutation) => {
+                    if (mutation.addedNodes.length > 0) {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node.tagName === 'IMG' && (node.src.includes('data:image/png;base64') || node.src.includes('data:image/jpeg;base64'))) {
+                                node.addEventListener('load', () => {
+                                    loadedImages++;
+                                    
+                                    // Update progress
+                                    const progress = Math.min((loadedImages / targetLoadedImages) * 100, 100);
+                                    progressBar.style.width = progress + "%";
+                                    progressBar.innerText = Math.round(progress) + "%";
+                                    progressText.innerText = "Progress " + Math.round(progress) + "%";
 
-            console.log(`Progress: ${progress}% - Loaded images: ${loadedImages} of ${totalImages}`);
-
-            // Jika sudah mencapai 100%, sembunyikan progress bar
-            if (loadedImages >= totalImages) {
-                console.log("Progress complete! Hiding progress bar...");
-                setTimeout(() => {
-                    progressContainer.style.display = "none";
-                }, 1000); 
-            }
-        }
-
-        // Memantau fetch untuk gambar base64
-        const observer = new PerformanceObserver((list) => {
-            const entries = list.getEntries();
-            entries.forEach((entry) => {
-                // Log setiap resource yang dimuat
-                console.log("Resource loaded:", entry.name, "Type:", entry.initiatorType);
-
-                if (entry.initiatorType === 'img' && (entry.name.startsWith('data:image/png;base64') || entry.name.startsWith('data:image/jpeg;base64'))) {
-                    loadedImages++;
-                    console.log(`Base64 image detected: ${entry.name}`);
-                    updateProgress();
-                }
+                                    // If 100%, hide the progress bar
+                                    if (loadedImages >= targetLoadedImages) {
+                                        setTimeout(() => {
+                                            progressContainer.style.display = "none";
+                                        }, 1000); // Optional delay before hiding
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             });
-        });
 
-        // Mulai mengamati resource load event
-        observer.observe({ entryTypes: ["resource"] });
-
-        // Set iframe source dan pantau ketika mulai load
-        iframe.src = sourceHTML;
-
-        iframe.addEventListener("load", function () {
-            console.log("Iframe loaded: ", iframe.src);
-        });
-
+            // Start observing for new image elements being added to the iframe's document
+            observer.observe(iframeDocument.body, {
+                childList: true,
+                subtree: true
+            });
+        };
     } else {
         document.getElementById("modal").style.display = "block";
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
-
 
  </script>
 </body>
