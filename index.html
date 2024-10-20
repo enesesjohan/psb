@@ -104,63 +104,65 @@
  <script src="fx.js">
  </script>
  <script>
-    const htmlSourceFile = "update.html"; 
-        const progressBar = document.getElementById("progress-bar");
-        const progressText = document.getElementById("progress-text");
-        const progressContainer = document.getElementById("progress-container");
+  const htmlSourceFile = "update.html"; 
+const progressBar = document.getElementById("progress-bar");
+const progressText = document.getElementById("progress-text");
+const progressContainer = document.getElementById("progress-container");
 
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("dynamic-iframe").src = htmlSourceFile;
-            progressContainer.style.display = "block"; // Show the progress bar
+let pTimeout; // Deklarasikan pTimeout di sini
 
-            let pTimeout; // Variable to handle timeout
-            const checkInterval = setInterval(() => {
-                const iframe = document.getElementById("dynamic-iframe");
-                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("dynamic-iframe").src = htmlSourceFile;
+    progressContainer.style.display = "block"; // Tampilkan progress bar
 
-                // Check if the iframe has loaded its content
-                if (iframeDocument.readyState === 'complete') {
-                    clearInterval(checkInterval); // Stop checking if loaded
+    const checkInterval = setInterval(() => {
+        const iframe = document.getElementById("dynamic-iframe");
+        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-                    // Check for specific text in the iframe
-                    checkText(iframeDocument);
-                }
-            }, 500); // Check every 500ms
+        // Periksa apakah iframe telah memuat kontennya
+        if (iframeDocument.readyState === 'complete') {
+            clearInterval(checkInterval); // Berhenti memeriksa jika sudah dimuat
 
-            // Set a timeout for slow connections
-            pTimeout = setTimeout(() => {
-                clearInterval(checkInterval); // Stop checking
-                progressText.textContent = "Jaringan Internet Lambat, mohon refresh ulang";
-            }, 5000); // 5 seconds timeout
-        });
-
-        function checkText(iframeDocument) {
-            let progress = 0;
-            const textPoints = [
-                { text: "TP. 2025/2026", message: "Memuat Muqoddimah...", percent: 10 },
-                { text: "a. Muqoddimah", message: "Memuat Target Lulusan...", percent: 20 },
-                { text: "b. Target Lulusan", message: "Memuat Daftar Eskul...", percent: 30 },
-                { text: "Extracurricular", message: "Memuat Tenaga Pendidik...", percent: 40 },
-                { text: "c. Tenaga Pendidik dan Kependidikan", message: "Memuat Informasi Pendaftaran...", percent: 45 },
-                { text: "d. Informasi Pendaftaran", message: "Memuat Materi Test Tulis...", percent: 50 },
-                { text: "e. Materi Test Tulis", message: "Memuat Materi Test Wawancara...", percent: 60 },
-                { text: "f. Materi Test Wawancara", message: "Memuat Syarat Pendaftaran...", percent: 70 },
-                { text: "g. Syarat Pendaftaran", message: "Memuat alur pendaftaran...", percent: 80 },
-                { text: "h. Alur Pendaftaran Offline", message: "Memuat biaya awal masuk...", percent: 90 },
-                { text: "l. Aktivitas sehari-hari para", message: "Memuat hal-hal yang harus dipersiapkan...", percent: 100 }
-            ];
-
-            textPoints.forEach(point => {
-                if (iframeDocument.body.innerText.includes(point.text)) {
-                    progress = point.percent;
-                    progressText.textContent = point.message;
-                    progressBar.style.width = progress + "%";
-                }
-            });
-
-            // Clear timeout once the content is loaded successfully
-            clearTimeout(pTimeout);
+            // Periksa untuk teks tertentu di dalam iframe
+            checkText(iframeDocument);
         }
+    }, 500); // Periksa setiap 500ms
+
+    // Set timeout untuk koneksi lambat
+    pTimeout = setTimeout(() => {
+        clearInterval(checkInterval); // Berhenti memeriksa
+        progressText.textContent = "Jaringan Internet Lambat, mohon refresh ulang";
+    }, 5000); // 5 detik timeout
+});
+
+function checkText(iframeDocument) {
+    let progress = 0;
+    const textPoints = [
+        { text: "TP. 2025/2026", message: "Memuat Muqoddimah...", percent: 10 },
+        { text: "a. Muqoddimah", message: "Memuat Target Lulusan...", percent: 20 },
+        { text: "b. Target Lulusan", message: "Memuat Daftar Eskul...", percent: 30 },
+        { text: "Extracurricular", message: "Memuat Tenaga Pendidik...", percent: 40 },
+        { text: "c. Tenaga Pendidik dan Kependidikan", message: "Memuat Informasi Pendaftaran...", percent: 45 },
+        { text: "d. Informasi Pendaftaran", message: "Memuat Materi Test Tulis...", percent: 50 },
+        { text: "e. Materi Test Tulis", message: "Memuat Materi Test Wawancara...", percent: 60 },
+        { text: "f. Materi Test Wawancara", message: "Memuat Syarat Pendaftaran...", percent: 70 },
+        { text: "g. Syarat Pendaftaran", message: "Memuat alur pendaftaran...", percent: 80 },
+        { text: "h. Alur Pendaftaran Offline", message: "Memuat biaya awal masuk...", percent: 90 },
+        { text: "l. Aktivitas sehari-hari para", message: "Memuat hal-hal yang harus dipersiapkan...", percent: 100 }
+    ];
+
+    textPoints.forEach(point => {
+        if (iframeDocument.body.innerText.includes(point.text)) {
+            progress = point.percent;
+            progressText.textContent = point.message;
+            progressBar.style.width = progress + "%";
+        }
+    });
+
+    // Hapus timeout setelah konten berhasil dimuat
+    clearTimeout(pTimeout);
+}
+
     </script>
 </body>
 </html>
