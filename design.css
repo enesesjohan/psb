@@ -239,3 +239,16 @@ body {
   }
 
 
+  .progress {
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    height: 20px;
+    margin: 10px 0;
+}
+.progress-bar {
+    background-color: #4caf50; /* Green */
+    height: 100%;
+    text-align: center;
+    line-height: 20px; /* Align text vertically */
+    color: white; /* Text color */
+}

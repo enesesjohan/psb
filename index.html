@@ -34,6 +34,16 @@
         </div>
       </nav>
     <!-- Progress Bar -->
+    <div id="progress-container" style="display: none; padding: 10px;">
+        <div class="progress">
+            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;">
+                0%
+            </div>
+        </div>
+        <p id="progress-text" style="text-align: center;">Progress 0%</p>
+    </div>
+
+
 
       <div class=iframe-container id=iframe-container><iframe id=dynamic-iframe src="" title="Penerimaan Santri Baru"></iframe></div>
       <div class=modal id=modal>
@@ -94,6 +104,64 @@
         </div>
       </div>
  <script src="fx.js">
+ </script>
+ <script>
+    const htmlFile = "update.html"; 
+document.addEventListener("DOMContentLoaded", function () {
+    if (isMobile()) {
+        document.getElementById("dynamic-iframe").src = htmlFile;
+        document.getElementById("iframe-container").style.display = "block";
+        
+        const iframe = document.getElementById("dynamic-iframe");
+        const progressContainer = document.getElementById("progress-container");
+        const progressBar = document.getElementById("progress-bar");
+        const progressText = document.getElementById("progress-text");
+
+        // Show progress bar
+        progressContainer.style.display = "block";
+
+        iframe.onload = function () {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            const sections = iframeDocument.querySelectorAll("section[id]"); // Select all <section id>
+            const totalSections = sections.length;
+            
+            // Check if sections exist
+            if (totalSections > 0) {
+                let loadedSections = 0;
+
+                sections.forEach((section, index) => {
+                    // Create an Intersection Observer to track the visibility of each section
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                loadedSections++;
+                                const progress = (loadedSections / totalSections) * 100;
+                                progressBar.style.width = progress + "%";
+                                progressBar.innerText = Math.round(progress) + "%";
+                                progressText.innerText = "Progress " + Math.round(progress) + "%";
+                                
+                                // Hide progress bar when fully loaded
+                                if (loadedSections === totalSections) {
+                                    setTimeout(() => {
+                                        progressContainer.style.display = "none";
+                                    }, 1000); // Optional delay before hiding
+                                }
+                                
+                                observer.unobserve(section); // Stop observing after it's loaded
+                            }
+                        });
+                    });
+                    
+                    observer.observe(section); // Start observing each section
+                });
+            }
+        };
+    } else {
+        document.getElementById("modal").style.display = "block";
+        document.getElementsByClassName("navbar-header").style.display = "none";
+    }
+});
+
  </script>
 </body>
 </html>
