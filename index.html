@@ -120,37 +120,36 @@ document.addEventListener("DOMContentLoaded", function () {
         // Show progress bar
         progressContainer.style.display = "block";
 
-        iframe.onload = function () {
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]'); // Select existing images
-            const totalImages = 34; // Target number of images for 100% progress
-            let loadedImages = 0;
+        let loadedImages = 0;
+        const totalImages = 34; // Target number of images for 100% progress
+        let lastProgressUpdateTime = Date.now();
+        let observer; // To hold the observer instance
+        let progressInterval; // To hold the setInterval ID
 
-            // Function to update progress bar
-            function updateProgress() {
-                const progress = Math.min((loadedImages / totalImages) * 100, 100);
-                progressBar.style.width = progress + "%";
-                progressBar.innerText = Math.round(progress) + "%";
-                progressText.innerText = "Progress " + Math.round(progress) + "%";
-                
-                if (loadedImages >= totalImages) {
-                    setTimeout(() => {
-                        progressContainer.style.display = "none";
-                    }, 1000); // Optional delay before hiding
-                }
+        // Function to update progress bar
+        function updateProgress() {
+            const progress = Math.min((loadedImages / totalImages) * 100, 100);
+            progressBar.style.width = progress + "%";
+            progressBar.innerText = Math.round(progress) + "%";
+            progressText.innerText = "Progress " + Math.round(progress) + "%";
+            
+            if (loadedImages >= totalImages) {
+                clearInterval(progressInterval); // Clear interval when done
+                setTimeout(() => {
+                    progressContainer.style.display = "none";
+                }, 1000); // Optional delay before hiding
             }
+        }
 
-            // Initial count of already present images
-            loadedImages += images.length;
-            updateProgress();
-
-            // Create a MutationObserver to track new image additions
-            const observer = new MutationObserver((mutations) => {
+        // Create a MutationObserver to track new image additions
+        function setupObserver(iframeDocument) {
+            observer = new MutationObserver((mutations) => {
                 mutations.forEach(mutation => {
                     if (mutation.type === 'childList') {
                         mutation.addedNodes.forEach(node => {
                             if (node.tagName === 'IMG' && (node.src.startsWith('data:image/png;base64') || node.src.startsWith('data:image/jpeg;base64'))) {
                                 loadedImages++;
+                                lastProgressUpdateTime = Date.now(); // Reset timer
                                 updateProgress(); // Update the progress bar
                             }
                         });
@@ -160,6 +159,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Start observing the body of the iframe document for child nodes
             observer.observe(iframeDocument.body, { childList: true, subtree: true });
+        }
+
+        iframe.onload = function () {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]'); // Select existing images
+            
+            // Initial count of already present images
+            loadedImages += images.length;
+            updateProgress();
+
+            // Setup the MutationObserver
+            setupObserver(iframeDocument);
+
+            // Interval to check for progress
+            progressInterval = setInterval(() => {
+                const currentTime = Date.now();
+                const elapsedTime = currentTime - lastProgressUpdateTime;
+
+                if (elapsedTime >= 3000) {
+                    loadedImages = Math.min(loadedImages + (totalImages * 0.8), totalImages); // Set to 80%
+                    updateProgress();
+                } else if (elapsedTime >= 2000) {
+                    loadedImages = Math.min(loadedImages + (totalImages * 0.2), totalImages); // Set to 20%
+                    updateProgress();
+                }
+            }, 1000); // Check every second
         };
     } else {
         document.getElementById("modal").style.display = "block";
