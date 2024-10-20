@@ -237,12 +237,18 @@ body {
   .daftar-btn {
     margin: 0 auto;
   }
-
-.progress-container {
-    margin-top: 10px;
-    display: none;
+  .progress {
+    position: relative;
+    height: 30px;
+    margin: 10px 0;
+    display: none; /* Initially hidden */
 }
-.progress {
-    height: 20px;
+.progress-bar {
+    background-color: #4caf50; /* Green */
 }
-
+.loading-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 30px; /* Center the text vertically */
+}
