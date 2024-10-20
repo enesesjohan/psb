@@ -128,49 +128,49 @@ window.onclick = function (event) {
 };
 
  // Daftar teks yang akan diperiksa dan progress yang akan ditampilkan
- const checkpoints = [
-    { text: "TP. 2025/2026", progress: 10, message: "Memuat Muqoddimah..." },
-    { text: "a. Muqoddimah", progress: 20, message: "Memuat Target Lulusan..." },
-    { text: "b. Target Lulusan", progress: 30, message: "Memuat Daftar Eskul..." },
-    { text: "Extracurricular", progress: 40, message: "Memuat Tenaga Pendidik..." },
-    { text: "c. Tenaga Pendidik dan Kependidikan", progress: 45, message: "Memuat Informasi Pendaftaran..." },
-    { text: "d. Informasi Pendaftaran", progress: 50, message: "Memuat Materi Test Tulis..." },
-    { text: "e. Materi Test Tulis", progress: 60, message: "Memuat Materi Test Wawancara..." },
-    { text: "f. Materi Test Wawancara", progress: 70, message: "Memuat Syarat Pendaftaran..." },
-    { text: "g. Syarat Pendaftaran", progress: 80, message: "Memuat Alur Pendaftaran..." },
-    { text: "h. Alur Pendaftaran Offline", progress: 90, message: "Memuat Biaya Awal Masuk..." },
-    { text: "l. Aktivitas sehari-hari para", progress: 100, message: "Memuat hal-hal yang harus dipersiapkan..." }
-];
+        const checkpoints = [
+            { text: "TP. 2025/2026", progress: 10, message: "Memuat Muqoddimah..." },
+            { text: "a. Muqoddimah", progress: 20, message: "Memuat Target Lulusan..." },
+            { text: "b. Target Lulusan", progress: 30, message: "Memuat Daftar Eskul..." },
+            { text: "Extracurricular", progress: 40, message: "Memuat Tenaga Pendidik..." },
+            { text: "c. Tenaga Pendidik dan Kependidikan", progress: 45, message: "Memuat Informasi Pendaftaran..." },
+            { text: "d. Informasi Pendaftaran", progress: 50, message: "Memuat Materi Test Tulis..." },
+            { text: "e. Materi Test Tulis", progress: 60, message: "Memuat Materi Test Wawancara..." },
+            { text: "f. Materi Test Wawancara", progress: 70, message: "Memuat Syarat Pendaftaran..." },
+            { text: "g. Syarat Pendaftaran", progress: 80, message: "Memuat Alur Pendaftaran..." },
+            { text: "h. Alur Pendaftaran Offline", progress: 90, message: "Memuat Biaya Awal Masuk..." },
+            { text: "l. Aktivitas sehari-hari para", progress: 100, message: "Memuat hal-hal yang harus dipersiapkan..." }
+        ];
 
-// Fungsi untuk memperbarui progress bar
-function updateProgress(progress, message) {
-    const progressBar = document.getElementById("progress-bar");
-    const progressText = document.getElementById("progress-text");
-    progressBar.style.width = progress + "%";
-    progressText.textContent = message;
-}
-
-// Fungsi untuk memeriksa konten iframe
-function checkIframeContent() {
-    const iframe = document.getElementById("content-iframe");
-    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-    const iframeText = iframeDoc.body.textContent || iframeDoc.body.innerText;
-
-    // Periksa setiap checkpoint
-    for (const checkpoint of checkpoints) {
-        if (iframeText.includes(checkpoint.text)) {
-            updateProgress(checkpoint.progress, checkpoint.message);
+        // Fungsi untuk memperbarui progress bar
+        function updateProgress(progress, message) {
+            const progressBar = document.getElementById("progress-bar");
+            const progressText = document.getElementById("progress-text");
+            progressBar.style.width = progress + "%";
+            progressText.textContent = message;
         }
-    }
-}
 
-// Event listener saat iframe telah dimuat
-document.getElementById("content-iframe").onload = function () {
-    // Periksa konten iframe secara berkala
-    const intervalId = setInterval(function () {
-        checkIframeContent();
-        if (document.getElementById("progress-bar").style.width === "100%") {
-            clearInterval(intervalId); // Hentikan pengecekan jika progress mencapai 100%
+        // Fungsi untuk memeriksa konten iframe
+        function checkIframeContent() {
+            const iframe = document.getElementById("content-iframe");
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const iframeText = iframeDoc.body.textContent || iframeDoc.body.innerText;
+
+            // Periksa setiap checkpoint
+            for (const checkpoint of checkpoints) {
+                if (iframeText.includes(checkpoint.text)) {
+                    updateProgress(checkpoint.progress, checkpoint.message);
+                }
+            }
         }
-    }, 1000); // Periksa setiap 1 detik
-};
+
+        // Event listener saat iframe telah dimuat
+        document.getElementById("content-iframe").onload = function () {
+            // Periksa konten iframe secara berkala
+            const intervalId = setInterval(function () {
+                checkIframeContent();
+                if (document.getElementById("progress-bar").style.width === "100%") {
+                    clearInterval(intervalId); // Hentikan pengecekan jika progress mencapai 100%
+                }
+            }, 1000); // Periksa setiap 1 detik
+        };
