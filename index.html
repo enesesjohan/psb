@@ -105,82 +105,54 @@ $(document).ready(function() {
     var progress = 0;
     var progressText = $("#progress-text");
     var iframe = $("#content-iframe");
+    var interval;
 
-    // Function to check for specific text inside the iframe
-    function checkProgress() {
-        var iframeContent = iframe[0].contentDocument || iframe[0].contentWindow.document;
-        var bodyText = iframeContent.body.innerText;
-
-        // Pengecekan teks dan pembaruan progress bar
-        if (bodyText.includes("TP. 2025/2026")) {
-            progress = 10;
-            progressText.text("Memuat Muqoddimah...");
-        }
-        if (bodyText.includes("a. Muqoddimah")) {
-            progress = 20;
-            progressText.text("Memuat Target Lulusan...");
-        }
-        if (bodyText.includes("b. Target Lulusan")) {
-            progress = 30;
-            progressText.text("Memuat Daftar Eskul...");
-        }
-        if (bodyText.includes("Extracurricular")) {
-            progress = 40;
-            progressText.text("Memuat Tenaga Pendidik...");
-        }
-        if (bodyText.includes("c. Tenaga Pendidik dan Kependidikan")) {
-            progress = 45;
-            progressText.text("Memuat Informasi Pendaftaran...");
-        }
-        if (bodyText.includes("d. Informasi Pendaftaran")) {
-            progress = 50;
-            progressText.text("Memuat Materi Test Tulis...");
-        }
-        if (bodyText.includes("e. Materi Test Tulis")) {
-            progress = 60;
-            progressText.text("Memuat Materi Test Wawancara...");
-        }
-        if (bodyText.includes("f. Materi Test Wawancara")) {
-            progress = 70;
-            progressText.text("Memuat Syarat Pendaftaran...");
-        }
-        if (bodyText.includes("g. Syarat Pendaftaran")) {
-            progress = 80;
-            progressText.text("Memuat Alur Pendaftaran...");
-        }
-        if (bodyText.includes("h. Alur Pendaftaran Offline")) {
-            progress = 90;
-            progressText.text("Memuat biaya awal masuk...");
-        }
-        if (bodyText.includes("l. Aktivitas sehari-hari para")) {
-            progress = 100;
-            progressText.text("Selesai memuat...");
-            $("#progress-container").hide(); // Sembunyikan progress bar setelah selesai
-        }
-
-        // Update lebar progress bar
+    function updateProgressBar(step, text) {
+        progress += step;
         $("#progress-bar").css("width", progress + "%");
+        progressText.text(text);
 
-        // Jika iframe tidak memuat dengan benar dalam 5 detik
-        if (progress === 0) {
-            setTimeout(function() {
-                if (progress === 0) {
-                    progressText.text("Jaringan Internet Lambat, mohon refresh ulang");
-                    $("#progress-container").hide();
-                }
-            }, 500);
+        if (progress >= 100) {
+            clearInterval(interval);
+            progressText.text("Selesai memuat.");
+            $("#progress-container").hide(); // Sembunyikan progress bar setelah selesai
         }
     }
 
-    // Pengecekan setiap 1 detik
+    // Simulasi loading progress berdasarkan waktu
     iframe.on('load', function() {
-        var checkInterval = setInterval(function() {
-            checkProgress();
-            if (progress === 100) {
-                clearInterval(checkInterval);
+        interval = setInterval(function() {
+            if (progress < 100) {
+                updateProgressBar(10, "Memuat...");
             }
-        }, 500);
+        }, 1000);
+        
+        // Cek konten iframe setelah 2 detik
+        setTimeout(function() {
+            var iframeContent = iframe[0].contentDocument || iframe[0].contentWindow.document;
+            var bodyText = iframeContent.body.innerText || iframeContent.body.textContent;
+
+            // Periksa apakah teks tertentu sudah dimuat
+            if (bodyText.includes("TP. 2025/2026")) {
+                updateProgressBar(10, "Memuat Muqoddimah...");
+            }
+            if (bodyText.includes("a. Muqoddimah")) {
+                updateProgressBar(10, "Memuat Target Lulusan...");
+            }
+            if (bodyText.includes("b. Target Lulusan")) {
+                updateProgressBar(10, "Memuat Daftar Eskul...");
+            }
+            // Tambahkan kondisi lain jika diperlukan...
+        }, 2000);
     });
+
+    // Timeout untuk deteksi lambatnya jaringan
+    setTimeout(function() {
+        if (progress === 0) {
+            progressText.text("Jaringan Internet Lambat, mohon refresh ulang");
+            clearInterval(interval);
+        }
+    }, 5000);
 });
     </script>
 </body>
