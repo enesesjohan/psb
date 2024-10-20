@@ -109,9 +109,6 @@
 const sourceHTML = "update.html"; 
 document.addEventListener("DOMContentLoaded", function () {
     if (isMobile()) {
-        document.getElementById("dynamic-iframe").src = sourceHTML;
-        document.getElementById("iframe-container").style.display = "block";
-        
         const iframe = document.getElementById("dynamic-iframe");
         const progressContainer = document.getElementById("progress-container");
         const progressBar = document.getElementById("progress-bar");
@@ -120,42 +117,32 @@ document.addEventListener("DOMContentLoaded", function () {
         // Show progress bar
         progressContainer.style.display = "block";
 
+        // Load the iframe
+        iframe.src = sourceHTML;
         iframe.onload = function () {
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            // Set interval to check scrollable height
+            const interval = setInterval(() => {
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                const scrollHeight = iframeDocument.body.scrollHeight;
+                const clientHeight = iframeDocument.documentElement.clientHeight;
 
-            // Initialize variables for progress
-            let sectionsLoaded = 0;
-            const totalSections = 5; // Ubah ini sesuai dengan jumlah elemen yang ingin dimonitor
+                // Check if scrollHeight is greater than clientHeight
+                if (scrollHeight > clientHeight) {
+                    // Calculate progress
+                    const progress = Math.min((clientHeight / scrollHeight) * 100, 100);
+                    progressBar.style.width = Math.round(progress) + "%";
+                    progressBar.innerText = Math.round(progress) + "%";
+                    progressText.innerText = "Progress " + Math.round(progress) + "%";
 
-            // Create a MutationObserver to detect changes in the iframe content
-            const observer = new MutationObserver(mutations => {
-                mutations.forEach(mutation => {
-                    // Check if nodes were added
-                    if (mutation.addedNodes.length > 0) {
-                        sectionsLoaded += mutation.addedNodes.length;
-
-                        // Calculate progress
-                        const progress = Math.min((sectionsLoaded / totalSections) * 100, 100); 
-                        progressBar.style.width = Math.round(progress) + "%";
-                        progressBar.innerText = Math.round(progress) + "%";
-                        progressText.innerText = "Progress " + Math.round(progress) + "%";
-
-                        // If progress is 100%, hide progress bar
-                        if (progress >= 100) {
-                            setTimeout(() => {
-                                progressContainer.style.display = "none"; // Optionally hide progress bar
-                            }, 1000);
-                            observer.disconnect(); // Stop observing when done
-                        }
+                    // If progress is 100%, hide progress bar
+                    if (progress >= 100) {
+                        clearInterval(interval); // Stop the interval
+                        setTimeout(() => {
+                            progressContainer.style.display = "none"; // Optionally hide progress bar
+                        }, 1000);
                     }
-                });
-            });
-
-            // Start observing the body of the iframe document
-            observer.observe(iframeDocument.body, {
-                childList: true, // Observe direct children
-                subtree: true // Also observe all descendants
-            });
+                }
+            }, 1000); // Check every second
         };
     } else {
         document.getElementById("modal").style.display = "block";
