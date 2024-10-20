@@ -114,68 +114,66 @@ document.addEventListener("DOMContentLoaded", function () {
         const progressBar = document.getElementById("progress-bar");
         const progressText = document.getElementById("progress-text");
 
-        // Target number of images for 100% progress
+        // Total gambar yang diharapkan
         const totalImages = 34; 
         let loadedImages = 0;
 
-        // Show progress bar
+        // Tampilkan progress bar
         progressContainer.style.display = "block";
 
-        // Function to update progress bar
+        // Fungsi untuk memperbarui progress bar
         function updateProgress() {
             const progress = Math.min((loadedImages / totalImages) * 100, 100);
             progressBar.style.width = progress + "%";
             progressBar.innerText = Math.round(progress) + "%";
             progressText.innerText = "Progress " + Math.round(progress) + "%";
 
+            // Jika sudah mencapai 100%, sembunyikan progress bar
             if (loadedImages >= totalImages) {
                 setTimeout(() => {
                     progressContainer.style.display = "none";
-                }, 1000); // Optional delay before hiding
+                }, 1000); // Delay opsional sebelum progress bar disembunyikan
             }
         }
 
-        // Function to start observing the iframe document
+        // Fungsi untuk memulai observasi di iframe
         function startObservingIframe() {
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-            // Create a MutationObserver to track new image requests
+            // Buat MutationObserver untuk melacak gambar base64 baru
             const observer = new MutationObserver((mutations) => {
                 mutations.forEach(mutation => {
                     if (mutation.type === 'childList') {
                         mutation.addedNodes.forEach(node => {
-                            // Check if the new node is an IMG element with the desired data URIs
+                            // Cek jika node baru adalah elemen IMG dengan tipe base64
                             if (node.tagName === 'IMG' && (node.src.startsWith('data:image/png;base64') || node.src.startsWith('data:image/jpeg;base64'))) {
-                                // Check if the image is loading
-                                node.onload = () => {
-                                    loadedImages++;
-                                    updateProgress(); // Update the progress bar immediately when a new image is loaded
-                                };
+                                loadedImages++; // Tambahkan hitungan gambar yang dimuat
+                                updateProgress(); // Perbarui progress bar setiap kali gambar dimuat
                             }
                         });
                     }
                 });
             });
 
-            // Start observing the body of the iframe document for child nodes
+            // Observasi seluruh subtree di body iframe
             observer.observe(iframeDocument.body, { childList: true, subtree: true });
-
-            // Check for images that may already be present in the iframe
-            const initialImages = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]');
-            loadedImages += initialImages.length;
-            updateProgress(); // Update progress bar for initially loaded images
         }
 
-        // Set iframe source to start loading the content
+        // Set iframe source dan mulai memuat konten
         iframe.src = sourceHTML;
 
-        // Wait until some content starts loading in the iframe (using a polling approach)
-        const intervalId = setInterval(() => {
-            if (iframe.contentDocument && iframe.contentDocument.readyState === 'interactive') {
-                clearInterval(intervalId);
-                startObservingIframe();
-            }
-        }, 100); // Polling every 100ms to check when the content starts loading
+        // Ketika iframe sudah mulai memuat sebagian konten
+        iframe.addEventListener('load', () => {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+            // Cek jika ada gambar base64 yang sudah ter-load
+            const initialImages = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]');
+            loadedImages += initialImages.length; // Tambahkan ke hitungan awal
+            updateProgress(); // Perbarui progress bar sesuai jumlah gambar yang langsung muncul
+
+            // Mulai observasi iframe untuk mendeteksi perubahan baru
+            startObservingIframe();
+        });
     } else {
         document.getElementById("modal").style.display = "block";
         document.getElementsByClassName("navbar-header").style.display = "none";
