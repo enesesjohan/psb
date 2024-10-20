@@ -105,10 +105,9 @@
       </div>
  <script src="fx.js">
  </script>
- <script>
-const sourceHTML = "update.html"; 
-document.addEventListener("DOMContentLoaded", function () {
-    if (isMobile()) {
+  <script>
+    const sourceHTML = "update.html"; 
+    document.addEventListener("DOMContentLoaded", function () {
         const iframe = document.getElementById("dynamic-iframe");
         const progressContainer = document.getElementById("progress-container");
         const progressBar = document.getElementById("progress-bar");
@@ -119,14 +118,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Load the iframe
         iframe.src = sourceHTML;
+
         iframe.onload = function () {
-            // Set interval to check scrollable height
-            const interval = setInterval(() => {
-                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+            // Set up MutationObserver to observe changes in the iframe
+            const observer = new MutationObserver(() => {
                 const scrollHeight = iframeDocument.body.scrollHeight;
                 const clientHeight = iframeDocument.documentElement.clientHeight;
 
-                // Check if scrollHeight is greater than clientHeight
                 if (scrollHeight > clientHeight) {
                     // Calculate progress
                     const progress = Math.min((clientHeight / scrollHeight) * 100, 100);
@@ -136,21 +136,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // If progress is 100%, hide progress bar
                     if (progress >= 100) {
-                        clearInterval(interval); // Stop the interval
+                        observer.disconnect(); // Stop observing
                         setTimeout(() => {
                             progressContainer.style.display = "none"; // Optionally hide progress bar
                         }, 1000);
                     }
                 }
-            }, 1000); // Check every second
+            });
+
+            // Start observing the iframe's body for changes
+            observer.observe(iframeDocument.body, { childList: true, subtree: true });
         };
-    } else {
-        document.getElementById("modal").style.display = "block";
-        document.getElementsByClassName("navbar-header").style.display = "none";
-    }
-});
-
-
- </script>
+    });
+</script>
 </body>
 </html>
