@@ -114,8 +114,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const progressBar = document.getElementById("progress-bar");
         const progressText = document.getElementById("progress-text");
 
-        // Total gambar yang diharapkan
-        const totalImages = 34; // Jumlah target gambar
+        // Total gambar yang diharapkan (ubah sesuai jumlah gambar base64 yang seharusnya)
+        const totalImages = 34; 
         let loadedImages = 0;
 
         // Tampilkan progress bar
@@ -132,57 +132,49 @@ document.addEventListener("DOMContentLoaded", function () {
             if (loadedImages >= totalImages) {
                 setTimeout(() => {
                     progressContainer.style.display = "none";
-                }, 1000); // Delay opsional sebelum progress bar disembunyikan
+                }, 1000); 
             }
         }
 
         // Fungsi untuk memantau gambar yang dimuat
         function monitorImageLoad(image) {
-            if (image.complete) {
-                // Jika gambar sudah langsung dimuat (cached atau preload)
-                loadedImages++;
-                updateProgress();
-            } else {
-                image.addEventListener('load', function() {
-                    loadedImages++; // Tambahkan hitungan gambar yang sudah dimuat
-                    updateProgress(); // Perbarui progress bar setiap kali gambar dimuat
+            image.addEventListener('load', function() {
+                loadedImages++; 
+                updateProgress(); 
+            });
+        }
+
+        // Fungsi untuk memantau gambar dalam iframe
+        function monitorIframeImages() {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+            // Cari gambar base64 di dalam iframe
+            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]');
+
+            if (images.length > 0) {
+                images.forEach(image => {
+                    if (image.complete) {
+                        loadedImages++;
+                        updateProgress();
+                    } else {
+                        monitorImageLoad(image); 
+                    }
                 });
             }
         }
 
-        // Fungsi untuk memantau perubahan di dalam iframe
-        function startObservingIframe() {
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
-            // Cari gambar dengan src yang menggunakan base64
-            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]');
-
-            images.forEach(image => {
-                monitorImageLoad(image); // Setiap gambar dipantau saat mulai dimuat
-            });
-        }
-
-        // Set iframe source dan mulai memuat konten
+        // Set iframe source dan pantau ketika mulai load
         iframe.src = sourceHTML;
 
-        // Mutation Observer untuk memantau perubahan konten di dalam iframe
-        const observer = new MutationObserver(() => {
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            if (iframeDocument) {
-                startObservingIframe(); // Mulai observasi gambar dalam iframe ketika ada perubahan
-            }
+        iframe.addEventListener("load", function () {
+            monitorIframeImages(); 
         });
-
-        // Mulai observasi perubahan di iframe
-        observer.observe(iframe, { childList: true, subtree: true });
 
     } else {
         document.getElementById("modal").style.display = "block";
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
-
-
  </script>
 </body>
 </html>
