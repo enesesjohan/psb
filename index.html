@@ -34,11 +34,15 @@
         </div>
       </nav>
     <!-- Progress Bar -->
-    <div class="progress" id="progress-bar">
-        <div class="progress-bar" id="progress" style="width: 0%;"></div>
-        <div class="loading-text" id="loading-text"></div>
+    <div id="progress-container" style="display: none;">
+        <div class="progress">
+            <div id="progress-bar" class="progress-bar progress-bar-striped active" role="progressbar"
+                 style="width: 0%;">
+            </div>
+        </div>
+        <p id="progress-text">Menunggu konten dimuat...</p>
     </div>
-
+    
 
       <div class=iframe-container id=iframe-container><iframe id=dynamic-iframe src="" title="Penerimaan Santri Baru"></iframe></div>
       <div class=modal id=modal>
@@ -101,70 +105,71 @@
  <script src="fx.js">
  </script>
  <script>
-  const loadingText = document.getElementById('loading-text');
-        const progressBar = document.getElementById('progress');
-        const progressContainer = document.getElementById('progress-bar');
-        const iframeContainer = document.getElementById('iframe-container');
-        const iframe = document.getElementById('dynamic-iframe');
+ const iframe = document.getElementById("dynamic-iframe");
+    const progressBar = document.getElementById("progress-bar");
+    const progressText = document.getElementById("progress-text");
+    const progressContainer = document.getElementById("progress-container");
 
-        function checkContent() {
-            $.get("update.html", function(data) {
-                const div = document.createElement("div");
-                div.innerHTML = data;
+    let progress = 0;
+    const steps = [
+        {text: "TP. 2025/2026", progress: 10, message: "Memuat Muqoddimah...."},
+        {text: "a. Muqoddimah", progress: 20, message: "Memuat Target Lulusan..."},
+        {text: "b. Target Lulusan", progress: 30, message: "Memuat Daftar Eskul...."},
+        {text: "Extracurricular", progress: 40, message: "Memuat Tenaga Pendidik..."},
+        {text: "c. Tenaga Pendidik dan Kependidikan", progress: 45, message: "Memuat Informasi Pendaftaran..."},
+        {text: "d. Informasi Pendaftaran", progress: 50, message: "Memuat Materi Test Tulis..."},
+        {text: "e. Materi Test Tulis", progress: 60, message: "Memuat Materi Test Wawancara..."},
+        {text: "f. Materi Test Wawancara", progress: 70, message: "Memuat Syarat Pendaftaran..."},
+        {text: "g. Syarat Pendaftaran", progress: 80, message: "Memuat Alur Pendaftaran..."},
+        {text: "h. Alur Pendaftaran Offline", progress: 90, message: "Memuat Biaya Awal Masuk..."},
+        {text: "l. Aktivitas sehari-hari para", progress: 100, message: "Memuat Hal-Hal yang Harus Dipersiapkan..."}
+    ];
 
-                // Function to update progress
-                function updateProgress(expectedText, percent, message) {
-                    if (div.innerText.includes(expectedText)) {
-                        progressBar.style.width = percent + '%';
-                        loadingText.innerText = message;
-                        return true;
-                    }
-                    return false;
-                }
+    // Function to update progress bar
+    function updateProgress(step) {
+        progressBar.style.width = step.progress + '%';
+        progressText.innerText = step.message;
+    }
 
-                progressContainer.style.display = 'block'; // Show progress bar
-                loadingText.innerText = "Menunggu konten...";
-                let timeout = setTimeout(() => {
-                    loadingText.innerText = "Jaringan Internet Lambat, mohon refresh ulang.";
-                    progressContainer.style.display = 'none';
-                }, 5000);
-
-                // Check for each required text and update progress
-                if (updateProgress("TP. 2025/2026", 10, "Memuat Muqoddimah...")) {
-                    clearTimeout(timeout); // Clear timeout if the text is found
-
-                    if (updateProgress("a. Muqoddimah", 20, "Memuat Target Lulusan...")) {
-                        if (updateProgress("b. Target Lulusan", 30, "Memuat Daftar Eskul...")) {
-                            if (updateProgress("Extracurricular", 40, "Memuat Tenaga Pendidik...")) {
-                                if (updateProgress("c. Tenaga Pendidik dan Kependidikan", 45, "Memuat Informasi Pendaftaran...")) {
-                                    if (updateProgress("d. Informasi Pendaftaran", 50, "Memuat Materi Test Tulis...")) {
-                                        if (updateProgress("e. Materi Test Tulis", 60, "Memuat Materi Test Wawancara...")) {
-                                            if (updateProgress("f. Materi Test Wawancara", 70, "Memuat Syarat Pendaftaran...")) {
-                                                if (updateProgress("g. Syarat Pendaftaran", 80, "Memuat alur pendaftaran...")) {
-                                                    if (updateProgress("h. Alur Pendaftaran Offline", 90, "Memuat biaya awal masuk...")) {
-                                                        if (updateProgress("l. Aktivitas sehari-hari para", 100, "Memuat hal-hal yang harus dipersiapkan...")) {
-                                                            // Hide progress bar after loading
-                                                            progressContainer.style.display = 'none';
-                                                            iframe.src = "update.html"; // Set iframe source
-                                                            iframeContainer.style.display = 'block'; // Show iframe
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Start checking content on page load
-        document.addEventListener("DOMContentLoaded", function() {
-            checkContent();
+    // Function to check content in iframe
+    function checkIframeContent() {
+        let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        steps.forEach((step, index) => {
+            if (iframeDoc.body && iframeDoc.body.innerText.includes(step.text)) {
+                updateProgress(step);
+            }
         });
+
+        if (progress === 100) {
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+            }, 1000);
+        }
+    }
+
+    // Show error if content is not loading
+    function showError() {
+        progressText.innerText = "Jaringan Internet Lambat, mohon refresh ulang.";
+        setTimeout(() => {
+            progressContainer.style.display = 'none';
+        }, 5000);
+    }
+
+    // Monitor iframe loading
+    iframe.onload = function() {
+        progressContainer.style.display = 'block';
+        let checkInterval = setInterval(checkIframeContent, 1000);
+
+        setTimeout(() => {
+            if (progress < 10) {
+                showError();
+                clearInterval(checkInterval);
+            }
+        }, 5000); // If first check takes too long, show error
+    };
+
+    // Set iframe src to start loading
+    iframe.src = "update.html";
     </script>
 </body>
 </html>
