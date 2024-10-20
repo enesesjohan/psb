@@ -129,41 +129,54 @@ document.addEventListener("DOMContentLoaded", function () {
             if (totalImages > 0) {
                 let loadedImages = 0;
                 const targetLoadedImages = 34; // Number of images to reach 100% progress
-                
-                images.forEach((img) => {
-                    // Create an Intersection Observer to track the visibility of each image
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                loadedImages++;
-                                
-                                // Update progress to 100% if loadedImages reaches targetLoadedImages
-                                if (loadedImages >= targetLoadedImages) {
-                                    progressBar.style.width = "100%";
-                                    progressBar.innerText = "100%";
-                                    progressText.innerText = "Progress 100%";
-                                    
-                                    // Hide progress bar after a delay
-                                    setTimeout(() => {
-                                        progressContainer.style.display = "none";
-                                    }, 1000); // Optional delay before hiding
-                                    
-                                    observer.disconnect(); // Stop observing after reaching target
-                                } else {
-                                    // Update progress bar as images load
-                                    const progress = (loadedImages / totalImages) * 100;
-                                    progressBar.style.width = progress + "%";
-                                    progressBar.innerText = Math.round(progress) + "%";
-                                    progressText.innerText = "Progress " + Math.round(progress) + "%";
-                                }
+                let lastLoadedCount = 0; // To keep track of the last loaded image count
 
-                                observer.unobserve(img); // Stop observing after it's loaded
-                            }
-                        });
+                // Update progress bar function
+                function updateProgress() {
+                    const progress = (loadedImages / totalImages) * 100;
+                    progressBar.style.width = progress + "%";
+                    progressText.innerText = "Progress " + Math.round(progress) + "%";
+
+                    // Check if we've reached 100%
+                    if (loadedImages >= targetLoadedImages) {
+                        progressBar.style.width = "100%";
+                        progressText.innerText = "Progress 100%";
+
+                        // Hide progress bar after a delay
+                        setTimeout(() => {
+                            progressContainer.style.display = "none";
+                        }, 1000); // Optional delay before hiding
+                        
+                        observer.disconnect(); // Stop observing after reaching target
+                    }
+                }
+
+                // Create an Intersection Observer to track the visibility of each image
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            loadedImages++;
+                            updateProgress(); // Update progress immediately when an image loads
+                            observer.unobserve(entry.target); // Stop observing after it's loaded
+                        }
                     });
-
-                    observer.observe(img); // Start observing each image
                 });
+
+                // Observe each image
+                images.forEach(img => observer.observe(img));
+
+                // Interval to check if progress has changed
+                const progressCheckInterval = setInterval(() => {
+                    if (loadedImages === lastLoadedCount) {
+                        // If no images have loaded in the last second, increase progress
+                        loadedImages += Math.floor(0.2 * totalImages); // Increase progress by 20%
+                        updateProgress(); // Update progress bar
+                    }
+                    lastLoadedCount = loadedImages; // Update last loaded count
+                }, 1000); // Check every 1 second
+
+                // Stop the interval when we reach 100%
+                observer.disconnect(); // Cleanup if necessary
             }
         };
     } else {
@@ -171,6 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
+
 
 </script>
 </body>
