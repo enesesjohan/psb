@@ -97,7 +97,9 @@ window.onclick = function (t) {
   if (t.target === modalContact) {
       modalContact.style.display = "none";
   }
-};function isMobile() {
+};
+
+function isMobile() {
   return /Mobi|Android/i.test(navigator.userAgent);
 }
 const htmlFile = "update.html"; 
