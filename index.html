@@ -128,8 +128,11 @@ document.addEventListener("DOMContentLoaded", function () {
             progressBar.innerText = Math.round(progress) + "%";
             progressText.innerText = "Progress " + Math.round(progress) + "%";
 
+            console.log(`Progress: ${progress}% - Loaded images: ${loadedImages} of ${totalImages}`);
+
             // Jika sudah mencapai 100%, sembunyikan progress bar
             if (loadedImages >= totalImages) {
+                console.log("Progress complete! Hiding progress bar...");
                 setTimeout(() => {
                     progressContainer.style.display = "none";
                 }, 1000); 
@@ -140,8 +143,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const observer = new PerformanceObserver((list) => {
             const entries = list.getEntries();
             entries.forEach((entry) => {
+                // Log setiap resource yang dimuat
+                console.log("Resource loaded:", entry.name, "Type:", entry.initiatorType);
+
                 if (entry.initiatorType === 'img' && (entry.name.startsWith('data:image/png;base64') || entry.name.startsWith('data:image/jpeg;base64'))) {
                     loadedImages++;
+                    console.log(`Base64 image detected: ${entry.name}`);
                     updateProgress();
                 }
             });
@@ -154,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
         iframe.src = sourceHTML;
 
         iframe.addEventListener("load", function () {
-            // Kita bisa mengaktifkan observer di sini jika perlu
+            console.log("Iframe loaded: ", iframe.src);
         });
 
     } else {
