@@ -129,9 +129,9 @@ document.addEventListener("DOMContentLoaded", function () {
             function updateProgress() {
                 const progress = Math.min((loadedImages / totalImages) * 100, 100);
                 progressBar.style.width = progress + "%";
-                progressBar.innerText = Math.round(progress) + "%";
                 progressText.innerText = "Progress " + Math.round(progress) + "%";
 
+                // Hide progress bar after reaching 100%
                 if (loadedImages >= totalImages) {
                     setTimeout(() => {
                         progressContainer.style.display = "none";
@@ -167,6 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
+
 
 
  </script>
