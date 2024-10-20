@@ -122,49 +122,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
         iframe.onload = function () {
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]'); // Select all images with base64 src
-            const totalImages = images.length;
+            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]'); // Select existing images
+            const totalImages = 34; // Target number of images for 100% progress
+            let loadedImages = 0;
 
-            // Check if images exist
-            if (totalImages > 0) {
-                let loadedImages = 0;
-                const targetLoadedImages = 34; // Number of images to reach 100% progress
+            // Function to update progress bar
+            function updateProgress() {
+                const progress = Math.min((loadedImages / totalImages) * 100, 100);
+                progressBar.style.width = progress + "%";
+                progressBar.innerText = Math.round(progress) + "%";
+                progressText.innerText = "Progress " + Math.round(progress) + "%";
                 
-                images.forEach((img) => {
-                    // Create an Intersection Observer to track the visibility of each image
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                loadedImages++;
-                                
-                                // Update progress to 100% if loadedImages reaches targetLoadedImages
-                                if (loadedImages >= targetLoadedImages) {
-                                    progressBar.style.width = "100%";
-                                    progressBar.innerText = "100%";
-                                    progressText.innerText = "Progress 100%";
-                                    
-                                    // Hide progress bar after a delay
-                                    setTimeout(() => {
-                                        progressContainer.style.display = "none";
-                                    }, 1000); // Optional delay before hiding
-                                    
-                                    observer.disconnect(); // Stop observing after reaching target
-                                } else {
-                                    // Update progress bar as images load
-                                    const progress = (loadedImages / totalImages) * 100;
-                                    progressBar.style.width = progress + "%";
-                                    progressBar.innerText = Math.round(progress) + "%";
-                                    progressText.innerText = "Progress " + Math.round(progress) + "%";
-                                }
+                if (loadedImages >= totalImages) {
+                    setTimeout(() => {
+                        progressContainer.style.display = "none";
+                    }, 1000); // Optional delay before hiding
+                }
+            }
 
-                                observer.unobserve(img); // Stop observing after it's loaded
+            // Initial count of already present images
+            loadedImages += images.length;
+            updateProgress();
+
+            // Create a MutationObserver to track new image additions
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach(mutation => {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(node => {
+                            if (node.tagName === 'IMG' && (node.src.startsWith('data:image/png;base64') || node.src.startsWith('data:image/jpeg;base64'))) {
+                                loadedImages++;
+                                updateProgress(); // Update the progress bar
                             }
                         });
-                    });
-
-                    observer.observe(img); // Start observing each image
+                    }
                 });
-            }
+            });
+
+            // Start observing the body of the iframe document for child nodes
+            observer.observe(iframeDocument.body, { childList: true, subtree: true });
         };
     } else {
         document.getElementById("modal").style.display = "block";
