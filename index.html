@@ -136,37 +136,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // Fungsi untuk memantau gambar base64 ketika mereka ditambahkan ke iframe
-        function monitorIframeImages() {
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
-            // Cari gambar base64 di dalam iframe
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(mutation => {
-                    mutation.addedNodes.forEach(node => {
-                        if (node.nodeName === 'IMG') {
-                            const src = node.getAttribute('src');
-                            if (src && (src.startsWith('data:image/png;base64') || src.startsWith('data:image/jpeg;base64'))) {
-                                loadedImages++;
-                                updateProgress();
-                            }
-                        }
-                    });
-                });
+        // Memantau fetch untuk gambar base64
+        const observer = new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            entries.forEach((entry) => {
+                if (entry.initiatorType === 'img' && (entry.name.startsWith('data:image/png;base64') || entry.name.startsWith('data:image/jpeg;base64'))) {
+                    loadedImages++;
+                    updateProgress();
+                }
             });
+        });
 
-            // Pantau perubahan di dalam body iframe
-            observer.observe(iframeDocument.body, {
-                childList: true,
-                subtree: true
-            });
-        }
+        // Mulai mengamati resource load event
+        observer.observe({ entryTypes: ["resource"] });
 
         // Set iframe source dan pantau ketika mulai load
         iframe.src = sourceHTML;
 
         iframe.addEventListener("load", function () {
-            monitorIframeImages(); 
+            // Kita bisa mengaktifkan observer di sini jika perlu
         });
 
     } else {
@@ -174,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
+
 
  </script>
 </body>
