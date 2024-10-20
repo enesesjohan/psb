@@ -106,10 +106,10 @@
  <script src="fx.js">
  </script>
  <script>
-const sourceHTML = "update.html"; 
+const htmlFile = "update.html"; 
 document.addEventListener("DOMContentLoaded", function () {
     if (isMobile()) {
-        document.getElementById("dynamic-iframe").src = sourceHTML;
+        document.getElementById("dynamic-iframe").src = htmlFile;
         document.getElementById("iframe-container").style.display = "block";
         
         const iframe = document.getElementById("dynamic-iframe");
@@ -120,10 +120,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // Show progress bar
         progressContainer.style.display = "block";
 
+        let lastScrollTop = 0; // Store the last scroll position
         let loadedImages = 0;
         const totalImages = 34; // Target number of images for 100% progress
         let lastProgressUpdateTime = Date.now();
-        let observer; // To hold the observer instance
         let progressInterval; // To hold the setInterval ID
 
         // Function to update progress bar
@@ -141,38 +141,26 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // Create a MutationObserver to track new image additions
-        function setupObserver(iframeDocument) {
-            observer = new MutationObserver((mutations) => {
-                mutations.forEach(mutation => {
-                    if (mutation.type === 'childList') {
-                        mutation.addedNodes.forEach(node => {
-                            if (node.tagName === 'IMG' && (node.src.startsWith('data:image/png;base64') || node.src.startsWith('data:image/jpeg;base64'))) {
-                                loadedImages++;
-                                lastProgressUpdateTime = Date.now(); // Reset timer
-                                updateProgress(); // Update the progress bar
-                            }
-                        });
-                    }
-                });
-            });
+        // Function to check scroll position
+        function checkScroll() {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            const scrollTop = iframeDocument.documentElement.scrollTop || iframeDocument.body.scrollTop;
 
-            // Start observing the body of the iframe document for child nodes
-            observer.observe(iframeDocument.body, { childList: true, subtree: true });
+            // If the scroll position has increased
+            if (scrollTop > lastScrollTop) {
+                lastScrollTop = scrollTop; // Update the last scroll position
+                loadedImages = Math.min(loadedImages + 1, totalImages); // Increase loaded images
+                lastProgressUpdateTime = Date.now(); // Reset timer
+                updateProgress(); // Update the progress bar
+            }
         }
 
+        // Event listener for scroll event
         iframe.onload = function () {
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]'); // Select existing images
-            
-            // Initial count of already present images
-            loadedImages += images.length;
-            updateProgress();
+            // Set interval to check scroll position every 100ms
+            setInterval(checkScroll, 100);
 
-            // Setup the MutationObserver
-            setupObserver(iframeDocument);
-
-            // Interval to check for progress
+            // Interval to check for progress based on elapsed time
             progressInterval = setInterval(() => {
                 const currentTime = Date.now();
                 const elapsedTime = currentTime - lastProgressUpdateTime;
