@@ -168,7 +168,7 @@ $(document).ready(function() {
                     progressText.text("Jaringan Internet Lambat, mohon refresh ulang");
                     $("#progress-container").hide();
                 }
-            }, 5000);
+            }, 500);
         }
     }
 
@@ -179,7 +179,7 @@ $(document).ready(function() {
             if (progress === 100) {
                 clearInterval(checkInterval);
             }
-        }, 1000);
+        }, 500);
     });
 });
     </script>
