@@ -106,10 +106,10 @@
  <script src="fx.js">
  </script>
  <script>
-const htmlFile = "update.html"; 
+const sourceHTML = "update.html"; 
 document.addEventListener("DOMContentLoaded", function () {
     if (isMobile()) {
-        document.getElementById("dynamic-iframe").src = htmlFile;
+        document.getElementById("dynamic-iframe").src = sourceHTML;
         document.getElementById("iframe-container").style.display = "block";
         
         const iframe = document.getElementById("dynamic-iframe");
@@ -121,23 +121,22 @@ document.addEventListener("DOMContentLoaded", function () {
         progressContainer.style.display = "block";
 
         let lastScrollTop = 0; // Store the last scroll position
-        let loadedImages = 0;
-        const totalImages = 34; // Target number of images for 100% progress
         let lastProgressUpdateTime = Date.now();
         let progressInterval; // To hold the setInterval ID
+        let progressValue = 0; // Initial progress value
 
         // Function to update progress bar
-        function updateProgress() {
-            const progress = Math.min((loadedImages / totalImages) * 100, 100);
-            progressBar.style.width = progress + "%";
-            progressBar.innerText = Math.round(progress) + "%";
-            progressText.innerText = "Progress " + Math.round(progress) + "%";
-            
-            if (loadedImages >= totalImages) {
+        function updateProgress(value) {
+            progressValue = Math.min(value, 100); // Ensure progress does not exceed 100
+            progressBar.style.width = progressValue + "%";
+            progressBar.innerText = progressValue + "%";
+            progressText.innerText = "Progress " + progressValue + "%";
+
+            if (progressValue >= 100) {
                 clearInterval(progressInterval); // Clear interval when done
                 setTimeout(() => {
-                    progressContainer.style.display = "none";
-                }, 1000); // Optional delay before hiding
+                    progressContainer.style.display = "none"; // Optionally hide the progress bar
+                }, 1000);
             }
         }
 
@@ -149,9 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // If the scroll position has increased
             if (scrollTop > lastScrollTop) {
                 lastScrollTop = scrollTop; // Update the last scroll position
-                loadedImages = Math.min(loadedImages + 1, totalImages); // Increase loaded images
-                lastProgressUpdateTime = Date.now(); // Reset timer
-                updateProgress(); // Update the progress bar
+                updateProgress(progressValue + 1); // Increase progress by 1%
             }
         }
 
@@ -166,11 +163,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const elapsedTime = currentTime - lastProgressUpdateTime;
 
                 if (elapsedTime >= 3000) {
-                    loadedImages = Math.min(loadedImages + (totalImages * 0.8), totalImages); // Set to 80%
-                    updateProgress();
+                    updateProgress(80); // Set to 80% after 3 seconds
                 } else if (elapsedTime >= 2000) {
-                    loadedImages = Math.min(loadedImages + (totalImages * 0.2), totalImages); // Set to 20%
-                    updateProgress();
+                    updateProgress(20); // Set to 20% after 2 seconds
                 }
             }, 1000); // Check every second
         };
@@ -179,6 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
+
 
  </script>
 </body>
