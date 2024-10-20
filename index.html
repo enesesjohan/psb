@@ -129,9 +129,9 @@ document.addEventListener("DOMContentLoaded", function () {
             function updateProgress() {
                 const progress = Math.min((loadedImages / totalImages) * 100, 100);
                 progressBar.style.width = progress + "%";
+                progressBar.innerText = Math.round(progress) + "%";
                 progressText.innerText = "Progress " + Math.round(progress) + "%";
 
-                // Hide progress bar after reaching 100%
                 if (loadedImages >= totalImages) {
                     setTimeout(() => {
                         progressContainer.style.display = "none";
@@ -139,15 +139,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
-            // Create a MutationObserver to track new image additions
+            // Create a MutationObserver to track new image requests
             const observer = new MutationObserver((mutations) => {
                 mutations.forEach(mutation => {
                     if (mutation.type === 'childList') {
                         mutation.addedNodes.forEach(node => {
                             // Check if the new node is an IMG element with the desired data URIs
                             if (node.tagName === 'IMG' && (node.src.startsWith('data:image/png;base64') || node.src.startsWith('data:image/jpeg;base64'))) {
-                                loadedImages++;
-                                updateProgress(); // Update the progress bar immediately when a new image is detected
+                                // Check if the image is loading
+                                node.onload = () => {
+                                    loadedImages++;
+                                    updateProgress(); // Update the progress bar immediately when a new image is loaded
+                                };
                             }
                         });
                     }
@@ -167,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
+
 
 
 
