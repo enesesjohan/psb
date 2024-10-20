@@ -113,7 +113,7 @@
             document.getElementById("dynamic-iframe").src = htmlSourceFile;
             progressContainer.style.display = "block"; // Show the progress bar
 
-            let timeout; // Variable to handle timeout
+            let pTimeout; // Variable to handle timeout
             const checkInterval = setInterval(() => {
                 const iframe = document.getElementById("dynamic-iframe");
                 const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
@@ -128,7 +128,7 @@
             }, 500); // Check every 500ms
 
             // Set a timeout for slow connections
-            timeout = setTimeout(() => {
+            pTimeout = setTimeout(() => {
                 clearInterval(checkInterval); // Stop checking
                 progressText.textContent = "Jaringan Internet Lambat, mohon refresh ulang";
             }, 5000); // 5 seconds timeout
@@ -159,7 +159,7 @@
             });
 
             // Clear timeout once the content is loaded successfully
-            clearTimeout(timeout);
+            clearTimeout(pTimeout);
         }
     </script>
 </body>
