@@ -143,7 +143,7 @@
         if (progress === 100) {
             setTimeout(() => {
                 progressContainer.style.display = 'none';
-            }, 1000);
+            }, 500);
         }
     }
 
@@ -165,7 +165,7 @@
                 showError();
                 clearInterval(checkInterval);
             }
-        }, 5000); // If first check takes too long, show error
+        }, 500); // If first check takes too long, show error
     };
 
     // Set iframe src to start loading
