@@ -106,7 +106,7 @@
  <script src="fx.js">
  </script>
  <script>
-   const sourceHTML = "update.html"; 
+  const sourceHTML = "update.html"; 
 document.addEventListener("DOMContentLoaded", function () {
     if (isMobile()) {
         document.getElementById("dynamic-iframe").src = sourceHTML;
@@ -122,37 +122,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
         iframe.onload = function () {
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            const divs = iframeDocument.querySelectorAll("div[class]"); // Select all <div class>
-            const totalDivs = divs.length;
+            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]'); // Select all images with base64 src
+            const totalImages = images.length;
             
-            // Check if divs exist
-            if (totalDivs > 0) {
-                let loadedDivs = 0;
+            // Check if images exist
+            if (totalImages > 0) {
+                let loadedImages = 0;
 
-                divs.forEach((div) => {
-                    // Create an Intersection Observer to track the visibility of each div
+                images.forEach((img) => {
+                    // Create an Intersection Observer to track the visibility of each image
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting) {
-                                loadedDivs++;
-                                const progress = (loadedDivs / totalDivs) * 100;
+                                loadedImages++;
+                                const progress = (loadedImages / totalImages) * 100;
                                 progressBar.style.width = progress + "%";
                                 progressBar.innerText = Math.round(progress) + "%";
                                 progressText.innerText = "Progress " + Math.round(progress) + "%";
                                 
                                 // Hide progress bar when fully loaded
-                                if (loadedDivs === totalDivs) {
+                                if (loadedImages === totalImages) {
                                     setTimeout(() => {
                                         progressContainer.style.display = "none";
                                     }, 1000); // Optional delay before hiding
                                 }
                                 
-                                observer.unobserve(div); // Stop observing after it's loaded
+                                observer.unobserve(img); // Stop observing after it's loaded
                             }
                         });
                     });
                     
-                    observer.observe(div); // Start observing each div
+                    observer.observe(img); // Start observing each image
                 });
             }
         };
@@ -161,8 +161,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
-
-
  </script>
 </body>
 </html>
