@@ -1,592 +1,541 @@
-﻿﻿<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Pendaftaran Online PontrenMU Al-Furqon T.P 2025</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-    />
-    
-    <link
-      rel="icon"
-      href="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico"
-      type="image/x-icon"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <style>
-      body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          padding: 0;
-          background-color: #ffffff;
-      }
-      .modalBiaya-css {
-                display: none;
-                position: fixed;
-                z-index: 1000;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-            .modal-contentBiaya-css {
-                background-color: #fff;
-                margin: auto;
-                padding: 20px;
-                border: 1px solid #888;
-                width: 80%;
-                max-width: 800px;
-                border-radius: 8px;
-            }
-            .table-container {
-                overflow-x: auto;
-                max-height: 400px;
-            }
-            table th {
-                background-color: black;
-                color: white;
-            }
-            table tfoot td {
-                background-color: green;
-                color: white;
-            }
-            .clsModalBiaya_LoadingSpinner {
-              display: none;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.clsModalBiaya_SpinnerCircle {
-    border: 4px solid rgba(0, 0, 0, 0.1); /* Light gray */
-    border-left-color: #000; /* Black */
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.clsModalBiaya_LoadingText {
-    display: inline-block;
-    margin-left: 10px;
-}
-      .iframe-container {
-          display: none;
-          position: relative;
-          width: 100%;
-          height: 0;
-          padding-top: 177.77%;
-          overflow: hidden;
-          margin-top: 1px;
-          border-radius: 1px;
-      }
-      .iframe-container iframe {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          border: none;
-      }
-      .clContactModal {
-          display: none;
-          position: fixed;
-          z-index: 1;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
-      }
-      .cntContactModal {
-          background-color: #fefefe;
-          max-height: 80vh;
-          overflow-y: auto;
-          margin: 15% auto;
-          padding: 20px;
-          border: 1px solid #888;
-          width: 80%;
-      }
-      .clModalFooter-Biaya,
-      .clModalHeader-Contact {
-          padding: 10px;
-          text-align: center;
-      }
-      .modalBody-Contact {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-      }
-      .modalBody-Contact div {
-          border: 1px solid #ccc;
-          padding: 10px;
-      }
-      .modalBiaya {
-          display: none;
-          position: fixed;
-          z-index: 1000;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
-      }
-      .modal-content-Biaya {
-          background-color: #fff;
-          margin: auto;
-          padding: 20px;
-          border: 1px solid #888;
-          width: 80%;
-          max-width: 500px;
-          border-radius: 8px;
-      }
-      .clsModal-Mobile {
-          display: none;
-          position: fixed;
-          z-index: 1000;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
-      }
-      .modal-download {
-          display: none;
-          position: fixed;
-          z-index: 1000;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.5);
-      }
-      .clsModalCnt-Mobile {
-          background-color: #fff;
-          margin: auto;
-          max-height: 80vh;
-          overflow-y: auto;
-          padding: 20px;
-          border: 1px solid #888;
-          width: 80%;
-          max-width: 500px;
-          border-radius: 8px;
-      }
-      .modal-download-content {
-          background-color: #fff;
-          margin: auto;
-          padding: 20px;
-          border: 1px solid #888;
-          width: 80%;
-          max-width: 500px;
-          border-radius: 8px;
-      }
-      .close-x-mobile {
-          color: #aaa;
-          float: right;
-          font-size: 28px;
-          font-weight: 700;
-      }
-      .close-x-biaya {
-          color: #aaa;
-          float: right;
-          font-size: 28px;
-          font-weight: 700;
-      }
-      .closeX_syaratModal {
-          color: #aaa;
-          float: right;
-          font-size: 28px;
-          font-weight: 700;
-      }
-      .close:focus,
-      .close:hover {
-          color: #000;
-          text-decoration: none;
-          cursor: pointer;
-      }
-      .close-btn {
-          background-color: #f44336;
-          color: #fff;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          display: inline-block;
-          margin-top: 10px;
-      }
-      .close-btn:hover {
-          background-color: #d32f2f;
-      }
-      .btndownload-Mobile {
-          background-color: #007acc;
-          color: #fff;
-          padding: 10px 15px;
-          text-decoration: none;
-          border-radius: 5px;
-          display: inline-block;
-          margin-top: 10px;
-      }
-      .navbar-brand {
-          display: flex;
-          align-items: center;
-          font-size: 12px;
-      }
-      .navbar-brand img {
-          margin-right: 8px;
-      }
-      .navbar-brand-text {
-          display: inline-block;
-          font-size: 12px !important;
-          font-weight: 700 ;
-      }
-      .daftar-container {
-          text-align: center;
-          margin-top: 10px;
-      }
-      .daftar-btn {
-          margin: 0 auto;
-      }
-    </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button
-            type="button"
-            class="navbar-toggle"
-            data-toggle="collapse"
-            data-target="#myNavbar"
-          >
-            <span class="icon-bar"></span><span class="icon-bar"></span
-            ><span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#"
-            ><img
-              src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico"
-              width="30"
-              height="30"
-              class="navbar-brand-text"
-              alt=""
-            />
-            PSB PontrenMU Al-Furqon</a
-          >
-          <div class="daftar-container">
-            <button
-              type="button"
-              class="btn btn-primary btn-sm daftar-btn"
-              onclick="window.location.href='https://santri.alfurqon.or.id';"
-            >
-              Daftar Sekarang
-            </button>
-          </div>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Beranda</a></li>
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#"
-                >Lokasi Asrama<span class="caret"></span
-              ></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Pondok/Asrama Putra</a></li>
-                <li><a href="#">Pondok/Asrama Putri</a></li>
-              </ul>
-            </li>
-            <li><a href="#" id="btn_syaratLink">Syarat Pendaftaran</a></li>
-            <li><a href="#" id="biayaMasukLink">Biaya Awal Masuk</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="#" id="ContactLink"
-                ><span class="glyphicon glyphicon-earphone"> </span> Hubungi
-                Kami</a
-              >
-            </li>
-            <li>
-              <a href="#" id="downloadLink"
-                ><span class="glyphicon glyphicon-download-alt"> </span>
-                Download Brosur</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="iframe-container" id="iframe-container">
-      <iframe
-        src=""
-        id="dynamic-iframe"
-        title="Penerimaan Santri Baru"
-      ></iframe>
-    </div>
-    <div id="idmodal-Mobile" class="clsModal-Mobile">
-      <div class="clsModalCnt-Mobile">
-        <span class="close-x-Mobile">&times;</span>
-        <h2>Himbauan</h2>
-        <p>
-          Silakan buka website ini menggunakan perangkat mobile untuk melihat
-          informasi lebih lengkap.
-        </p>
-        <a
-          href="https://psb.alfurqon.or.id/brosur.jpg"
-          class="btndownload-Mobile"
-          target="_blank"
-          rel="noopener"
-          >Download Brosur</a
-        >
-      </div>
-    </div>
-    <div id="downloadModal" class="modal-download">
-      <div class="modal-download-content">
-        <h4>Download Brosur PSB</h4>
-        <p>
-          Mohon tunggu sejenak, proses unduhan akan dimulai beberapa saat lagi.
-        </p>
-      </div>
-    </div>
-    <div id="id_syaratModal" class="modal">
-      <div class="modal-content">
-        <span class="closeX_syaratModal">&times;</span>
-        <h4>Syarat Pendaftaran</h4>
-        <p>
-          Mohon siapkan dokumen persyaratan registrasi di bawah ini.
-          Berkas-berkas yang memang belum ada seperti Ijazah, atau SKL dan
-          Raport nanti bisa dibawa menyusul.
-        </p>
-        <ul>
-          <li>
-            Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan
-            membayar biaya infaq daftar senilai Rp150.000.
-          </li>
-          <li>
-            Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri
-            baru.
-          </li>
-          <li>
-            Menyertakan foto ijazah + fotokopi SKL sebanyak 3 lembar dan telah
-            dilegalisir.
-          </li>
-          <li>
-            Fotokopi nilai raport terakhir 1 lembar dan pas foto 3x4 sebanyak 4
-            lembar dengan background biru.
-          </li>
-          <li>
-            Fotokopi KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak
-            3 lembar.
-          </li>
-          <li>
-            Semua persyaratan dari nomor 3 s.d 5 dimasukkan ke dalam map SNEL
-            dengan warna sebagai berikut dan map tersebut diserahkan kepada
-            panitia:
-          </li>
-          <ul>
-            <li>Map Merah untuk Putra.</li>
-            <li>Map Biru untuk Putri.</li>
-          </ul>
-        </ul>
-        <button class="close-btn" id="tutupButton">Tutup</button>
-      </div>
-    </div>
-    <div id="idContactModal" class="clContactModal">
-      <div class="cntContactModal">
-        <span class="close-x-Contact">&times;</span>
-        <div class="clModalHeader-Contact">
-          <h2>Informasi Kontak</h2>
-          <p>
-            Untuk Pertanyaan terkait info PSB, Sistem Pendidikan, Peraturan
-            Asrama, maupun hal lainnya terkait pesantren, Bapak/Ibu bisa
-            menghubungi nomor WhatsApp dibawah ini.
-          </p>
-        </div>
-        <div class="modalBody-Contact">
-          <div>
-            <h3>Icon Putra</h3>
-            <p>Campus Putra</p>
-            <p>(Ust. Maftukhan) : 0882-3269-7837</p>
-            <p>Campus Putra</p>
-            <p>(Ust. Rendi Satya) : 0822-8294-5212</p>
-          </div>
-          <div>
-            <h3>Icon Putri</h3>
-            <p>Campus Putri</p>
-            <p>(Ustzh. Elsa) : 0816-3216-5812</p>
-            <p>Campus Putri</p>
-            <p>(Ustzh. Mufidah) : 0812-7836-4174</p>
-          </div>
-        </div>
-        <div class="clModalFooter-Biaya">
-          <button id="tutupButtonContact">Close</button>
-        </div>
-      </div>
-    </div>
-        <div id="biayaModal" class="modalBiaya-css">
-          <div class="modal-contentBiaya-css">
-              <span class="close-x-biaya">&times;</span>
-              <h2>Biaya Awal Masuk</h2>
-
-              <div class="clsModalBiaya_LoadingSpinner">
-                <div class="clsModalBiaya_SpinnerCircle"></div>
-                <p class="clsModalBiaya_LoadingText">Sedang Memuat data... mohon tunggu sejenak.</p>
-            </div>
-
-              <div class="table-container" id="biayaContent"></div>
-          </div>
-      </div>
-
-    <script>
-      var biayaModal = document.getElementById("biayaModal");
-      var biayaMasukLink = document.getElementById("biayaMasukLink");
-      var closeBiayaModal = document.getElementsByClassName("close-x-biaya")[0];
-      var biayaContent = document.getElementById("biayaContent");
-      var spinner = document.querySelector(".clsModalBiaya_LoadingSpinner");
-
-      biayaMasukLink.onclick = function (e) {
-          e.preventDefault(); 
-          biayaModal.style.display = "block";
-
-          clsModalBiaya_SpinnerCircle.style.display = "block";
-
-          biayaContent.innerHTML = '';
-
-          $.get("update.html", function(e) {
-    var a = document.createElement("div"); // Buat elemen div untuk menampung HTML yang diambil
-    a.innerHTML = e; // Masukkan konten dari update.html
-    var n = a.querySelector("table"); // Ambil tabel dari konten yang dimuat
-
-    if (n) {
-        var rows = n.querySelectorAll("tr"); // Ambil semua baris tabel
-
-        if (rows.length > 0) {
-            // Ubah warna baris pertama (header)
-            var headerRow = rows[0];
-            headerRow.style.backgroundColor = "black";
-            headerRow.style.color = "white";
-
-            // Ubah warna baris terakhir (footer)
-            var footerRow = rows[rows.length - 1];
-            footerRow.style.backgroundColor = "green";
-            footerRow.style.color = "white";
+﻿﻿<html lang="en"><head></head><body>&#xFEFF;
+  <title>Pendaftaran Online PontrenMU Al-Furqon T.P 2025</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="icon" href="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" type="image/x-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type="text/javascript"></script>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
         }
-
-        biayaContent.innerHTML = n.outerHTML; // Masukkan tabel ke dalam kontainer modal
-    } else {
-        biayaContent.innerHTML = "<p>Tabel tidak ditemukan.</p>"; // Jika tabel tidak ditemukan
-    }
-    spinner.style.display = "none"; // Sembunyikan spinner setelah data dimuat
-});
-
-
-      };
-
-      closeBiayaModal.onclick = function () {
-          biayaModal.style.display = "none";
-      };
-
-      window.onclick = function (event) {
-          if (event.target === biayaModal) {
-              biayaModal.style.display = "none";
+        .modalBiaya-css {
+                  display: none;
+                  position: fixed;
+                  z-index: 1000;
+                  left: 0;
+                  top: 0;
+                  width: 100%;
+                  height: 100%;
+                  background-color: rgba(0, 0, 0, 0.5);
+              }
+              .modal-contentBiaya-css {
+                  background-color: #fff;
+                  margin: auto;
+                  padding: 20px;
+                  border: 1px solid #888;
+                  width: 80%;
+                  max-width: 800px;
+                  border-radius: 8px;
+              }
+              .table-container {
+                  overflow-x: auto;
+                  max-height: 400px;
+              }
+              table th {
+                  background-color: black;
+                  color: white;
+              }
+              table tfoot td {
+                  background-color: green;
+                  color: white;
+              }
+              .clsModalBiaya_LoadingSpinner {
+                display: none;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+  }
+  
+  .clsModalBiaya_SpinnerCircle {
+      border: 4px solid rgba(0, 0, 0, 0.1); /* Light gray */
+      border-left-color: #000; /* Black */
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+      to { transform: rotate(360deg); }
+  }
+  
+  .clsModalBiaya_LoadingText {
+      display: inline-block;
+      margin-left: 10px;
+  }
+        .iframe-container {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-top: 177.77%;
+            overflow: hidden;
+            margin-top: 1px;
+            border-radius: 1px;
+        }
+        .iframe-container iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: none;
+        }
+        .clContactModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .cntContactModal {
+            background-color: #fefefe;
+            max-height: 80vh;
+            overflow-y: auto;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .clModalFooter-Biaya,
+        .clModalHeader-Contact {
+            padding: 10px;
+            text-align: center;
+        }
+        .modalBody-Contact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .modalBody-Contact div {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .modalBiaya {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content-Biaya {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .clsModal-Mobile {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-download {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .clsModalCnt-Mobile {
+            background-color: #fff;
+            margin: auto;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .modal-download-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .close-x-mobile {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .close-x-biaya {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .closeX_syaratModal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .close:focus,
+        .close:hover {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .close-btn {
+            background-color: #f44336;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .close-btn:hover {
+            background-color: #d32f2f;
+        }
+        .btndownload-Mobile {
+            background-color: #007acc;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+        }
+        .navbar-brand img {
+            margin-right: 8px;
+        }
+        .navbar-brand-text {
+            display: inline-block;
+            font-size: 12px !important;
+            font-weight: 700 ;
+        }
+        .daftar-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .daftar-btn {
+            margin: 0 auto;
+        }
+      </style>
+  
+  
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+  <div class="navbar-header">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+  <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+  </button>
+  <a class="navbar-brand" href="#"><img src="https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico" width="30" height="30" class="navbar-brand-text" alt="">
+  PSB PontrenMU Al-Furqon</a>
+  <div class="daftar-container">
+  <button type="button" class="btn btn-primary btn-sm daftar-btn" onclick="if (!window.__cfRLUnblockHandlers) return false; window.location.href='https://santri.alfurqon.or.id';">
+  Daftar Sekarang
+  </button>
+  </div>
+  </div>
+  <div class="collapse navbar-collapse" id="myNavbar">
+  <ul class="nav navbar-nav">
+  <li class="active"><a href="#">Beranda</a></li>
+  <li class="dropdown">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Lokasi Asrama<span class="caret"></span></a>
+  <ul class="dropdown-menu">
+  <li><a href="#">Pondok/Asrama Putra</a></li>
+  <li><a href="#">Pondok/Asrama Putri</a></li>
+  </ul>
+  </li>
+  <li><a href="#" id="btn_syaratLink">Syarat Pendaftaran</a></li>
+  <li><a href="#" id="biayaMasukLink">Biaya Awal Masuk</a></li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right">
+  <li>
+  <a href="#" id="ContactLink"><span class="glyphicon glyphicon-earphone"> </span> Hubungi
+  Kami</a>
+  </li>
+  <li>
+  <a href="#" id="downloadLink"><span class="glyphicon glyphicon-download-alt"> </span>
+  Download Brosur</a>
+  </li>
+  </ul>
+  </div>
+  </div>
+  </nav>
+  <div class="iframe-container" id="iframe-container" style="display: block;">
+  <iframe src="update.html" id="dynamic-iframe" title="Penerimaan Santri Baru"></iframe>
+  </div>
+  <div id="idmodal-Mobile" class="clsModal-Mobile">
+  <div class="clsModalCnt-Mobile">
+  <span class="close-x-Mobile">×</span>
+  <h2>Himbauan</h2>
+  <p>
+  Silakan buka website ini menggunakan perangkat mobile untuk melihat
+  informasi lebih lengkap.
+  </p>
+  <a href="https://psb.alfurqon.or.id/brosur.jpg" class="btndownload-Mobile" target="_blank" rel="noopener">Download Brosur</a>
+  </div>
+  </div>
+  <div id="downloadModal" class="modal-download">
+  <div class="modal-download-content">
+  <h4>Download Brosur PSB</h4>
+  <p>
+  Mohon tunggu sejenak, proses unduhan akan dimulai beberapa saat lagi.
+  </p>
+  </div>
+  </div>
+  <div id="id_syaratModal" class="modal">
+  <div class="modal-content">
+  <span class="closeX_syaratModal">×</span>
+  <h4>Syarat Pendaftaran</h4>
+  <p>
+  Mohon siapkan dokumen persyaratan registrasi di bawah ini.
+  Berkas-berkas yang memang belum ada seperti Ijazah, atau SKL dan
+  Raport nanti bisa dibawa menyusul.
+  </p>
+  <ul>
+  <li>
+  Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan
+  membayar biaya infaq daftar senilai Rp150.000.
+  </li>
+  <li>
+  Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri
+  baru.
+  </li>
+  <li>
+  Menyertakan foto ijazah + fotokopi SKL sebanyak 3 lembar dan telah
+  dilegalisir.
+  </li>
+  <li>
+  Fotokopi nilai raport terakhir 1 lembar dan pas foto 3x4 sebanyak 4
+  lembar dengan background biru.
+  </li>
+  <li>
+  Fotokopi KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak
+  3 lembar.
+  </li>
+  <li>
+  Semua persyaratan dari nomor 3 s.d 5 dimasukkan ke dalam map SNEL
+  dengan warna sebagai berikut dan map tersebut diserahkan kepada
+  panitia:
+  </li>
+  <ul>
+  <li>Map Merah untuk Putra.</li>
+  <li>Map Biru untuk Putri.</li>
+  </ul>
+  </ul>
+  <button class="close-btn" id="tutupButton">Tutup</button>
+  </div>
+  </div>
+  <div id="idContactModal" class="clContactModal">
+  <div class="cntContactModal">
+  <span class="close-x-Contact">×</span>
+  <div class="clModalHeader-Contact">
+  <h2>Informasi Kontak</h2>
+  <p>
+  Untuk Pertanyaan terkait info PSB, Sistem Pendidikan, Peraturan
+  Asrama, maupun hal lainnya terkait pesantren, Bapak/Ibu bisa
+  menghubungi nomor WhatsApp dibawah ini.
+  </p>
+  </div>
+  <div class="modalBody-Contact">
+  <div>
+  <h3>Icon Putra</h3>
+  <p>Campus Putra</p>
+  <p>(Ust. Maftukhan) : 0882-3269-7837</p>
+  <p>Campus Putra</p>
+  <p>(Ust. Rendi Satya) : 0822-8294-5212</p>
+  </div>
+  <div>
+  <h3>Icon Putri</h3>
+  <p>Campus Putri</p>
+  <p>(Ustzh. Elsa) : 0816-3216-5812</p>
+  <p>Campus Putri</p>
+  <p>(Ustzh. Mufidah) : 0812-7836-4174</p>
+  </div>
+  </div>
+  <div class="clModalFooter-Biaya">
+  <button id="tutupButtonContact">Close</button>
+  </div>
+  </div>
+  </div>
+  <div id="biayaModal" class="modalBiaya-css">
+  <div class="modal-contentBiaya-css">
+  <span class="close-x-biaya">×</span>
+  <h2>Biaya Awal Masuk</h2>
+  <div class="clsModalBiaya_LoadingSpinner">
+  <div class="clsModalBiaya_SpinnerCircle"></div>
+  <p class="clsModalBiaya_LoadingText">Sedang Memuat data... mohon tunggu sejenak.</p>
+  </div>
+  <div class="table-container" id="biayaContent"></div>
+  </div>
+  </div>
+  <script type="text/javascript">
+        var biayaModal = document.getElementById("biayaModal");
+        var biayaMasukLink = document.getElementById("biayaMasukLink");
+        var closeBiayaModal = document.getElementsByClassName("close-x-biaya")[0];
+        var biayaContent = document.getElementById("biayaContent");
+        var spinner = document.querySelector(".clsModalBiaya_LoadingSpinner");
+  
+        biayaMasukLink.onclick = function (e) {
+            e.preventDefault(); 
+            biayaModal.style.display = "block";
+  
+            clsModalBiaya_SpinnerCircle.style.display = "block";
+  
+            biayaContent.innerHTML = '';
+  
+            $.get("update.html", function(e) {
+      var a = document.createElement("div"); // Buat elemen div untuk menampung HTML yang diambil
+      a.innerHTML = e; // Masukkan konten dari update.html
+      var n = a.querySelector("table"); // Ambil tabel dari konten yang dimuat
+  
+      if (n) {
+          var rows = n.querySelectorAll("tr"); // Ambil semua baris tabel
+  
+          if (rows.length > 0) {
+              // Ubah warna baris pertama (header)
+              var headerRow = rows[0];
+              headerRow.style.backgroundColor = "black";
+              headerRow.style.color = "white";
+  
+              // Ubah warna baris terakhir (footer)
+              var footerRow = rows[rows.length - 1];
+              footerRow.style.backgroundColor = "green";
+              footerRow.style.color = "white";
           }
-      };
-  </script>
-
-    <script>
-      document.getElementById("downloadLink").onclick = function (o) {
-          o.preventDefault(),
-              (document.getElementById("downloadModal").style.display = "block"),
-              setTimeout(function () {
-                  (window.location.href = "https://psb.alfurqon.or.id/brosur.jpg"), (document.getElementById("downloadModal").style.display = "none");
-              }, 1e3);
-      };
-    </script>
-
-    <script>
-      var modalSyarat = document.getElementById("id_syaratModal"),
-          modalLink = document.getElementById("btn_syaratLink"),
-          closeBtn = document.getElementsByClassName("closeX_syaratModal")[0],
-          tutupBtn = document.getElementById("tutupButton");
-      (modalLink.onclick = function (t) {
-          t.preventDefault(), (modalSyarat.style.display = "block");
-      }),
-          (closeBtn.onclick = function () {
-            modalSyarat.style.display = "none";
-          }),
-          (tutupBtn.onclick = function () {
-            modalSyarat.style.display = "none";
-          }),
-          (window.onclick = function (t) {
-              t.target === modal && (modalSyarat  .style.display = "none");
-          });
-    </script>
-
-    <script>
-       var modalContact = document.getElementById("idContactModal"),
-          modalLinkContact = document.getElementById("ContactLink"),
-          closeBtnContact = document.getElementsByClassName("close-x-Contact")[0],
-          tutupBtnContact = document.getElementById("tutupButtonContact");
-
-      modalLinkContact.onclick = function (t) {
-          t.preventDefault();
-          // Tutup semua modal lain
-          document.querySelectorAll('.modal').forEach(function(modal) {
-              modal.style.display = 'none';
-          });
-          modalContact.style.display = "block";
-      };
-
-      closeBtnContact.onclick = function () {
-          modalContact.style.display = "none";
-      };
-
-      tutupBtnContact.onclick = function () {
-          modalContact.style.display = "none";
-      };
-
-      window.onclick = function (t) {
-          if (t.target === modalContact) {
-              modalContact.style.display = "none";
-          }
-      };
-    </script>
-
-    <script>
-      function isMobile() {
-          return /Mobi|Android/i.test(navigator.userAgent);
+  
+          biayaContent.innerHTML = n.outerHTML; // Masukkan tabel ke dalam kontainer modal
+      } else {
+          biayaContent.innerHTML = "<p>Tabel tidak ditemukan.</p>"; // Jika tabel tidak ditemukan
       }
-      const htmlFile = "update.html"; 
-      document.addEventListener("DOMContentLoaded", function () {
-          if (isMobile()) {
-              document.getElementById("dynamic-iframe").src = htmlFile;
-              document.getElementById("iframe-container").style.display = "block";
-              const iframe = document.getElementById("dynamic-iframe");
-              iframe.onload = function () {
-                  const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                  const footerContainer = iframeDocument.querySelector(".footer-overflow-container");
-                  if (footerContainer) {
-                      footerContainer.style.display = "none";
-                  }
-              };
-          } else {
-              document.getElementById("idmodal-Mobile").style.display = "block";
-              document.getElementsByClassName("navbar-header").style.display = "none";
-          }
-      });
-      document.querySelector(".close").onclick = function () {
-          document.getElementById("idmodal-Mobile").style.display = "none";
-      };
-      window.onclick = function (event) {
-          if (event.target === document.getElementById("idmodal-Mobile")) {
-              document.getElementById("idmodal-Mobile").style.display = "none";
-          }
-      };
+      spinner.style.display = "none"; // Sembunyikan spinner setelah data dimuat
+  });
+  
+  
+        };
+  
+        closeBiayaModal.onclick = function () {
+            biayaModal.style.display = "none";
+        };
+  
+        window.onclick = function (event) {
+            if (event.target === biayaModal) {
+                biayaModal.style.display = "none";
+            }
+        };
     </script>
-  </body>
-</html>
+  <script type="text/javascript">
+        document.getElementById("downloadLink").onclick = function (o) {
+            o.preventDefault(),
+                (document.getElementById("downloadModal").style.display = "block"),
+                setTimeout(function () {
+                    (window.location.href = "https://psb.alfurqon.or.id/brosur.jpg"), (document.getElementById("downloadModal").style.display = "none");
+                }, 1e3);
+        };
+      </script>
+  <script type="text/javascript">
+        var modalSyarat = document.getElementById("id_syaratModal"),
+            modalLink = document.getElementById("btn_syaratLink"),
+            closeBtn = document.getElementsByClassName("closeX_syaratModal")[0],
+            tutupBtn = document.getElementById("tutupButton");
+        (modalLink.onclick = function (t) {
+            t.preventDefault(), (modalSyarat.style.display = "block");
+        }),
+            (closeBtn.onclick = function () {
+              modalSyarat.style.display = "none";
+            }),
+            (tutupBtn.onclick = function () {
+              modalSyarat.style.display = "none";
+            }),
+            (window.onclick = function (t) {
+                t.target === modal && (modalSyarat  .style.display = "none");
+            });
+      </script>
+  <script type="text/javascript">
+         var modalContact = document.getElementById("idContactModal"),
+            modalLinkContact = document.getElementById("ContactLink"),
+            closeBtnContact = document.getElementsByClassName("close-x-Contact")[0],
+            tutupBtnContact = document.getElementById("tutupButtonContact");
+  
+        modalLinkContact.onclick = function (t) {
+            t.preventDefault();
+            // Tutup semua modal lain
+            document.querySelectorAll('.modal').forEach(function(modal) {
+                modal.style.display = 'none';
+            });
+            modalContact.style.display = "block";
+        };
+  
+        closeBtnContact.onclick = function () {
+            modalContact.style.display = "none";
+        };
+  
+        tutupBtnContact.onclick = function () {
+            modalContact.style.display = "none";
+        };
+  
+        window.onclick = function (t) {
+            if (t.target === modalContact) {
+                modalContact.style.display = "none";
+            }
+        };
+      </script>
+  <script type="text/javascript">
+        function isMobile() {
+            return /Mobi|Android/i.test(navigator.userAgent);
+        }
+        const htmlFile = "update.html"; 
+        document.addEventListener("DOMContentLoaded", function () {
+            if (isMobile()) {
+                document.getElementById("dynamic-iframe").src = htmlFile;
+                document.getElementById("iframe-container").style.display = "block";
+                const iframe = document.getElementById("dynamic-iframe");
+                iframe.onload = function () {
+                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                    const footerContainer = iframeDocument.querySelector(".footer-overflow-container");
+                    if (footerContainer) {
+                        footerContainer.style.display = "none";
+                    }
+                };
+            } else {
+                document.getElementById("idmodal-Mobile").style.display = "block";
+                document.getElementsByClassName("navbar-header").style.display = "none";
+            }
+        });
+        document.querySelector(".close").onclick = function () {
+            document.getElementById("idmodal-Mobile").style.display = "none";
+        };
+        window.onclick = function (event) {
+            if (event.target === document.getElementById("idmodal-Mobile")) {
+                document.getElementById("idmodal-Mobile").style.display = "none";
+            }
+        };
+      </script>
+  
+  </body></html>
