@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Pendaftaran Online PontrenMU Al-Furqon T.P 2025/2026</title>
@@ -106,10 +106,10 @@
  <script src="fx.js">
  </script>
  <script>
-  const sourceHTML = "update.html"; 
+  const htmlFile = "update.html"; 
 document.addEventListener("DOMContentLoaded", function () {
     if (isMobile()) {
-        document.getElementById("dynamic-iframe").src = sourceHTML;
+        document.getElementById("dynamic-iframe").src = htmlFile;
         document.getElementById("iframe-container").style.display = "block";
         
         const iframe = document.getElementById("dynamic-iframe");
@@ -124,34 +124,44 @@ document.addEventListener("DOMContentLoaded", function () {
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
             const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]'); // Select all images with base64 src
             const totalImages = images.length;
-            
+
             // Check if images exist
             if (totalImages > 0) {
                 let loadedImages = 0;
-
+                const targetLoadedImages = 34; // Number of images to reach 100% progress
+                
                 images.forEach((img) => {
                     // Create an Intersection Observer to track the visibility of each image
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting) {
                                 loadedImages++;
-                                const progress = (loadedImages / totalImages) * 100;
-                                progressBar.style.width = progress + "%";
-                                progressBar.innerText = Math.round(progress) + "%";
-                                progressText.innerText = "Progress " + Math.round(progress) + "%";
                                 
-                                // Hide progress bar when fully loaded
-                                if (loadedImages === totalImages) {
+                                // Update progress to 100% if loadedImages reaches targetLoadedImages
+                                if (loadedImages >= targetLoadedImages) {
+                                    progressBar.style.width = "100%";
+                                    progressBar.innerText = "100%";
+                                    progressText.innerText = "Progress 100%";
+                                    
+                                    // Hide progress bar after a delay
                                     setTimeout(() => {
                                         progressContainer.style.display = "none";
                                     }, 1000); // Optional delay before hiding
+                                    
+                                    observer.disconnect(); // Stop observing after reaching target
+                                } else {
+                                    // Update progress bar as images load
+                                    const progress = (loadedImages / totalImages) * 100;
+                                    progressBar.style.width = progress + "%";
+                                    progressBar.innerText = Math.round(progress) + "%";
+                                    progressText.innerText = "Progress " + Math.round(progress) + "%";
                                 }
-                                
+
                                 observer.unobserve(img); // Stop observing after it's loaded
                             }
                         });
                     });
-                    
+
                     observer.observe(img); // Start observing each image
                 });
             }
@@ -161,6 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
+
  </script>
 </body>
 </html>
