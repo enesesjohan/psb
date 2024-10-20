@@ -138,15 +138,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Fungsi untuk memantau gambar yang dimuat
         function monitorImageLoad(image) {
-            image.addEventListener('load', function() {
-                loadedImages++; // Tambahkan hitungan gambar yang sudah dimuat
-                updateProgress(); // Perbarui progress bar setiap kali gambar dimuat
-            });
+            if (image.complete) {
+                // Jika gambar sudah langsung dimuat (cached atau preload)
+                loadedImages++;
+                updateProgress();
+            } else {
+                image.addEventListener('load', function() {
+                    loadedImages++; // Tambahkan hitungan gambar yang sudah dimuat
+                    updateProgress(); // Perbarui progress bar setiap kali gambar dimuat
+                });
+            }
         }
 
-        // Fungsi untuk memulai observasi di iframe
+        // Fungsi untuk memantau perubahan di dalam iframe
         function startObservingIframe() {
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+            // Cari gambar dengan src yang menggunakan base64
             const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]');
 
             images.forEach(image => {
@@ -157,15 +165,23 @@ document.addEventListener("DOMContentLoaded", function () {
         // Set iframe source dan mulai memuat konten
         iframe.src = sourceHTML;
 
-        // Ketika iframe sudah mulai memuat sebagian konten
-        iframe.addEventListener('load', () => {
-            startObservingIframe(); // Mulai observasi gambar dalam iframe segera setelah konten mulai dimuat
+        // Mutation Observer untuk memantau perubahan konten di dalam iframe
+        const observer = new MutationObserver(() => {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            if (iframeDocument) {
+                startObservingIframe(); // Mulai observasi gambar dalam iframe ketika ada perubahan
+            }
         });
+
+        // Mulai observasi perubahan di iframe
+        observer.observe(iframe, { childList: true, subtree: true });
+
     } else {
         document.getElementById("modal").style.display = "block";
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
+
 
  </script>
 </body>
