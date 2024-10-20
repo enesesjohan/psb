@@ -46,14 +46,14 @@
             background-color: green;
             color: white;
         }
-        .loading-spinner-biaya {
+        .loading-spinner {
           display: none;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
     }
     
-    .spinner-rotate-biaya {
+    .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1); /* Light gray */
     border-left-color: #000; /* Black */
     border-radius: 50%;
@@ -66,7 +66,7 @@
     to { transform: rotate(360deg); }
     }
     
-    .loading-text-spinner-biaya {
+    .loading-text {
     display: inline-block;
     margin-left: 10px;
     }
@@ -140,7 +140,7 @@
       max-width: 500px;
       border-radius: 8px;
     }
-    .clModal-Mobile {
+    .modal {
       display: none;
       position: fixed;
       z-index: 1000;
@@ -160,7 +160,7 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
     }
-    .cntModal-Mobile {
+    .modal-content {
       background-color: #fff;
       margin: auto;
       max-height: 80vh;
@@ -273,8 +273,8 @@
         </div>
       </nav>
       <div class=iframe-container id=iframe-container><iframe id=dynamic-iframe src="" title="Penerimaan Santri Baru"></iframe></div>
-      <div class=clModal-Mobile id=idModal-Mobile>
-        <div class=cntModal-Mobile><span class=close>×</span>
+      <div class=modal id=modal>
+        <div class=modal-content><span class=close>×</span>
             <h2>Himbauan</h2>
             <p>Silakan buka website ini menggunakan perangkat mobile untuk melihat informasi lebih lengkap.</p><a href=https://psb.alfurqon.or.id/brosur.jpg class=btn-download rel=noopener target=_blank>Download Brosur</a></div>
       </div>
@@ -324,9 +324,9 @@
       <div class=modalBiaya-css id=biayaModal>
         <div class=modal-contentBiaya-css><span class=close-x-biaya>×</span>
             <h2>Biaya Awal Masuk</h2>
-            <div class=loading-spinner-biaya>
-                <div class=spinner-rotate-biaya></div>
-                <p class=loading-text-spinner-biaya>Sedang Memuat data... mohon tunggu sejenak.</div>
+            <div class=loading-spinner>
+                <div class=spinner></div>
+                <p class=loading-text>Sedang Memuat data... mohon tunggu sejenak.</div>
             <div class=table-container id=biayaContent></div>
         </div>
       </div>
@@ -433,9 +433,7 @@
         if (t.target === modalContact) {
             modalContact.style.display = "none";
         }
-      };</script>
-      
-      <script>function isMobile() {
+      };</script><script>function isMobile() {
         return /Mobi|Android/i.test(navigator.userAgent);
       }
       const htmlFile = "update.html"; 
@@ -452,20 +450,19 @@
                 }
             };
         } else {
-            document.getElementById("idModal-Mobile").style.display = "block";
+            document.getElementById("modal").style.display = "block";
             document.getElementsByClassName("navbar-header").style.display = "none";
         }
       });
       document.querySelector(".close").onclick = function () {
-        document.getElementById("idModal-Mobile").style.display = "none";
+        document.getElementById("modal").style.display = "none";
       };
       window.onclick = function (event) {
-        if (event.target === document.getElementById("idModal-Mobile")) {
-            document.getElementById("idModal-Mobile").style.display = "none";
+        if (event.target === document.getElementById("modal")) {
+            document.getElementById("modal").style.display = "none";
         }
       };</script>
 
 </body>
 </html>
-
 
