@@ -114,8 +114,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const progressBar = document.getElementById("progress-bar");
         const progressText = document.getElementById("progress-text");
 
-        // Total gambar yang diharapkan (ubah sesuai jumlah gambar base64 yang seharusnya)
-        const totalImages = 60; 
+        // Total gambar yang diharapkan
+        const totalImages = 34; 
         let loadedImages = 0;
 
         // Tampilkan progress bar
@@ -136,31 +136,30 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // Fungsi untuk memantau gambar yang dimuat
-        function monitorImageLoad(image) {
-            image.addEventListener('load', function() {
-                loadedImages++; 
-                updateProgress(); 
-            });
-        }
-
-        // Fungsi untuk memantau gambar dalam iframe
+        // Fungsi untuk memantau gambar base64 ketika mereka ditambahkan ke iframe
         function monitorIframeImages() {
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
             // Cari gambar base64 di dalam iframe
-            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]');
-
-            if (images.length > 0) {
-                images.forEach(image => {
-                    if (image.complete) {
-                        loadedImages++;
-                        updateProgress();
-                    } else {
-                        monitorImageLoad(image); 
-                    }
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(mutation => {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeName === 'IMG') {
+                            const src = node.getAttribute('src');
+                            if (src && (src.startsWith('data:image/png;base64') || src.startsWith('data:image/jpeg;base64'))) {
+                                loadedImages++;
+                                updateProgress();
+                            }
+                        }
+                    });
                 });
-            }
+            });
+
+            // Pantau perubahan di dalam body iframe
+            observer.observe(iframeDocument.body, {
+                childList: true,
+                subtree: true
+            });
         }
 
         // Set iframe source dan pantau ketika mulai load
@@ -175,6 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
+
  </script>
 </body>
 </html>
