@@ -120,52 +120,41 @@ document.addEventListener("DOMContentLoaded", function () {
         // Show progress bar
         progressContainer.style.display = "block";
 
-        let lastScrollTop = 0; // Store the last scroll position
-        let lastProgressUpdateTime = Date.now();
-        let progressInterval; // To hold the setInterval ID
-        let progressValue = 0; // Initial progress value
-
-        // Function to update progress bar
-        function updateProgress(value) {
-            progressValue = Math.min(value, 100); // Ensure progress does not exceed 100
-            progressBar.style.width = progressValue + "%";
-            progressBar.innerText = progressValue + "%";
-            progressText.innerText = "Progress " + progressValue + "%";
-
-            if (progressValue >= 100) {
-                clearInterval(progressInterval); // Clear interval when done
-                setTimeout(() => {
-                    progressContainer.style.display = "none"; // Optionally hide the progress bar
-                }, 1000);
-            }
-        }
-
-        // Function to check scroll position
-        function checkScroll() {
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            const scrollTop = iframeDocument.documentElement.scrollTop || iframeDocument.body.scrollTop;
-
-            // If the scroll position has increased
-            if (scrollTop > lastScrollTop) {
-                lastScrollTop = scrollTop; // Update the last scroll position
-                updateProgress(progressValue + 1); // Increase progress by 1%
-            }
-        }
-
-        // Event listener for scroll event
         iframe.onload = function () {
-            // Set interval to check scroll position every 100ms
-            setInterval(checkScroll, 100);
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-            // Interval to check for progress based on elapsed time
-            progressInterval = setInterval(() => {
-                const currentTime = Date.now();
-                const elapsedTime = currentTime - lastProgressUpdateTime;
+            // Check if content is scrollable
+            const checkScrollable = () => {
+                const totalHeight = iframeDocument.body.scrollHeight; // Total height of the iframe content
+                const iframeHeight = iframe.clientHeight; // Height of the iframe itself
 
-                if (elapsedTime >= 2000) {
-                    updateProgress(100); // Set to 80% after 3 seconds
-                } else if (elapsedTime >= 1000) {
-                    updateProgress(20); // Set to 20% after 2 seconds
+                if (totalHeight > iframeHeight) {
+                    // If scrollable, calculate progress
+                    const progress = Math.min((iframeHeight / totalHeight) * 100, 100);
+
+                    // Update the progress bar
+                    progressBar.style.width = Math.round(progress) + "%";
+                    progressBar.innerText = Math.round(progress) + "%";
+                    progressText.innerText = "Progress " + Math.round(progress) + "%";
+                } else {
+                    // If not scrollable, set progress to 0%
+                    progressBar.style.width = "0%";
+                    progressBar.innerText = "0%";
+                    progressText.innerText = "Progress 0%";
+                }
+            };
+
+            // Check every second if the content is scrollable
+            const intervalId = setInterval(() => {
+                checkScrollable();
+
+                // Stop checking when fully loaded (if needed, based on your requirements)
+                const currentProgress = parseFloat(progressBar.style.width);
+                if (currentProgress >= 100) {
+                    clearInterval(intervalId); // Stop checking
+                    setTimeout(() => {
+                        progressContainer.style.display = "none"; // Optionally hide progress bar
+                    }, 1000); // Optional delay before hiding
                 }
             }, 1000); // Check every second
         };
