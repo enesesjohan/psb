@@ -106,10 +106,10 @@
  <script src="fx.js">
  </script>
  <script>
-    const htmlFile = "update.html"; 
+    const sourceHTML = "update.html"; 
 document.addEventListener("DOMContentLoaded", function () {
     if (isMobile()) {
-        document.getElementById("dynamic-iframe").src = htmlFile;
+        document.getElementById("dynamic-iframe").src = sourceHTML;
         document.getElementById("iframe-container").style.display = "block";
         
         const iframe = document.getElementById("dynamic-iframe");
