@@ -97,8 +97,8 @@
       <script>var biayaModal = document.getElementById("biayaModal");
       var biayaMasukLink = document.getElementById("biayaMasukLink");
       var closeBiayaModal = document.getElementsByClassName("close-x-biaya")[0];
-      var biayaContent = document.getElementById("biayaContent");
-      var spinner = document.querySelector(".loading-spinner");
+      var biayaContent = document.getElementById("modal-contentBiaya-css");
+      var spinner = document.querySelector(".modalBiaya-loading-spinner");
       
       biayaMasukLink.onclick = function (e) {
         e.preventDefault(); 
@@ -146,7 +146,8 @@
         if (event.target === biayaModal) {
             biayaModal.style.display = "none";
         }
-      };</script><script>document.getElementById("downloadLink").onclick = function (o) {
+      };</script>
+      <script>document.getElementById("downloadLink").onclick = function (o) {
         o.preventDefault(),
             (document.getElementById("downloadModal").style.display = "block"),
             setTimeout(function () {
