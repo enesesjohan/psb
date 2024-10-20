@@ -106,8 +106,12 @@
  <script src="fx.js">
  </script>
   <script>
-    const sourceHTML = "update.html"; 
-    document.addEventListener("DOMContentLoaded", function () {
+   const sourceHTML = "update.html"; 
+document.addEventListener("DOMContentLoaded", function () {
+    if (isMobile()) {
+        document.getElementById("dynamic-iframe").src = sourceHTML;
+        document.getElementById("iframe-container").style.display = "block";
+        
         const iframe = document.getElementById("dynamic-iframe");
         const progressContainer = document.getElementById("progress-container");
         const progressBar = document.getElementById("progress-bar");
@@ -116,38 +120,58 @@
         // Show progress bar
         progressContainer.style.display = "block";
 
-        // Load the iframe
-        iframe.src = sourceHTML;
-
         iframe.onload = function () {
             const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            const images = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]'); // Select all images with base64 src
+            const totalImages = images.length;
 
-            // Set up MutationObserver to observe changes in the iframe
-            const observer = new MutationObserver(() => {
-                const scrollHeight = iframeDocument.body.scrollHeight;
-                const clientHeight = iframeDocument.documentElement.clientHeight;
+            // Check if images exist
+            if (totalImages > 0) {
+                let loadedImages = 0;
+                const targetLoadedImages = 34; // Number of images to reach 100% progress
+                
+                images.forEach((img) => {
+                    // Create an Intersection Observer to track the visibility of each image
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                loadedImages++;
+                                
+                                // Update progress to 100% if loadedImages reaches targetLoadedImages
+                                if (loadedImages >= targetLoadedImages) {
+                                    progressBar.style.width = "100%";
+                                    progressBar.innerText = "100%";
+                                    progressText.innerText = "Progress 100%";
+                                    
+                                    // Hide progress bar after a delay
+                                    setTimeout(() => {
+                                        progressContainer.style.display = "none";
+                                    }, 1000); // Optional delay before hiding
+                                    
+                                    observer.disconnect(); // Stop observing after reaching target
+                                } else {
+                                    // Update progress bar as images load
+                                    const progress = (loadedImages / totalImages) * 100;
+                                    progressBar.style.width = progress + "%";
+                                    progressBar.innerText = Math.round(progress) + "%";
+                                    progressText.innerText = "Progress " + Math.round(progress) + "%";
+                                }
 
-                if (scrollHeight > clientHeight) {
-                    // Calculate progress
-                    const progress = Math.min((clientHeight / scrollHeight) * 100, 100);
-                    progressBar.style.width = Math.round(progress) + "%";
-                    progressBar.innerText = Math.round(progress) + "%";
-                    progressText.innerText = "Progress " + Math.round(progress) + "%";
+                                observer.unobserve(img); // Stop observing after it's loaded
+                            }
+                        });
+                    });
 
-                    // If progress is 100%, hide progress bar
-                    if (progress >= 100) {
-                        observer.disconnect(); // Stop observing
-                        setTimeout(() => {
-                            progressContainer.style.display = "none"; // Optionally hide progress bar
-                        }, 1000);
-                    }
-                }
-            });
-
-            // Start observing the iframe's body for changes
-            observer.observe(iframeDocument.body, { childList: true, subtree: true });
+                    observer.observe(img); // Start observing each image
+                });
+            }
         };
-    });
+    } else {
+        document.getElementById("modal").style.display = "block";
+        document.getElementsByClassName("navbar-header").style.display = "none";
+    }
+});
+
 </script>
 </body>
 </html>
