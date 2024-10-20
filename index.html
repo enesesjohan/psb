@@ -106,38 +106,38 @@
  <script src="fx.js">
  </script>
  <script>
- const sourceHTML = "update.html"; 
+const sourceHTML = "update.html"; 
 document.addEventListener("DOMContentLoaded", function () {
     if (isMobile()) {
-        document.getElementById("dynamic-iframe").src = sourceHTML;
-        document.getElementById("iframe-container").style.display = "block";
-        
         const iframe = document.getElementById("dynamic-iframe");
         const progressContainer = document.getElementById("progress-container");
         const progressBar = document.getElementById("progress-bar");
         const progressText = document.getElementById("progress-text");
 
+        // Target number of images for 100% progress
+        const totalImages = 34; 
+        let loadedImages = 0;
+
         // Show progress bar
         progressContainer.style.display = "block";
 
-        iframe.onload = function () {
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            const totalImages = 34; // Target number of images for 100% progress
-            let loadedImages = 0;
+        // Function to update progress bar
+        function updateProgress() {
+            const progress = Math.min((loadedImages / totalImages) * 100, 100);
+            progressBar.style.width = progress + "%";
+            progressBar.innerText = Math.round(progress) + "%";
+            progressText.innerText = "Progress " + Math.round(progress) + "%";
 
-            // Function to update progress bar
-            function updateProgress() {
-                const progress = Math.min((loadedImages / totalImages) * 100, 100);
-                progressBar.style.width = progress + "%";
-                progressBar.innerText = Math.round(progress) + "%";
-                progressText.innerText = "Progress " + Math.round(progress) + "%";
-
-                if (loadedImages >= totalImages) {
-                    setTimeout(() => {
-                        progressContainer.style.display = "none";
-                    }, 1000); // Optional delay before hiding
-                }
+            if (loadedImages >= totalImages) {
+                setTimeout(() => {
+                    progressContainer.style.display = "none";
+                }, 1000); // Optional delay before hiding
             }
+        }
+
+        // Function to start observing the iframe document
+        function startObservingIframe() {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
             // Create a MutationObserver to track new image requests
             const observer = new MutationObserver((mutations) => {
@@ -164,15 +164,23 @@ document.addEventListener("DOMContentLoaded", function () {
             const initialImages = iframeDocument.querySelectorAll('img[src^="data:image/png;base64"], img[src^="data:image/jpeg;base64"]');
             loadedImages += initialImages.length;
             updateProgress(); // Update progress bar for initially loaded images
-        };
+        }
+
+        // Set iframe source to start loading the content
+        iframe.src = sourceHTML;
+
+        // Wait until some content starts loading in the iframe (using a polling approach)
+        const intervalId = setInterval(() => {
+            if (iframe.contentDocument && iframe.contentDocument.readyState === 'interactive') {
+                clearInterval(intervalId);
+                startObservingIframe();
+            }
+        }, 100); // Polling every 100ms to check when the content starts loading
     } else {
         document.getElementById("modal").style.display = "block";
         document.getElementsByClassName("navbar-header").style.display = "none";
     }
 });
-
-
-
 
  </script>
 </body>
