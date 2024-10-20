@@ -140,7 +140,7 @@
       max-width: 500px;
       border-radius: 8px;
     }
-    .modal {
+    .clModal-Mobile {
       display: none;
       position: fixed;
       z-index: 1000;
@@ -160,7 +160,7 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
     }
-    .modal-content {
+    .cntModal-Mobile {
       background-color: #fff;
       margin: auto;
       max-height: 80vh;
@@ -273,8 +273,8 @@
         </div>
       </nav>
       <div class=iframe-container id=iframe-container><iframe id=dynamic-iframe src="" title="Penerimaan Santri Baru"></iframe></div>
-      <div class=modal id=modal>
-        <div class=modal-content><span class=close>×</span>
+      <div class=clModal-Mobile id=idModal-Mobile>
+        <div class=cntModal-Mobile><span class=close>×</span>
             <h2>Himbauan</h2>
             <p>Silakan buka website ini menggunakan perangkat mobile untuk melihat informasi lebih lengkap.</p><a href=https://psb.alfurqon.or.id/brosur.jpg class=btn-download rel=noopener target=_blank>Download Brosur</a></div>
       </div>
@@ -433,7 +433,9 @@
         if (t.target === modalContact) {
             modalContact.style.display = "none";
         }
-      };</script><script>function isMobile() {
+      };</script>
+      
+      <script>function isMobile() {
         return /Mobi|Android/i.test(navigator.userAgent);
       }
       const htmlFile = "update.html"; 
@@ -450,16 +452,16 @@
                 }
             };
         } else {
-            document.getElementById("modal").style.display = "block";
+            document.getElementById("idModal-Mobile").style.display = "block";
             document.getElementsByClassName("navbar-header").style.display = "none";
         }
       });
       document.querySelector(".close").onclick = function () {
-        document.getElementById("modal").style.display = "none";
+        document.getElementById("idModal-Mobile").style.display = "none";
       };
       window.onclick = function (event) {
-        if (event.target === document.getElementById("modal")) {
-            document.getElementById("modal").style.display = "none";
+        if (event.target === document.getElementById("idModal-Mobile")) {
+            document.getElementById("idModal-Mobile").style.display = "none";
         }
       };</script>
 
