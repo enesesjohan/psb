@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
     pTimeout = setTimeout(() => {
         clearInterval(checkInterval); // Berhenti memeriksa
         progressText.textContent = "Jaringan Internet Lambat, mohon refresh ulang";
-    }, 5000); // 5 detik timeout
+    }, 1000); // 5 detik timeout
 });
 
 function checkText(iframeDocument) {
