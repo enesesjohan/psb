@@ -46,14 +46,14 @@
             background-color: green;
             color: white;
         }
-        .loading-spinner {
+        .loading-spinner-biaya {
           display: none;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
     }
     
-    .spinner {
+    .spinner-rotate-biaya {
     border: 4px solid rgba(0, 0, 0, 0.1); /* Light gray */
     border-left-color: #000; /* Black */
     border-radius: 50%;
@@ -66,7 +66,7 @@
     to { transform: rotate(360deg); }
     }
     
-    .loading-text {
+    .loading-text-spinner-biaya {
     display: inline-block;
     margin-left: 10px;
     }
@@ -324,9 +324,9 @@
       <div class=modalBiaya-css id=biayaModal>
         <div class=modal-contentBiaya-css><span class=close-x-biaya>×</span>
             <h2>Biaya Awal Masuk</h2>
-            <div class=loading-spinner>
-                <div class=spinner></div>
-                <p class=loading-text>Sedang Memuat data... mohon tunggu sejenak.</div>
+            <div class=loading-spinner-biaya>
+                <div class=spinner-rotate-biaya></div>
+                <p class=loading-text-spinner-biaya>Sedang Memuat data... mohon tunggu sejenak.</div>
             <div class=table-container id=biayaContent></div>
         </div>
       </div>
