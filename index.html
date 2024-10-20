@@ -174,6 +174,13 @@ margin-left: 10px;
   float: right;
   font-size: 28px;
   font-weight: 700;
+  
+}
+.close:focus,
+.close:hover {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 .close-x-biaya {
   color: #aaa;
@@ -187,12 +194,7 @@ margin-left: 10px;
   font-size: 28px;
   font-weight: 700;
 }
-.close:focus,
-.close:hover {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
+
 .close-btn {
   background-color: #f44336;
   color: #fff;
@@ -234,7 +236,92 @@ margin-left: 10px;
 }
 .daftar-btn {
   margin: 0 auto;
-}</style><nav class="navbar navbar-inverse"><div class=container-fluid><div class=navbar-header><button class=navbar-toggle type=button data-target=#myNavbar data-toggle=collapse><span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button> <a href=# class=navbar-brand><img alt=""class=navbar-brand-text height=30 src=https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico width=30> PSB PontrenMU Al-Furqon</a><div class=daftar-container><button class="btn btn-primary btn-sm daftar-btn"type=button onclick="window.location.href='https://santri.alfurqon.or.id';">Daftar Sekarang</button></div></div><div class="collapse navbar-collapse"id=myNavbar><ul class="nav navbar-nav"><li class=active><a href=#>Beranda</a><li class=dropdown><a href=# class=dropdown-toggle data-toggle=dropdown>Lokasi Asrama<span class=caret></span></a><ul class=dropdown-menu><li><a href=#>Pondok/Asrama Putra</a><li><a href=#>Pondok/Asrama Putri</a></ul><li><a href=# id=syaratLink>Syarat Pendaftaran</a><li><a href=# id=biayaMasukLink>Biaya Awal Masuk</a></ul><ul class="nav navbar-nav navbar-right"><li><a href=# id=ContactLink><span class="glyphicon glyphicon-earphone"></span> Hubungi Kami</a><li><a href=# id=downloadLink><span class="glyphicon glyphicon-download-alt"></span> Download Brosur</a></ul></div></div></nav><div class=iframe-container id=iframe-container><iframe id=dynamic-iframe src=""title="Penerimaan Santri Baru"></iframe></div><div class=modal id=modal><div class=modal-content><span class=close>×</span><h2>Himbauan</h2><p>Silakan buka website ini menggunakan perangkat mobile untuk melihat informasi lebih lengkap.</p><a href=https://psb.alfurqon.or.id/brosur.jpg class=btn-download rel=noopener target=_blank>Download Brosur</a></div></div><div class=modal-download id=downloadModal><div class=modal-download-content><h4>Download Brosur PSB</h4><p>Mohon tunggu sejenak, proses unduhan akan dimulai beberapa saat lagi.</div></div><div class=modal id=syaratModal><div class=modal-content><span class=close-x-syarat>×</span><h4>Syarat Pendaftaran</h4><p>Mohon siapkan dokumen persyaratan registrasi di bawah ini. Berkas-berkas yang memang belum ada seperti Ijazah, atau SKL dan Raport nanti bisa dibawa menyusul.<ul><li>Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan membayar biaya infaq daftar senilai Rp150.000.<li>Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri baru.<li>Menyertakan foto ijazah + fotokopi SKL sebanyak 3 lembar dan telah dilegalisir.<li>Fotokopi nilai raport terakhir 1 lembar dan pas foto 3x4 sebanyak 4 lembar dengan background biru.<li>Fotokopi KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak 3 lembar.<li>Semua persyaratan dari nomor 3 s.d 5 dimasukkan ke dalam map SNEL dengan warna sebagai berikut dan map tersebut diserahkan kepada panitia:</li><ul><li>Map Merah untuk Putra.<li>Map Biru untuk Putri.</ul></ul><button class=close-btn id=tutupButton>Tutup</button></div></div><div class=clContactModal id=idContactModal><div class=cntContactModal><span class=close-x-Contact>×</span><div class=modal-header><h2>Informasi Kontak</h2><p>Untuk Pertanyaan terkait info PSB, Sistem Pendidikan, Peraturan Asrama, maupun hal lainnya terkait pesantren, Bapak/Ibu bisa menghubungi nomor WhatsApp dibawah ini.</div><div class=modal-body><div><h3>Icon Putra</h3><p>Campus Putra<p>(Ust. Maftukhan) : 0882-3269-7837<p>Campus Putra<p>(Ust. Rendi Satya) : 0822-8294-5212</div><div><h3>Icon Putri</h3><p>Campus Putri<p>(Ustzh. Elsa) : 0816-3216-5812<p>Campus Putri<p>(Ustzh. Mufidah) : 0812-7836-4174</div></div><div class=modal-footer><button id=tutupButtonContact>Close</button></div></div></div><div class=modalBiaya-css id=biayaModal><div class=modal-contentBiaya-css><span class=close-x-biaya>×</span><h2>Biaya Awal Masuk</h2><div class=loading-spinner><div class=spinner></div><p class=loading-text>Sedang Memuat data... mohon tunggu sejenak.</div><div class=table-container id=biayaContent></div></div></div><script>var biayaModal = document.getElementById("biayaModal");
+}</style>
+
+<nav class="navbar navbar-inverse">
+  <div class=container-fluid>
+      <div class=navbar-header><button class=navbar-toggle type=button data-target=#myNavbar data-toggle=collapse><span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button> <a href=# class=navbar-brand><img alt=""class=navbar-brand-text height=30 src=https://raw.githubusercontent.com/enesesjohan/santri/refs/heads/main/favicon.ico width=30> PSB PontrenMU Al-Furqon</a>
+          <div
+              class=daftar-container><button class="btn btn-primary btn-sm daftar-btn" type=button onclick="window.location.href='https://santri.alfurqon.or.id';">Daftar Sekarang</button></div>
+  </div>
+  <div class="collapse navbar-collapse" id=myNavbar>
+      <ul class="nav navbar-nav">
+          <li class=active><a href=#>Beranda</a>
+              <li class=dropdown><a href=# class=dropdown-toggle data-toggle=dropdown>Lokasi Asrama<span class=caret></span></a>
+                  <ul class=dropdown-menu>
+                      <li><a href=#>Pondok/Asrama Putra</a>
+                          <li><a href=#>Pondok/Asrama Putri</a></ul>
+                  <li><a href=# id=syaratLink>Syarat Pendaftaran</a>
+                      <li><a href=# id=biayaMasukLink>Biaya Awal Masuk</a></ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href=# id=ContactLink><span class="glyphicon glyphicon-earphone"></span> Hubungi Kami</a>
+              <li><a href=# id=downloadLink><span class="glyphicon glyphicon-download-alt"></span> Download Brosur</a></ul>
+  </div>
+  </div>
+</nav>
+<div class=iframe-container id=iframe-container><iframe id=dynamic-iframe src="" title="Penerimaan Santri Baru"></iframe></div>
+<div class=modal id=modal>
+  <div class=modal-content><span class=close>×</span>
+      <h2>Himbauan</h2>
+      <p>Silakan buka website ini menggunakan perangkat mobile untuk melihat informasi lebih lengkap.</p><a href=https://psb.alfurqon.or.id/brosur.jpg class=btn-download rel=noopener target=_blank>Download Brosur</a></div>
+</div>
+<div class=modal-download id=downloadModal>
+  <div class=modal-download-content>
+      <h4>Download Brosur PSB</h4>
+      <p>Mohon tunggu sejenak, proses unduhan akan dimulai beberapa saat lagi.</div>
+</div>
+<div class=modal id=syaratModal>
+  <div class=modal-content><span class=close-x-syarat>×</span>
+      <h4>Syarat Pendaftaran</h4>
+      <p>Mohon siapkan dokumen persyaratan registrasi di bawah ini. Berkas-berkas yang memang belum ada seperti Ijazah, atau SKL dan Raport nanti bisa dibawa menyusul.
+          <ul>
+              <li>Mendaftarkan diri ke kantor PSB PontrenMu Al-Furqon Putra/Putri dan membayar biaya infaq daftar senilai Rp150.000.
+                  <li>Mengisi Formulir Pendaftaran oleh Calon wali santri dan calon santri baru.
+                      <li>Menyertakan foto ijazah + fotokopi SKL sebanyak 3 lembar dan telah dilegalisir.
+                          <li>Fotokopi nilai raport terakhir 1 lembar dan pas foto 3x4 sebanyak 4 lembar dengan background biru.
+                              <li>Fotokopi KTP Orang Tua dan Kartu Keluarga, masing-masing diperbanyak 3 lembar.
+                                  <li>Semua persyaratan dari nomor 3 s.d 5 dimasukkan ke dalam map SNEL dengan warna sebagai berikut dan map tersebut diserahkan kepada panitia:</li>
+                                  <ul>
+                                      <li>Map Merah untuk Putra.
+                                          <li>Map Biru untuk Putri.</ul>
+          </ul><button class=close-btn id=tutupButton>Tutup</button></div>
+</div>
+<div class=clContactModal id=idContactModal>
+  <div class=cntContactModal><span class=close-x-Contact>×</span>
+      <div class=modal-header>
+          <h2>Informasi Kontak</h2>
+          <p>Untuk Pertanyaan terkait info PSB, Sistem Pendidikan, Peraturan Asrama, maupun hal lainnya terkait pesantren, Bapak/Ibu bisa menghubungi nomor WhatsApp dibawah ini.</div>
+      <div class=modal-body>
+          <div>
+              <h3>Icon Putra</h3>
+              <p>Campus Putra
+                  <p>(Ust. Maftukhan) : 0882-3269-7837
+                      <p>Campus Putra
+                          <p>(Ust. Rendi Satya) : 0822-8294-5212</div>
+          <div>
+              <h3>Icon Putri</h3>
+              <p>Campus Putri
+                  <p>(Ustzh. Elsa) : 0816-3216-5812
+                      <p>Campus Putri
+                          <p>(Ustzh. Mufidah) : 0812-7836-4174</div>
+      </div>
+      <div class=modal-footer><button id=tutupButtonContact>Close</button></div>
+  </div>
+</div>
+<div class=modalBiaya-css id=biayaModal>
+  <div class=modal-contentBiaya-css><span class=close-x-biaya>×</span>
+      <h2>Biaya Awal Masuk</h2>
+      <div class=loading-spinner>
+          <div class=spinner></div>
+          <p class=loading-text>Sedang Memuat data... mohon tunggu sejenak.</div>
+      <div class=table-container id=biayaContent></div>
+  </div>
+</div>
+
+
+
+
+<script>var biayaModal = document.getElementById("biayaModal");
 var biayaMasukLink = document.getElementById("biayaMasukLink");
 var closeBiayaModal = document.getElementsByClassName("close-x-biaya")[0];
 var biayaContent = document.getElementById("biayaContent");
